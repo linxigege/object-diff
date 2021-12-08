@@ -1,0 +1,79 @@
+package xyz.arbres.objdiff.core.metamodel.type;
+
+
+
+import xyz.arbres.objdiff.common.collections.EnumerableFunction;
+import xyz.arbres.objdiff.common.validation.Validate;
+import xyz.arbres.objdiff.core.metamodel.object.OwnerContext;
+
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.Collections.unmodifiableList;
+
+/**
+ * Collection or Array or Map
+ * @author bartosz walacik
+ */
+public abstract class EnumerableType extends ClassType {
+    private final TypeMapperLazy typeMapperLazy;
+
+    EnumerableType(Type baseJavaType, int expectedArgs, TypeMapperLazy typeMapperLazy) {
+        super(baseJavaType, Optional.empty(), expectedArgs);
+        this.typeMapperLazy = typeMapperLazy;
+    }
+
+    @Override
+    protected Object[] spawnConstructorArgs(Type baseJavaType) {
+        return new Object[]{baseJavaType, getTypeMapperLazy()};
+    }
+
+    protected Class[] spawnConstructorArgTypes() {
+        return new Class[]{Type.class, TypeMapperLazy.class};
+    }
+
+    protected TypeMapperLazy getTypeMapperLazy() {
+        return typeMapperLazy;
+    }
+
+    /**
+     * OwnerContext aware version of {@link #map(Object, EnumerableFunction, OwnerContext)}
+     *
+     * @return immutable Enumerable
+     */
+    public abstract Object map(Object sourceEnumerable, EnumerableFunction mapFunction, OwnerContext owner);
+
+    public abstract Class<?> getEnumerableInterface();
+
+    /**
+     * Returns a new Enumerable (unmodifiable when possible)
+     * with items from sourceEnumerable mapped by mapFunction.
+     */
+    public Object map(Object sourceEnumerable, Function mapFunction) {
+        return map(sourceEnumerable, mapFunction, false);
+    }
+
+    public abstract Object map(Object sourceEnumerable, Function mapFunction, boolean filterNulls);
+
+    public abstract boolean isEmpty(Object container);
+
+    public abstract Object empty();
+
+    /**
+     * Returns a new, unmodifiable Enumerable with filtered items,
+     * nulls are omitted.
+     */
+    public <T> List<T> filterToList(Object source, Class<T> filter) {
+        Validate.argumentsAreNotNull(filter);
+
+        return (List) unmodifiableList(
+        items(source).filter(item -> item!=null && filter.isAssignableFrom(item.getClass()))
+                     .collect(Collectors.toList()));
+    }
+
+    protected abstract Stream<Object> items(Object source);
+}
