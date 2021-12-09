@@ -2,10 +2,7 @@ package xyz.arbres.objdiff.core.graph;
 
 
 import xyz.arbres.objdiff.common.collections.Lists;
-import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
-import xyz.arbres.objdiff.core.metamodel.object.GlobalIdFactory;
-import xyz.arbres.objdiff.core.metamodel.object.OwnerContext;
-import xyz.arbres.objdiff.core.metamodel.object.ValueObjectId;
+import xyz.arbres.objdiff.core.metamodel.object.*;
 import xyz.arbres.objdiff.core.metamodel.type.ManagedType;
 import xyz.arbres.objdiff.core.metamodel.type.TypeMapper;
 

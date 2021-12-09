@@ -4,6 +4,7 @@ package xyz.arbres.objdiff.core.graph;
 
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
 import xyz.arbres.objdiff.core.metamodel.object.ValueObjectId;
+import xyz.arbres.objdiff.core.metamodel.object.ValueObjectIdWithHash;
 import xyz.arbres.objdiff.core.metamodel.property.Property;
 import xyz.arbres.objdiff.core.metamodel.type.ManagedType;
 

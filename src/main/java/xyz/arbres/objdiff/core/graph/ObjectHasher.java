@@ -2,6 +2,8 @@ package xyz.arbres.objdiff.core.graph;
 
 
 
+import xyz.arbres.objdiff.common.string.ShaDigest;
+import xyz.arbres.objdiff.core.json.JsonConverter;
 import xyz.arbres.objdiff.core.snapshot.SnapshotFactory;
 
 import java.util.List;

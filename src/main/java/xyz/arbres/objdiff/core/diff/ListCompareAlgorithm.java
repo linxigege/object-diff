@@ -1,6 +1,7 @@
 package xyz.arbres.objdiff.core.diff;
 
 
+import xyz.arbres.objdiff.core.diff.appenders.ListAsSetChangeAppender;
 import xyz.arbres.objdiff.core.diff.appenders.PropertyChangeAppender;
 import xyz.arbres.objdiff.core.diff.appenders.SimpleListChangeAppender;
 import xyz.arbres.objdiff.core.diff.appenders.levenshtein.LevenshteinListChangeAppender;

@@ -10,9 +10,7 @@ import xyz.arbres.objdiff.core.graph.ObjectNode;
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
 import xyz.arbres.objdiff.core.metamodel.property.MissingProperty;
 import xyz.arbres.objdiff.core.metamodel.property.Property;
-import xyz.arbres.objdiff.core.metamodel.type.ManagedType;
-import xyz.arbres.objdiff.core.metamodel.type.ObjDiffProperty;
-import xyz.arbres.objdiff.core.metamodel.type.ObjDiffType;
+import xyz.arbres.objdiff.core.metamodel.type.*;
 
 import java.util.Collections;
 import java.util.List;

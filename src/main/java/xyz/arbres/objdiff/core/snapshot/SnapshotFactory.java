@@ -1,10 +1,21 @@
 package xyz.arbres.objdiff.core.snapshot;
 
 
+import xyz.arbres.objdiff.common.collections.Defaults;
+import xyz.arbres.objdiff.common.exception.ObjDiffException;
+import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
+import xyz.arbres.objdiff.core.commit.CommitMetadata;
+import xyz.arbres.objdiff.core.graph.Cdo;
+import xyz.arbres.objdiff.core.graph.LiveNode;
+import xyz.arbres.objdiff.core.metamodel.object.*;
+import xyz.arbres.objdiff.core.metamodel.type.CustomComparableType;
+import xyz.arbres.objdiff.core.metamodel.type.ManagedType;
+import xyz.arbres.objdiff.core.metamodel.type.ObjDiffProperty;
+import xyz.arbres.objdiff.core.metamodel.type.TypeMapper;
+
 import java.util.Objects;
 
-import static org.ObjDiff.core.metamodel.object.CdoSnapshotBuilder.cdoSnapshot;
-import static org.ObjDiff.core.metamodel.object.SnapshotType.*;
+
 
 /**
  * @author bartosz walacik
@@ -18,11 +29,11 @@ public class SnapshotFactory {
 
     public CdoSnapshot createTerminal(GlobalId globalId, CdoSnapshot previous, CommitMetadata commitMetadata) {
         ManagedType managedType = typeMapper.getObjDiffManagedType(globalId);
-        return cdoSnapshot()
+        return CdoSnapshotBuilder.cdoSnapshot()
                 .withGlobalId(globalId)
                 .withManagedType(managedType)
                 .withCommitMetadata(commitMetadata)
-                .withType(TERMINAL)
+                .withType(SnapshotType.TERMINAL)
                 .withVersion(previous != null ? (previous.getVersion() + 1) : 1)
                 .build();
     }
@@ -30,7 +41,7 @@ public class SnapshotFactory {
     CdoSnapshot createInitial(LiveNode liveNode, CommitMetadata commitMetadata) {
         return initSnapshotBuilder(liveNode, commitMetadata)
                 .withState(createSnapshotState(liveNode))
-                .withType(INITIAL)
+                .withType(SnapshotType.INITIAL)
                 .markAllAsChanged()
                 .withVersion(1L)
                 .build();
@@ -39,7 +50,7 @@ public class SnapshotFactory {
     CdoSnapshot createUpdate(LiveNode liveNode, CdoSnapshot previous, CommitMetadata commitMetadata) {
         return initSnapshotBuilder(liveNode, commitMetadata)
                 .withState(createSnapshotState(liveNode))
-                .withType(UPDATE)
+                .withType(SnapshotType.UPDATE)
                 .markChanged(previous)
                 .withVersion(previous.getVersion()+1)
                 .build();
@@ -88,7 +99,7 @@ public class SnapshotFactory {
     }
 
     private CdoSnapshotBuilder initSnapshotBuilder(LiveNode liveNode, CommitMetadata commitMetadata) {
-        return cdoSnapshot()
+        return CdoSnapshotBuilder.cdoSnapshot()
                 .withGlobalId(liveNode.getGlobalId())
                 .withCommitMetadata(commitMetadata)
                 .withManagedType(liveNode.getManagedType());

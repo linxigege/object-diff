@@ -188,4 +188,29 @@ public class ReflectionUtil {
             throw new ObjDiffException(e);
         }
     }
+
+    public static List<Type> calculateHierarchyDistance(Class<?> clazz) {
+        List<Type> interfaces = new ArrayList<>();
+
+        List<Type> parents = new ArrayList<>();
+
+        Class<?> current = clazz;
+        while (current != null && current != Object.class){
+            if (clazz != current) {
+                parents.add(current);
+            }
+
+            for (Class i : current.getInterfaces()) {
+                if (!interfaces.contains(i)) {
+                    interfaces.add(i);
+                }
+            }
+
+            current = current.getSuperclass();
+        }
+
+        parents.addAll(interfaces);
+
+        return parents;
+    }
 }

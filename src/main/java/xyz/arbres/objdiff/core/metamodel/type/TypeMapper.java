@@ -243,11 +243,11 @@ public class TypeMapper implements TypeMapperLazy {
         for (Type parent : hierarchy) {
             ObjDiffType jType = engine.get(parent);
             if (jType != null && jType.canBePrototype()) {
-                logger.debug("proto for {} -> {}", javaType, jType);
                 return Optional.of(jType);
             }
         }
 
         return Optional.empty();
     }
+
 }

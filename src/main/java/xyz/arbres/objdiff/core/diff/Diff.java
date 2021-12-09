@@ -21,4 +21,13 @@ public class Diff implements Serializable {
         this.valuePrinter = valuePrinter;
     }
 
+    /**
+     * Flat list of changes
+     *
+     */
+    public Changes getChanges() {
+        return changes;
+    }
+
+
 }

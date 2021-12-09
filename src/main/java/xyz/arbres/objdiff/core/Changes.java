@@ -134,7 +134,6 @@ public class Changes extends AbstractList<Change> implements Serializable {
      * Returns a subset of Changes with a given type
      */
     public <C extends Change> List<C> getChangesByType(final Class<C> type) {
-        argumentIsNotNull(type);
         return (List) unmodifiableList(
                 changes.stream().filter(input -> type.isAssignableFrom(input.getClass())).collect(Collectors.toList()));
     }
