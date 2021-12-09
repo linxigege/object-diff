@@ -16,6 +16,7 @@ public class ObjDiffCore implements ObjDiff{
     ObjDiffCore(DiffFactory diffFactory) {
         this.diffFactory = diffFactory;
     }
+
     @Override
     public Diff compare(Object oldVersion, Object currentVersion) {
         return diffFactory.compare(oldVersion, currentVersion);

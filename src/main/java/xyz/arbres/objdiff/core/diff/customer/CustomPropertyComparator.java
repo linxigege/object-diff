@@ -1,8 +1,8 @@
 package xyz.arbres.objdiff.core.diff.customer;
 
 
-import xyz.arbres.objdiff.core.diff.PropertyChange;
-import xyz.arbres.objdiff.core.diff.PropertyChangeMetadata;
+import xyz.arbres.objdiff.core.diff.changetype.PropertyChange;
+import xyz.arbres.objdiff.core.diff.changetype.PropertyChangeMetadata;
 import xyz.arbres.objdiff.core.metamodel.property.Property;
 
 import java.util.Optional;

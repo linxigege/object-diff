@@ -2,7 +2,7 @@ package xyz.arbres.objdiff.core.diff.changetype.container;
 
 
 import xyz.arbres.objdiff.common.collections.Collections;
-import xyz.arbres.objdiff.core.diff.PropertyChangeMetadata;
+import xyz.arbres.objdiff.core.diff.changetype.PropertyChangeMetadata;
 
 import java.util.Collection;
 import java.util.List;

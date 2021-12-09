@@ -3,8 +3,8 @@ package xyz.arbres.objdiff.core.diff;
 
 import xyz.arbres.objdiff.common.collections.Sets;
 import xyz.arbres.objdiff.core.commit.CommitMetadata;
-import xyz.arbres.objdiff.core.diff.graph.ObjectGraph;
-import xyz.arbres.objdiff.core.diff.graph.ObjectNode;
+import xyz.arbres.objdiff.core.graph.ObjectGraph;
+import xyz.arbres.objdiff.core.graph.ObjectNode;
 
 import java.util.Collection;
 import java.util.Collections;

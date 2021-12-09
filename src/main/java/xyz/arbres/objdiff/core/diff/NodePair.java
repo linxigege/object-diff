@@ -4,7 +4,9 @@ package xyz.arbres.objdiff.core.diff;
 
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.commit.CommitMetadata;
-import xyz.arbres.objdiff.core.diff.graph.ObjectNode;
+import xyz.arbres.objdiff.core.diff.changetype.PropertyChangeMetadata;
+import xyz.arbres.objdiff.core.diff.changetype.PropertyChangeType;
+import xyz.arbres.objdiff.core.graph.ObjectNode;
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
 import xyz.arbres.objdiff.core.metamodel.property.MissingProperty;
 import xyz.arbres.objdiff.core.metamodel.property.Property;

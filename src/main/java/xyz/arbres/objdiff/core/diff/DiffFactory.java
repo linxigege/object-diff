@@ -5,19 +5,16 @@ package xyz.arbres.objdiff.core.diff;
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
 import xyz.arbres.objdiff.common.validation.Validate;
+import xyz.arbres.objdiff.core.CoreConfiguration;
 import xyz.arbres.objdiff.core.commit.CommitMetadata;
-import xyz.arbres.objdiff.core.diff.graph.ObjectGraph;
-import xyz.arbres.objdiff.core.metamodel.type.ObjDiffType;
-import xyz.arbres.objdiff.core.metamodel.type.TypeMapper;
-import xyz.arbres.objdiff.core.metamodel.type.ValueType;
+import xyz.arbres.objdiff.core.diff.appenders.NodeChangeAppender;
+import xyz.arbres.objdiff.core.diff.appenders.PropertyChangeAppender;
+import xyz.arbres.objdiff.core.graph.*;
+import xyz.arbres.objdiff.core.metamodel.type.*;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
 
 /**
  * @author Maciej Zasada
@@ -43,9 +40,7 @@ public class DiffFactory {
         this.propertyChangeAppender = propertyChangeAppender;
     }
 
-    /**
-     * @see ObjDiff#compare(Object, Object)
-     */
+
     public Diff compare(Object oldVersion, Object currentVersion) {
         return create(buildGraph(oldVersion), buildGraph(currentVersion), Optional.<CommitMetadata>empty());
     }
@@ -69,6 +64,8 @@ public class DiffFactory {
         }
         return graphFactory.createLiveGraph(handle);
     }
+
+
 
     /**
      * Graph scope appender
@@ -104,12 +101,32 @@ public class DiffFactory {
         return diff.build();
     }
 
-    /**
-     * delegates to {@link ObjectGraphBuilder#buildGraph(Object)}
-     */
-    public LiveGraph createLiveGraph(Object handle) {
-        Object wrappedHandle = wrapTopLevelContainer(handle);
+    private void appendPropertyChanges(DiffBuilder diff, NodePair pair) {
+        List<ObjDiffProperty> nodeProperties = pair.getProperties();
+        for (ObjDiffProperty property : nodeProperties) {
 
-        return new ObjectGraphBuilder(typeMapper, liveCdoFactory).buildGraph(wrappedHandle);
+            //optimization, skip all appenders if null on both sides
+            if (pair.isNullOnBothSides(property)) {
+                continue;
+            }
+
+            ObjDiffType ObjDiffType = property.getType();
+
+            appendChanges(diff, pair, property, ObjDiffType);
+        }
+    }
+
+    private void appendChanges(DiffBuilder diff, NodePair pair, ObjDiffProperty property, ObjDiffType ObjDiffType) {
+        for (PropertyChangeAppender appender : propertyChangeAppender) {
+            if (! appender.supports(ObjDiffType)){
+                continue;
+            }
+
+            final Change change = appender.calculateChanges(pair, property);
+            if (change != null) {
+                diff.addChange(change, pair.getRight().wrappedCdo());
+            }
+            break;
+        }
     }
 }

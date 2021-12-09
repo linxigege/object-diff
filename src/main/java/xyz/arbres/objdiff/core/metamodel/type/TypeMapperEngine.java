@@ -7,6 +7,8 @@ import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
 import xyz.arbres.objdiff.common.reflection.ReflectionUtil;
 import xyz.arbres.objdiff.common.validation.Validate;
+import xyz.arbres.objdiff.core.CoreConfiguration;
+import xyz.arbres.objdiff.core.diff.ListCompareAlgorithm;
 
 import java.lang.reflect.Type;
 import java.util.*;

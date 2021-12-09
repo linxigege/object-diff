@@ -1,7 +1,7 @@
 package xyz.arbres.objdiff.core.diff.changetype.map;
 
 
-import xyz.arbres.objdiff.core.diff.PropertyChangeMetadata;
+import xyz.arbres.objdiff.core.diff.changetype.PropertyChangeMetadata;
 
 import java.util.Collections;
 import java.util.List;

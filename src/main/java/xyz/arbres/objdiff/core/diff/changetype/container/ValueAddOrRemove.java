@@ -2,7 +2,7 @@ package xyz.arbres.objdiff.core.diff.changetype.container;
 
 
 
-import xyz.arbres.objdiff.core.diff.Atomic;
+import xyz.arbres.objdiff.core.diff.changetype.Atomic;
 
 import java.util.Objects;
 

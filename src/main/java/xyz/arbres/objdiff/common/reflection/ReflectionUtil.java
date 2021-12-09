@@ -33,6 +33,17 @@ public class ReflectionUtil {
         }
     }
 
+    public static boolean isAnnotationPresentInHierarchy(Class<?> clazz, Class<? extends Annotation> ann){
+        Class<?> current = clazz;
+
+        while (current != null && current != Object.class){
+            if (current.isAnnotationPresent(ann)){
+                return true;
+            }
+            current = current.getSuperclass();
+        }
+        return false;
+    }
 
     static boolean isNotStatic(Member member) {
         return !Modifier.isStatic(member.getModifiers());
@@ -163,5 +174,18 @@ public class ReflectionUtil {
             }
         }
         return result;
+    }
+    public static <T> T getAnnotationValue(Annotation ann, String propertyName) {
+        return (T) ReflectionUtil.invokeGetter(ann, propertyName);
+    }
+
+    public static Object invokeGetter(Object target, String getterName) {
+        Validate.argumentsAreNotNull(target, getterName);
+        try {
+            Method m = target.getClass().getMethod(getterName);
+            return m.invoke(target);
+        }catch (Exception e ) {
+            throw new ObjDiffException(e);
+        }
     }
 }

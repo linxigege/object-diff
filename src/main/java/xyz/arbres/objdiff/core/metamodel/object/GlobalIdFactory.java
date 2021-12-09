@@ -2,12 +2,20 @@ package xyz.arbres.objdiff.core.metamodel.object;
 
 
 
+import xyz.arbres.objdiff.common.exception.ObjDiffException;
+import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
 import xyz.arbres.objdiff.common.string.ToStringBuilder;
 import xyz.arbres.objdiff.common.validation.Validate;
+import xyz.arbres.objdiff.core.graph.ObjectAccessHook;
+import xyz.arbres.objdiff.core.graph.ObjectAccessProxy;
 import xyz.arbres.objdiff.core.metamodel.type.EntityType;
 import xyz.arbres.objdiff.core.metamodel.type.ManagedType;
 import xyz.arbres.objdiff.core.metamodel.type.TypeMapper;
 import xyz.arbres.objdiff.core.metamodel.type.ValueObjectType;
+import xyz.arbres.objdiff.repository.sql.GlobalIdDTO;
+import xyz.arbres.objdiff.repository.sql.InstanceIdDTO;
+import xyz.arbres.objdiff.repository.sql.UnboundedValueObjectIdDTO;
+import xyz.arbres.objdiff.repository.sql.ValueObjectIdDTO;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -60,7 +68,7 @@ public class GlobalIdFactory {
 
             if (ownerContext.requiresObjectHasher() ||
                    ValueObjectIdWithHash.containsHashPlaceholder(parentFragment.get())) {
-                return new ValueObjectIdWithPlaceholder(
+                return new ValueObjectIdWithHash.ValueObjectIdWithPlaceholder(
                         targetManagedType.getName(),
                         getRootOwnerId(ownerContext),
                         parentFragment,

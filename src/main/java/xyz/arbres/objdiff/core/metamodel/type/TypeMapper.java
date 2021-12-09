@@ -6,7 +6,11 @@ import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
 import xyz.arbres.objdiff.common.reflection.ReflectionUtil;
 import xyz.arbres.objdiff.common.validation.Validate;
+import xyz.arbres.objdiff.core.CoreConfiguration;
+import xyz.arbres.objdiff.core.metamodel.clazz.ClientsClassDefinition;
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
+import xyz.arbres.objdiff.core.metamodel.property.Property;
+import xyz.arbres.objdiff.core.metamodel.scanner.ClassScanner;
 
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -82,6 +86,7 @@ public class TypeMapper implements TypeMapperLazy {
      * Returns mapped type, spawns a new one from a prototype,
      * or infers a new one using default mapping.
      */
+    @Override
     public ObjDiffType getObjDiffType(Type javaType) {
 
         if (javaType == Object.class) {
@@ -182,11 +187,10 @@ public class TypeMapper implements TypeMapperLazy {
     }
 
     public <T extends ObjDiffType> T getPropertyType(Property property){
-        argumentIsNotNull(property);
+
         try {
             return (T) getObjDiffType(property.getGenericType());
         }catch (ObjDiffException e) {
-            logger.error("Can't calculate ObjDiffType for property: {}", property);
             throw e;
         }
     }
@@ -194,8 +198,7 @@ public class TypeMapper implements TypeMapperLazy {
     public void registerClientsClass(ClientsClassDefinition def) {
         ObjDiffType newType = typeFactory.create(def);
 
-        logger.debug("ObjDiffType of '{}' " + "mapped explicitly to {}",
-                def.getBaseJavaClass().getSimpleName(), newType.getClass().getSimpleName());
+
 
         engine.registerExplicitType(newType);
     }
@@ -223,7 +226,7 @@ public class TypeMapper implements TypeMapperLazy {
             return Optional.empty();
         }
 
-        Class javaClass = extractClass(javaType);
+        Class javaClass = ReflectionUtil.extractClass(javaType);
 
         //this is due too spoiled Java Array reflection API
         if (javaClass.isArray()) {

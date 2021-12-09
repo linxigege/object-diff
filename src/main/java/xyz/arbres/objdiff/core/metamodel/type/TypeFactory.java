@@ -1,13 +1,18 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
+import xyz.arbres.objdiff.common.reflection.ReflectionUtil;
 import xyz.arbres.objdiff.common.validation.Validate;
+import xyz.arbres.objdiff.core.metamodel.clazz.*;
+import xyz.arbres.objdiff.core.metamodel.scanner.ClassScan;
+import xyz.arbres.objdiff.core.metamodel.scanner.ClassScanner;
 
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 /**
  * @author bartosz walacik
@@ -136,7 +141,7 @@ class TypeFactory {
     }
 
     private ObjDiffType createDefaultType(JavaRichType t) {
-        return create(valueObjectDefinition(t.javaClass)
+        return create(ValueObjectDefinitionBuilder.valueObjectDefinition(t.javaClass)
                 .withTypeName(t.getScan().typeName())
                 .defaultType()
                 .build(), t.getScan());
@@ -152,15 +157,15 @@ class TypeFactory {
         }
 
         if (t.getScan().hasValueObjectAnn()) {
-            return Optional.of(create(valueObjectDefinition(t.javaClass).withTypeName(t.getAnnTypeName()).build(),t.getScan()));
+            return Optional.of(create(ValueObjectDefinitionBuilder.valueObjectDefinition(t.javaClass).withTypeName(t.getAnnTypeName()).build(),t.getScan()));
         }
 
         if (t.getScan().hasShallowReferenceAnn()) {
-            return Optional.of(create(entityDefinition(t.javaClass).withTypeName(t.getAnnTypeName()).withShallowReference().build(), t.getScan()));
+            return Optional.of(create(EntityDefinitionBuilder.entityDefinition(t.javaClass).withTypeName(t.getAnnTypeName()).withShallowReference().build(), t.getScan()));
         }
 
         if (t.getScan().hasEntityAnn() || t.getScan().hasIdProperty()) {
-            return Optional.of(create(entityDefinition(t.javaClass).withTypeName(t.getAnnTypeName()).build(), t.getScan()));
+            return Optional.of(create(EntityDefinitionBuilder.entityDefinition(t.javaClass).withTypeName(t.getAnnTypeName()).build(), t.getScan()));
         }
 
         return Optional.empty();
@@ -174,7 +179,7 @@ class TypeFactory {
 
         JavaRichType(Type javaType) {
             this.javaType = javaType;
-            this.javaClass = extractClass(javaType);
+            this.javaClass = ReflectionUtil.extractClass(javaType);
             this.classScan = () -> classScanner.scan(javaClass);
         }
 

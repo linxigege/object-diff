@@ -2,8 +2,6 @@ package xyz.arbres.objdiff.core.diff.changetype;
 
 import xyz.arbres.objdiff.common.string.PrettyValuePrinter;
 import xyz.arbres.objdiff.common.validation.Validate;
-import xyz.arbres.objdiff.core.diff.PropertyChange;
-import xyz.arbres.objdiff.core.diff.PropertyChangeMetadata;
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
 
 import java.util.Objects;

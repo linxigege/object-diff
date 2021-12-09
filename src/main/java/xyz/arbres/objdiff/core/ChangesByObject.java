@@ -4,7 +4,7 @@ package xyz.arbres.objdiff.core;
 
 import xyz.arbres.objdiff.common.string.PrettyValuePrinter;
 import xyz.arbres.objdiff.core.diff.Change;
-import xyz.arbres.objdiff.core.diff.PropertyChange;
+import xyz.arbres.objdiff.core.diff.changetype.PropertyChange;
 import xyz.arbres.objdiff.core.diff.changetype.NewObject;
 import xyz.arbres.objdiff.core.diff.changetype.ObjectRemoved;
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;

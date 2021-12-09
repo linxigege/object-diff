@@ -4,8 +4,8 @@ package xyz.arbres.objdiff.core.diff.changetype.container;
 import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.common.string.PrettyValuePrinter;
 import xyz.arbres.objdiff.common.validation.Validate;
-import xyz.arbres.objdiff.core.diff.PropertyChange;
-import xyz.arbres.objdiff.core.diff.PropertyChangeMetadata;
+import xyz.arbres.objdiff.core.diff.changetype.PropertyChange;
+import xyz.arbres.objdiff.core.diff.changetype.PropertyChangeMetadata;
 
 import java.util.ArrayList;
 import java.util.Collections;

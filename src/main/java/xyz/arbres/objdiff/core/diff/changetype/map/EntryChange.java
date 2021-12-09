@@ -3,7 +3,7 @@ package xyz.arbres.objdiff.core.diff.changetype.map;
 
 import xyz.arbres.objdiff.common.string.PrettyValuePrinter;
 import xyz.arbres.objdiff.common.validation.Validate;
-import xyz.arbres.objdiff.core.diff.Atomic;
+import xyz.arbres.objdiff.core.diff.changetype.Atomic;
 
 import java.io.Serializable;
 import java.util.Objects;

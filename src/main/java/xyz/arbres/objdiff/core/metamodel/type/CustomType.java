@@ -3,8 +3,8 @@ package xyz.arbres.objdiff.core.metamodel.type;
 
 
 import xyz.arbres.objdiff.common.validation.Validate;
-import xyz.arbres.objdiff.core.diff.PropertyChange;
-import xyz.arbres.objdiff.core.diff.PropertyChangeMetadata;
+import xyz.arbres.objdiff.core.diff.changetype.PropertyChange;
+import xyz.arbres.objdiff.core.diff.changetype.PropertyChangeMetadata;
 import xyz.arbres.objdiff.core.diff.customer.CustomPropertyComparator;
 import xyz.arbres.objdiff.core.metamodel.property.Property;
 
