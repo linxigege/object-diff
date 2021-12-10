@@ -1,6 +1,6 @@
 package xyz.arbres.objdiff.common.reflection;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
+
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;

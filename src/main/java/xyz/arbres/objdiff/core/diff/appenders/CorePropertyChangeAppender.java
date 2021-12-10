@@ -2,8 +2,7 @@ package xyz.arbres.objdiff.core.diff.appenders;
 
 
 
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
+
 import xyz.arbres.objdiff.core.diff.NodePair;
 import xyz.arbres.objdiff.core.diff.changetype.PropertyChange;
 import xyz.arbres.objdiff.core.metamodel.type.ObjDiffProperty;

@@ -2,6 +2,7 @@ package xyz.arbres.objdiff.core.snapshot;
 
 
 
+import org.picocontainer.MutablePicoContainer;
 import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.core.pico.InstantiatingModule;
 

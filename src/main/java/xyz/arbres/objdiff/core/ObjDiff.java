@@ -10,4 +10,6 @@ import xyz.arbres.objdiff.core.diff.Diff;
 public interface ObjDiff {
 
     Diff compare(Object oldVersion, Object currentVersion);
+
+
 }

@@ -1,7 +1,7 @@
 package xyz.arbres.objdiff.core.json;
 
 import com.google.gson.*;
-import xyz.arbres.objdiff.core.json.commit.CdoSnapshotAssembler;
+import xyz.arbres.objdiff.core.json.typeadapter.commit.CdoSnapshotAssembler;
 import xyz.arbres.objdiff.core.metamodel.object.CdoSnapshot;
 
 import java.io.Reader;

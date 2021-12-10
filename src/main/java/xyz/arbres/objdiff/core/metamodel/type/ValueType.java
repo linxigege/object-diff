@@ -1,6 +1,7 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
+import xyz.arbres.objdiff.common.collections.WellKnownValueTypes;
 import xyz.arbres.objdiff.common.reflection.ReflectionUtil;
 import xyz.arbres.objdiff.core.diff.customer.CustomValueComparator;
 

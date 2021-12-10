@@ -3,12 +3,14 @@ package xyz.arbres.objdiff.core.metamodel.type;
 
 
 import xyz.arbres.objdiff.common.collections.Primitives;
+import xyz.arbres.objdiff.common.collections.WellKnownValueTypes;
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
 import xyz.arbres.objdiff.common.reflection.ReflectionUtil;
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.CoreConfiguration;
 import xyz.arbres.objdiff.core.diff.ListCompareAlgorithm;
+import xyz.arbres.objdiff.core.json.typeadapter.util.UtilTypeCoreAdapters;
 
 import java.lang.reflect.Type;
 import java.util.*;
@@ -64,8 +66,7 @@ class TypeMapperEngine {
         //java util and sql types
         registerCoreTypes((List) UtilTypeCoreAdapters.valueTypes());
 
-        //java time types
-        registerCoreTypes((List) Java8TypeAdapters.valueTypes());
+
 
         //Collections
         registerCoreType(new CollectionType(Collection.class, typeMapperlazy));
@@ -143,7 +144,6 @@ class TypeMapperEngine {
      * @throws ObjDiffException TYPE_NAME_NOT_FOUND if given typeName is not registered
      */
     Class getClassByDuckType(DuckType duckType) {
-        argumentsAreNotNull(duckType);
 
         Class javaType = mappedTypeNames.get(duckType);
         if (javaType != null){

@@ -2,7 +2,7 @@ package xyz.arbres.objdiff.core.json;
 
 
 
-import xyz.arbres.objdiff.core.json.util.UtilTypeCoreAdapters;
+import xyz.arbres.objdiff.core.json.typeadapter.util.UtilTypeCoreAdapters;
 
 import java.math.BigDecimal;
 import java.time.Instant;

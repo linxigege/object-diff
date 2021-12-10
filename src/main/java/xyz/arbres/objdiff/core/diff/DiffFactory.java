@@ -9,12 +9,17 @@ import xyz.arbres.objdiff.core.CoreConfiguration;
 import xyz.arbres.objdiff.core.commit.CommitMetadata;
 import xyz.arbres.objdiff.core.diff.appenders.NodeChangeAppender;
 import xyz.arbres.objdiff.core.diff.appenders.PropertyChangeAppender;
+import xyz.arbres.objdiff.core.diff.changetype.ObjectRemoved;
 import xyz.arbres.objdiff.core.graph.*;
+import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
 import xyz.arbres.objdiff.core.metamodel.type.*;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 
 /**
  * @author Maciej Zasada
@@ -51,7 +56,14 @@ public class DiffFactory {
         GraphPair graphPair = new GraphPair(leftGraph, rightGraph, commitMetadata);
         return createAndAppendChanges(graphPair);
     }
+    public Diff singleTerminal(GlobalId removedId, CommitMetadata commitMetadata){
+        Validate.argumentsAreNotNull(removedId, commitMetadata);
 
+        DiffBuilder diff = new DiffBuilder(ObjDiffCoreConfiguration.getPrettyValuePrinter());
+        diff.addChange(new ObjectRemoved(removedId, empty(), of(commitMetadata)));
+
+        return diff.build();
+    }
     private ObjectGraph buildGraph(Object handle) {
         if (handle == null) {
             return new EmptyGraph();

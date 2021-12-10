@@ -21,4 +21,6 @@ public class ObjDiffCore implements ObjDiff{
     public Diff compare(Object oldVersion, Object currentVersion) {
         return diffFactory.compare(oldVersion, currentVersion);
     }
+
+
 }

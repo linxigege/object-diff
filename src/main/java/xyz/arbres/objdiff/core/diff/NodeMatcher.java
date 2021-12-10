@@ -1,8 +1,8 @@
 package xyz.arbres.objdiff.core.diff;
 
 
-import jdk.nashorn.internal.ir.ObjectNode;
 import xyz.arbres.objdiff.common.validation.Validate;
+import xyz.arbres.objdiff.core.graph.ObjectNode;
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
 
 import java.util.*;
@@ -12,7 +12,7 @@ import java.util.*;
  */
 class NodeMatcher {
     /**
-     * matching based on {@link org.ObjDiff.core.metamodel.object.GlobalId}
+     * matching based on
      */
     public List<NodePair> match(GraphPair graphPair) {
         Validate.argumentIsNotNull(graphPair);

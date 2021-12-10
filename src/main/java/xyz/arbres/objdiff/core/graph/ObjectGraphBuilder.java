@@ -2,8 +2,7 @@ package xyz.arbres.objdiff.core.graph;
 
 
 
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
+
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.metamodel.type.EnumerableType;
 import xyz.arbres.objdiff.core.metamodel.type.ManagedType;

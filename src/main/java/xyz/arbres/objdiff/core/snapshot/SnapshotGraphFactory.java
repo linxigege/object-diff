@@ -3,6 +3,7 @@ package xyz.arbres.objdiff.core.snapshot;
 
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
+import xyz.arbres.objdiff.repository.api.ObjDiffExtendedRepository;
 
 import java.util.Set;
 import java.util.stream.Collectors;

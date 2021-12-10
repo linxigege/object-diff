@@ -1,6 +1,7 @@
 package xyz.arbres.objdiff.common.reflection;
 
 
+import io.github.classgraph.ClassGraph;
 import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.common.collections.Sets;
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
@@ -32,7 +33,51 @@ public class ReflectionUtil {
             return false;
         }
     }
+    public static List<Class<?>> findClasses(Class<? extends Annotation> annotation, String... packages) {
+        Validate.argumentsAreNotNull(annotation, packages);
+        return new ClassGraph()
+                .whitelistPackages(packages)
+                .enableAnnotationInfo()
+                .scan()
+                .getClassesWithAnnotation(annotation.getName())
+                .loadClasses();
+    }
+    /**
+     * Creates new instance of public or package-private class.
+     * Calls first, not-private constructor
+     */
+    public static Object newInstance(Class clazz, ArgumentResolver resolver){
+        Validate.argumentIsNotNull(clazz);
+        for (Constructor constructor : clazz.getDeclaredConstructors()) {
+            if (isPrivate(constructor) || isProtected(constructor)) {
+                continue;
+            }
 
+            Class [] types = constructor.getParameterTypes();
+            Object[] params = new Object[types.length];
+            for (int i=0; i<types.length; i++){
+                try {
+                    params[i] = resolver.resolve(types[i]);
+                } catch (ObjDiffException e){
+                    throw e;
+                }
+            }
+            try {
+                constructor.setAccessible(true);
+                return constructor.newInstance(params);
+            } catch (Exception e) {
+                throw new ObjDiffException(ObjDiffExceptionCode.ERROR_WHEN_INVOKING_CONSTRUCTOR, clazz.getName());
+            }
+        }
+        throw new ObjDiffException(ObjDiffExceptionCode.NO_PUBLIC_CONSTRUCTOR, clazz.getName());
+    }
+
+    private static boolean isProtected(Member member){
+        return Modifier.isProtected(member.getModifiers());
+    }
+    private static boolean isPrivate(Member member){
+        return Modifier.isPrivate(member.getModifiers());
+    }
     public static boolean isAnnotationPresentInHierarchy(Class<?> clazz, Class<? extends Annotation> ann){
         Class<?> current = clazz;
 
