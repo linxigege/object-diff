@@ -10,7 +10,7 @@ Javers采用 Pico 作为 IOC 框架
 ## 依赖概览
 我们来大致浏览一下 Javers 的核心建造器 <font color=chocolate>JaversBuilder</font> 是如何使用 IOC 容器的
 
-![](/img/javers_ioc_1.png)
+![](./img/javers_ioc_1.png)
 
 ### Pico Container
 
