@@ -506,125 +506,16 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
         return this;
     }
 
-    /**
-     * Registers a {@link ValueType} and its custom JSON TypeAdapter.
-     * <p/>
-     *
-     * Useful for ValueTypes when Gson's default representation isn't good enough.
-     *
-     * @see <a href="http://ObjDiff.org/documentation/repository-configuration/#json-type-adapters">http://ObjDiff.org/documentation/repository-configuration/#json-type-adapters</a>
-     * @see JsonTypeAdapter
-     */
-    public ObjDiffBuilder registerValueTypeAdapter(JsonTypeAdapter typeAdapter) {
-        for (Class c : (List<Class>)typeAdapter.getValueTypes()){
-            registerValue(c);
-        }
-
-        jsonConverterBuilder().registerJsonTypeAdapter(typeAdapter);
-        return this;
-    }
 
 
 
-    /**
-     * Registers {@link ValueType} and its custom native
-     * <a href="http://code.google.com/p/google-gson/">Gson</a> adapter.
-     * <br/><br/>
-     *
-     * Useful when you already have Gson {@link TypeAdapter}s implemented.
-     *
-     * @see TypeAdapter
-     */
-    public ObjDiffBuilder registerValueGsonTypeAdapter(Class valueType, TypeAdapter nativeAdapter) {
-        registerValue(valueType);
-        jsonConverterBuilder().registerNativeTypeAdapter(valueType, nativeAdapter);
-        return this;
-    }
 
-    /**
-     * Switch on when you need a type safe serialization for
-     * heterogeneous collections like List, List&lt;Object&gt;.
-     * <br/><br/>
-     *
-     * Heterogeneous collections are collections which contains items of different types
-     * (or types unknown at compile time).
-     * <br/><br/>
-     *
-     * This approach is generally discouraged, prefer statically typed collections
-     * with exactly one type of items like List&lt;String&gt;.
-     *
-     * @see org.ObjDiff.core.json.JsonConverterBuilder#typeSafeValues(boolean)
-     * @param typeSafeValues default false
-     */
-    public ObjDiffBuilder withTypeSafeValues(boolean typeSafeValues) {
-        jsonConverterBuilder().typeSafeValues(typeSafeValues);
-        return this;
-    }
 
-    /**
-     * choose between JSON pretty or concise printing style, i.e. :
-     *
-     * <ul><li>pretty:
-     * <pre>
-     * {
-     *     "value": 5
-     * }
-     * </pre>
-     * </li><li>concise:
-     * <pre>
-     * {"value":5}
-     * </pre>
-     * </li></ul>
-     *
-     * @see GsonBuilder#setPrettyPrinting()
-     * @param prettyPrint default true
-     */
-    public ObjDiffBuilder withPrettyPrint(boolean prettyPrint) {
-        this.coreConfigurationBuilder.withPrettyPrint(prettyPrint);
-        return this;
-    }
 
-    public ObjDiffBuilder registerEntities(Class<?>... entityClasses) {
-        for(Class clazz : entityClasses) {
-            registerEntity(clazz);
-        }
-        return this;
-    }
 
-    public ObjDiffBuilder registerValueObjects(Class<?>... valueObjectClasses) {
-        for(Class clazz : valueObjectClasses) {
-            registerValueObject(clazz);
-        }
-        return this;
-    }
 
-    /**
-     * Default style is {@link MappingStyle#FIELD}.
-     *
-     * @see <a href="http://ObjDiff.org/documentation/domain-configuration/#property-mapping-style">http://ObjDiff.org/documentation/domain-configuration/#property-mapping-style</a>
-     */
-    public ObjDiffBuilder withMappingStyle(MappingStyle mappingStyle) {
-        argumentIsNotNull(mappingStyle);
-        configurationBuilder().withMappingStyle(mappingStyle);
-        return this;
-    }
 
-    /**
-     * <ul>
-     * <li/> {@link CommitIdGenerator#SYNCHRONIZED_SEQUENCE} &mdash; for non-distributed applications
-     * <li/> {@link CommitIdGenerator#RANDOM} &mdash; for distributed applications
-     * </ul>
-     * SYNCHRONIZED_SEQUENCE is used by default.
-     */
-    public ObjDiffBuilder withCommitIdGenerator(CommitIdGenerator commitIdGenerator) {
-        configurationBuilder().withCommitIdGenerator(commitIdGenerator);
-        return this;
-    }
 
-    ObjDiffBuilder withCustomCommitIdGenerator(Supplier<CommitId> commitIdGenerator) {
-        configurationBuilder().withCustomCommitIdGenerator(commitIdGenerator);
-        return this;
-    }
 
     /**
      * The Initial Changes switch, enabled by default since ObjDiff 6.0.
@@ -669,39 +560,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
         return this.withInitialChanges(newObjectsSnapshot);
     }
 
-    /**
-     * Enabled by default since ObjDiff 6.0.
-     * <br/><br/>
-     *
-     * When the switch is enabled, {@link ObjDiff#compare(Object oldVersion, Object currentVersion)}
-     * and {@link ObjDiff#findChanges(JqlQuery)}
-     * generate additional set of Terminal Changes for each
-     * property of a Removed Object to capture its state.
-     * <br/>
-     * Internally, ObjDiff generates Terminal Changes by comparing
-     * a real Removed Object with a virtual, totally empty object.
-     * <br/><br/>
-     *
-     * In ObjDiff Spring Boot starter you can disabled terminal Value Changes in `application.yml`:
-     *
-     * <pre>
-     * ObjDiff:
-     *   terminalChanges: false
-     * </pre>
-     *
-     * @since 6.0
-     * @see ObjectRemoved
-     */
-    public ObjDiffBuilder withTerminalChanges(boolean terminalChanges){
-        configurationBuilder().withTerminalChanges(terminalChanges);
-        return this;
-    }
 
-    public ObjDiffBuilder withObjectAccessHook(ObjectAccessHook objectAccessHook) {
-        removeComponent(ObjectAccessHook.class);
-        bindComponent(ObjectAccessHook.class, objectAccessHook);
-        return this;
-    }
 
     /**
      * Registers a {@link CustomPropertyComparator} for a given class and maps this class
@@ -771,35 +630,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
         return this;
     }
 
-    public ObjDiffBuilder withProperties(ObjDiffCoreProperties ObjDiffProperties) {
-        if (ObjDiffProperties.getMappingStyle() != null) {
-            withMappingStyle(MappingStyle.valueOf(ObjDiffProperties.getMappingStyle().toUpperCase()));
-        }
-        if (ObjDiffProperties.getCommitIdGenerator() != null) {
-            withCommitIdGenerator(CommitIdGenerator.valueOf(ObjDiffProperties.getCommitIdGenerator().toUpperCase()));
-        }
-        if (ObjDiffProperties.getPackagesToScan() != null) {
-            withPackagesToScan(ObjDiffProperties.getPackagesToScan());
-        }
-        if (ObjDiffProperties.isTypeSafeValues() != null) {
-            withTypeSafeValues(ObjDiffProperties.isTypeSafeValues());
-        }
-        if (ObjDiffProperties.getAlgorithm() != null) {
-            withListCompareAlgorithm(ListCompareAlgorithm.valueOf(ObjDiffProperties.getAlgorithm().toUpperCase()));
-        }
-        if (ObjDiffProperties.isPrettyPrint() != null) {
-            withPrettyPrint(ObjDiffProperties.isPrettyPrint());
-        }
-        if (ObjDiffProperties.isInitialChanges() != null) {
-            withInitialChanges(ObjDiffProperties.isInitialChanges());
-        }
-        if (ObjDiffProperties.isTerminalChanges() != null) {
-            withTerminalChanges(ObjDiffProperties.isTerminalChanges());
-        }
 
-        withPrettyPrintDateFormats(ObjDiffProperties.getPrettyPrintDateFormats());
-        return this;
-    }
 
     private void mapRegisteredClasses() {
         TypeMapper typeMapper = typeMapper();
@@ -812,9 +643,6 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
         return getContainerComponent(TypeMapper.class);
     }
 
-    private TypeMapperLazy typeMapperLazy() {
-        return (TypeMapperLazy)typeMapper();
-    }
 
     private CoreConfigurationBuilder configurationBuilder() {
         return this.coreConfigurationBuilder;
@@ -875,9 +703,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
         addComponent(ObjDiffExtendedRepository.class);
     }
 
-    private <T extends ClientsClassDefinition> T getClassDefinition(Class<?> baseJavaClass) {
-        return (T)clientsClassDefinitions.get(baseJavaClass);
-    }
+
 
     private CoreConfiguration coreConfiguration() {
         return getContainerComponent(CoreConfiguration.class);

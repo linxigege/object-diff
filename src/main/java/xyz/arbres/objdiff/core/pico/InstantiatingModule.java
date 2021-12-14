@@ -60,6 +60,7 @@ public abstract class InstantiatingModule {
             return ReflectionUtil.newInstance(getComponentImplementation(), argumentResolver);
         }
 
+        @Override
         public void verify(PicoContainer container) {
         }
 
