@@ -29,7 +29,7 @@ class ValueChangeTypeAdapter extends ChangeTypeAdapter<ValueChange> {
         JsonObject jsonObject = (JsonObject) json;
         PropertyChangeMetadata stub = deserializeStub(jsonObject, context);
 
-        Object leftValue  = context.deserialize(jsonObject.get(LEFT_VALUE_FIELD),  getObjDiffProperty(stub).getGenericType());
+        Object leftValue = context.deserialize(jsonObject.get(LEFT_VALUE_FIELD), getObjDiffProperty(stub).getGenericType());
         Object rightValue = context.deserialize(jsonObject.get(RIGHT_VALUE_FIELD), getObjDiffProperty(stub).getGenericType());
 
         Class<? extends Change> changeType = decodeChangeType((JsonObject) json);

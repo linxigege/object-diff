@@ -4,6 +4,7 @@ import xyz.arbres.objdiff.core.commit.CommitMetadata;
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
 
 import java.util.Optional;
+
 import static xyz.arbres.objdiff.common.validation.Validate.argumentsAreNotNull;
 
 /**

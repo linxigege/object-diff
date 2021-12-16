@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
-
 import xyz.arbres.objdiff.common.collections.EnumerableFunction;
 import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
@@ -29,7 +28,7 @@ public class ArrayType extends ContainerType {
 
     @Override
     public List<Type> getConcreteClassTypeArguments() {
-        return (List) Lists.immutableListOf( getBaseJavaClass().getComponentType() );
+        return (List) Lists.immutableListOf(getBaseJavaClass().getComponentType());
     }
 
     @Override
@@ -40,8 +39,8 @@ public class ArrayType extends ContainerType {
 
         int len = Array.getLength(sourceArray);
         EnumerationAwareOwnerContext enumerationContext = new IndexableEnumerationOwnerContext(owner);
-        for (int i=0; i<len; i++){
-            Object sourceVal = Array.get(sourceArray,i);
+        for (int i = 0; i < len; i++) {
+            Object sourceVal = Array.get(sourceArray, i);
             Array.set(targetArray, i, mapFunction.apply(sourceVal, enumerationContext));
         }
         return targetArray;
@@ -49,7 +48,7 @@ public class ArrayType extends ContainerType {
 
     @Override
     public boolean isEmpty(Object array) {
-        return array == null ||  Array.getLength(array) == 0;
+        return array == null || Array.getLength(array) == 0;
     }
 
     @Override
@@ -60,8 +59,8 @@ public class ArrayType extends ContainerType {
 
         int len = Array.getLength(sourceArray);
         int t = 0;
-        for (int i=0; i<len; i++) {
-            Object sourceVal = Array.get(sourceArray,i);
+        for (int i = 0; i < len; i++) {
+            Object sourceVal = Array.get(sourceArray, i);
 
             Object mappedVal = mapFunction.apply(sourceVal);
             if (mappedVal == null && filterNulls) continue;
@@ -76,7 +75,7 @@ public class ArrayType extends ContainerType {
             return Stream.empty();
         }
 
-        return Arrays.asList((Object[])source).stream();
+        return Arrays.asList((Object[]) source).stream();
     }
 
     private Object newArray(Object sourceArray, Function mapFunction, boolean doSample) {
@@ -85,7 +84,7 @@ public class ArrayType extends ContainerType {
             return sourceArray;
         }
 
-        if (getItemClass().isPrimitive()){
+        if (getItemClass().isPrimitive()) {
             return Array.newInstance(getItemClass(), len);
         }
 
@@ -101,7 +100,7 @@ public class ArrayType extends ContainerType {
 
     @Override
     public boolean equals(Object one, Object two) {
-        return xyz.arbres.objdiff.common.collections.Arrays.equals(one , two);
+        return xyz.arbres.objdiff.common.collections.Arrays.equals(one, two);
     }
 
     @Override

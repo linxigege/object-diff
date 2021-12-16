@@ -3,9 +3,10 @@ package xyz.arbres.objdiff.core.metamodel.clazz;
 
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.diff.customer.CustomPropertyComparator;
+import xyz.arbres.objdiff.core.metamodel.type.CustomType;
 
 /**
- *  Recipe for {@link CustomType}
+ * Recipe for {@link CustomType}
  *
  * @author bartosz walacik
  */

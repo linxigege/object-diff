@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.scanner;
 
 
-
 import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.common.reflection.ReflectionUtil;
 
@@ -27,7 +26,7 @@ class AnnotationNamesProvider {
 
 
     AnnotationNamesProvider() {
-        for (AnnotationsNameSpace provider : namesProviders){
+        for (AnnotationsNameSpace provider : namesProviders) {
             entityAliases.addAll(provider.getEntityAliases());
             valueObjectAliases.addAll(provider.getValueObjectAliases());
             valueAliases.addAll(provider.getValueAliases());
@@ -45,13 +44,13 @@ class AnnotationNamesProvider {
         return annTypes.stream().anyMatch(annType -> valueObjectAliases.contains(annType.getSimpleName()));
     }
 
-    boolean hasValueAnnAlias(Set<Class<? extends Annotation>> annTypes){
+    boolean hasValueAnnAlias(Set<Class<? extends Annotation>> annTypes) {
         return annTypes.stream().anyMatch(annType -> valueAliases.contains(annType.getSimpleName()));
     }
 
-    boolean hasTransientPropertyAnn(Set<Class<? extends Annotation>> annTypes){
+    boolean hasTransientPropertyAnn(Set<Class<? extends Annotation>> annTypes) {
         return annTypes.contains(ObjDiffAnnotationsNameSpace.DIFF_IGNORE_ANN) ||
-               annTypes.stream().anyMatch(annType -> transientPropertyAliases.contains(annType.getSimpleName()));
+                annTypes.stream().anyMatch(annType -> transientPropertyAliases.contains(annType.getSimpleName()));
     }
 
     boolean hasDiffIncludeAnn(Set<Class<? extends Annotation>> annTypes) {

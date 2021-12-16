@@ -38,7 +38,7 @@ public class WellKnownValueTypes {
         if (object == null) {
             return false;
         }
-        return  isOldGoodValueType(object.getClass());
+        return isOldGoodValueType(object.getClass());
     }
 
     private static boolean isOldGoodValueType(Class clazz) {

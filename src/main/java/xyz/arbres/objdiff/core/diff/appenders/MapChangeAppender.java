@@ -22,12 +22,12 @@ class MapChangeAppender implements PropertyChangeAppender<MapChange> {
 
     @Override
     public boolean supports(ObjDiffType propertyType) {
-        if (!(propertyType instanceof MapType)){
+        if (!(propertyType instanceof MapType)) {
             return false;
         }
 
-        MapType mapType = (MapType)propertyType;
-        if (mapType.getKeyObjDiffType() instanceof ValueObjectType){
+        MapType mapType = (MapType) propertyType;
+        if (mapType.getKeyObjDiffType() instanceof ValueObjectType) {
             throw new ObjDiffException(ObjDiffExceptionCode.VALUE_OBJECT_IS_NOT_SUPPORTED_AS_MAP_KEY, propertyType);
         }
 
@@ -38,19 +38,18 @@ class MapChangeAppender implements PropertyChangeAppender<MapChange> {
     public MapChange calculateChanges(NodePair pair, ObjDiffProperty property) {
         MapType mapType = property.getType();
 
-        Map left =  wrapKeysIfNeeded((Map) pair.getLeftDehydratedPropertyValueAndSanitize(property), mapType.getKeyObjDiffType());
+        Map left = wrapKeysIfNeeded((Map) pair.getLeftDehydratedPropertyValueAndSanitize(property), mapType.getKeyObjDiffType());
         Map right = wrapKeysIfNeeded((Map) pair.getRightDehydratedPropertyValueAndSanitize(property), mapType.getKeyObjDiffType());
 
         List<EntryChange> changes = calculateEntryChanges(left, right, mapType.getValueObjDiffType());
 
-        if (!changes.isEmpty()){
+        if (!changes.isEmpty()) {
             CorePropertyChangeAppender.renderNotParametrizedWarningIfNeeded(mapType.getKeyJavaType(), "key", "Map", property);
             CorePropertyChangeAppender.renderNotParametrizedWarningIfNeeded(mapType.getValueJavaType(), "value", "Map", property);
             return new MapChange(pair.createPropertyChangeMetadata(property), changes,
-                    (Map)pair.getLeftPropertyValueAndSanitize(property),
-                    (Map)pair.getRightPropertyValueAndSanitize(property));
-        }
-        else {
+                    (Map) pair.getLeftPropertyValueAndSanitize(property),
+                    (Map) pair.getRightPropertyValueAndSanitize(property));
+        } else {
             return null;
         }
     }
@@ -67,22 +66,22 @@ class MapChangeAppender implements PropertyChangeAppender<MapChange> {
         List<EntryChange> changes = new ArrayList<>();
 
         for (Object commonKey : Maps.commonKeys(leftMap, rightMap)) {
-            Object leftVal  = leftMap.get(commonKey);
+            Object leftVal = leftMap.get(commonKey);
             Object rightVal = rightMap.get(commonKey);
 
-            if (!mapValueType.equals(leftVal, rightVal)){
-                changes.add( new EntryValueChange(commonKey, leftVal, rightVal));
+            if (!mapValueType.equals(leftVal, rightVal)) {
+                changes.add(new EntryValueChange(commonKey, leftVal, rightVal));
             }
         }
 
         for (Object addedKey : Maps.keysDifference(rightMap, leftMap)) {
-            Object addedValue  = rightMap.get(addedKey);
-            changes.add( new EntryAdded(addedKey, addedValue));
+            Object addedValue = rightMap.get(addedKey);
+            changes.add(new EntryAdded(addedKey, addedValue));
         }
 
         for (Object removedKey : Maps.keysDifference(leftMap, rightMap)) {
-            Object removedValue  = leftMap.get(removedKey);
-            changes.add( new EntryRemoved(removedKey, removedValue));
+            Object removedValue = leftMap.get(removedKey);
+            changes.add(new EntryRemoved(removedKey, removedValue));
         }
 
         return changes;

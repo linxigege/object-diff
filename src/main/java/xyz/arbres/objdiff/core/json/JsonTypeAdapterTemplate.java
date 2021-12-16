@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author bartosz walacik
  */
-public abstract class JsonTypeAdapterTemplate<T> implements JsonTypeAdapter<T>{
+public abstract class JsonTypeAdapterTemplate<T> implements JsonTypeAdapter<T> {
     public abstract Class getValueType();
 
     @Override

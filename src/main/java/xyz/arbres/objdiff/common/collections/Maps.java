@@ -2,8 +2,8 @@ package xyz.arbres.objdiff.common.collections;
 
 import xyz.arbres.objdiff.core.metamodel.property.MissingProperty;
 
-import java.util.HashMap;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,33 +14,33 @@ import java.util.Set;
  * @date 2021-12-07
  */
 public class Maps {
-    public static Map wrapNull(Object map){
-        if (map == null || map == MissingProperty.INSTANCE || !(map instanceof Map)){
+    public static Map wrapNull(Object map) {
+        if (map == null || map == MissingProperty.INSTANCE || !(map instanceof Map)) {
             return Collections.emptyMap();
         }
-        return (Map)map;
+        return (Map) map;
     }
 
     /**
      * null args are allowed
      */
-    public static <K,V> Set<K> commonKeys(Map<K,V> left, Map<K,V> right) {
+    public static <K, V> Set<K> commonKeys(Map<K, V> left, Map<K, V> right) {
         if (left == null || right == null) {
             return Collections.emptySet();
         }
 
-        return Sets.intersection(left.keySet(),right.keySet());
+        return Sets.intersection(left.keySet(), right.keySet());
     }
 
     /**
      * null args are allowed
      */
-    public static <K,V> Set<K> keysDifference(Map<K,V> left, Map<K,V> right) {
-        if (left == null){
+    public static <K, V> Set<K> keysDifference(Map<K, V> left, Map<K, V> right) {
+        if (left == null) {
             return Collections.emptySet();
         }
 
-        if (right == null){
+        if (right == null) {
             return left.keySet();
         }
 
@@ -53,7 +53,7 @@ public class Maps {
         return Collections.unmodifiableMap(m);
     }
 
-    public static  <K,V> Map<K,V> merge(Map<K,V> a, Map<K,V> b) {
+    public static <K, V> Map<K, V> merge(Map<K, V> a, Map<K, V> b) {
         if (a == null || a.isEmpty()) {
             return b;
         }

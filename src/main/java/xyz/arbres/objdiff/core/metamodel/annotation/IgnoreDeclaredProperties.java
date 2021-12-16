@@ -10,12 +10,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Use IgnoreDeclaredProperties annotation to mark
  * all properties <b>declared</b> in a given class as ignored by ObjDiff.
  * <br/><br/>
- *
+ * <p>
  * ObjDiff still tracks instances of a given class and tracks changes done on properties of
  * its superclass
  * (by contrast, if a class is annotated with {@link DiffIgnore}, ObjDiff completely ignores instances of
  * that class).
- *
+ * <p>
  * <br/><br/>
  * For example, when you want to ignore all properties declared in a subclass B but
  * still track changes in properties declared in a superclass A:
@@ -26,7 +26,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     private String name;
  * }
  * </pre>
- *
+ * <p>
  * this mapping:
  * <pre>
  * &#64;IgnoreDeclaredProperties
@@ -35,7 +35,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     private String bar;
  * }
  * </pre>
- *
+ * <p>
  * is equivalent to:
  * <pre>
  * class B extends A {
@@ -46,10 +46,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * }
  * </pre>
  *
- * @see DiffIgnore
  * @author Edward Mallia
+ * @see DiffIgnore
  */
-@Target({ TYPE})
+@Target({TYPE})
 @Retention(RUNTIME)
 public @interface IgnoreDeclaredProperties {
 }

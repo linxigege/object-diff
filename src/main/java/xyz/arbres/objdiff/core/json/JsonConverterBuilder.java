@@ -15,10 +15,9 @@ import java.util.List;
  */
 public class JsonConverterBuilder {
     private static final String ISO_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
-
+    private final GsonBuilder gsonBuilder;
     private boolean typeSafeValues = false;
     private boolean prettyPrint;
-    private final GsonBuilder gsonBuilder;
 
     public JsonConverterBuilder() {
         this.gsonBuilder = new GsonBuilder();
@@ -37,7 +36,7 @@ public class JsonConverterBuilder {
      * </pre>
      * TypeAlias is defaulted to value.class.simpleName.
      * <br/><br/>
-     *
+     * <p>
      * Useful when serializing polymorfic collections like List or List&lt;Object&gt;
      *
      * @param typeSafeValues default false
@@ -47,7 +46,7 @@ public class JsonConverterBuilder {
         return this;
     }
 
-     /**
+    /**
      * @param prettyPrint default true
      */
     public JsonConverterBuilder prettyPrint(boolean prettyPrint) {
@@ -76,8 +75,8 @@ public class JsonConverterBuilder {
     }
 
     /**
-     * @since 3.1
      * @see JsonSerializer
+     * @since 3.1
      */
     public JsonConverterBuilder registerNativeGsonHierarchySerializer(Class targetType, JsonSerializer<?> jsonSerializer) {
         Validate.argumentsAreNotNull(targetType, jsonSerializer);
@@ -86,8 +85,8 @@ public class JsonConverterBuilder {
     }
 
     /**
-     * @since 3.1
      * @see JsonDeserializer
+     * @since 3.1
      */
     public JsonConverterBuilder registerNativeGsonHierarchyDeserializer(Class targetType, JsonDeserializer<?> jsonDeserializer) {
         Validate.argumentsAreNotNull(targetType, jsonDeserializer);
@@ -119,23 +118,22 @@ public class JsonConverterBuilder {
      */
     public JsonConverterBuilder registerJsonTypeAdapter(JsonTypeAdapter adapter) {
         Validate.argumentIsNotNull(adapter);
-        adapter.getValueTypes().forEach( c -> registerJsonTypeAdapterForType((Class)c, adapter));
+        adapter.getValueTypes().forEach(c -> registerJsonTypeAdapterForType((Class) c, adapter));
         return this;
     }
-
 
 
     public JsonConverter build() {
         registerBuiltInAdapter(new AtomicTypeAdapter(typeSafeValues));
 
-        if (prettyPrint){
+        if (prettyPrint) {
             gsonBuilder.setPrettyPrinting();
         }
 
         gsonBuilder.enableComplexMapKeySerialization();
 
         gsonBuilder.serializeNulls()
-                   .setDateFormat(ISO_DATE_TIME_FORMAT);
+                .setDateFormat(ISO_DATE_TIME_FORMAT);
 
         return new JsonConverter(gsonBuilder.create());
     }
@@ -153,7 +151,7 @@ public class JsonConverterBuilder {
     }
 
     private void registerBuiltInAdapter(final JsonTypeAdapter adapter) {
-        adapter.getValueTypes().forEach( c -> registerJsonTypeAdapterForType((Class) c, adapter));
+        adapter.getValueTypes().forEach(c -> registerJsonTypeAdapterForType((Class) c, adapter));
     }
 
     private static class SkipFieldExclusionStrategy implements ExclusionStrategy {

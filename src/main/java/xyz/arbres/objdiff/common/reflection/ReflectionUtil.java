@@ -27,12 +27,12 @@ public class ReflectionUtil {
         try {
             Class.forName(className, false, ObjDiff.class.getClassLoader());
             return true;
-        }
-        catch (Throwable ex) {
+        } catch (Throwable ex) {
             // Class or one of its dependencies is not present...
             return false;
         }
     }
+
     public static List<Class<?>> findClasses(Class<? extends Annotation> annotation, String... packages) {
         Validate.argumentsAreNotNull(annotation, packages);
         return new ClassGraph()
@@ -42,23 +42,24 @@ public class ReflectionUtil {
                 .getClassesWithAnnotation(annotation.getName())
                 .loadClasses();
     }
+
     /**
      * Creates new instance of public or package-private class.
      * Calls first, not-private constructor
      */
-    public static Object newInstance(Class clazz, ArgumentResolver resolver){
+    public static Object newInstance(Class clazz, ArgumentResolver resolver) {
         Validate.argumentIsNotNull(clazz);
         for (Constructor constructor : clazz.getDeclaredConstructors()) {
             if (isPrivate(constructor) || isProtected(constructor)) {
                 continue;
             }
 
-            Class [] types = constructor.getParameterTypes();
+            Class[] types = constructor.getParameterTypes();
             Object[] params = new Object[types.length];
-            for (int i=0; i<types.length; i++){
+            for (int i = 0; i < types.length; i++) {
                 try {
                     params[i] = resolver.resolve(types[i]);
-                } catch (ObjDiffException e){
+                } catch (ObjDiffException e) {
                     throw e;
                 }
             }
@@ -72,17 +73,19 @@ public class ReflectionUtil {
         throw new ObjDiffException(ObjDiffExceptionCode.NO_PUBLIC_CONSTRUCTOR, clazz.getName());
     }
 
-    private static boolean isProtected(Member member){
+    private static boolean isProtected(Member member) {
         return Modifier.isProtected(member.getModifiers());
     }
-    private static boolean isPrivate(Member member){
+
+    private static boolean isPrivate(Member member) {
         return Modifier.isPrivate(member.getModifiers());
     }
-    public static boolean isAnnotationPresentInHierarchy(Class<?> clazz, Class<? extends Annotation> ann){
+
+    public static boolean isAnnotationPresentInHierarchy(Class<?> clazz, Class<? extends Annotation> ann) {
         Class<?> current = clazz;
 
-        while (current != null && current != Object.class){
-            if (current.isAnnotationPresent(ann)){
+        while (current != null && current != Object.class) {
+            if (current.isAnnotationPresent(ann)) {
                 return true;
             }
             current = current.getSuperclass();
@@ -93,17 +96,18 @@ public class ReflectionUtil {
     static boolean isNotStatic(Member member) {
         return !Modifier.isStatic(member.getModifiers());
     }
+
     /**
      * for example: Map<String, String> -> Map
      */
     public static Class extractClass(Type javaType) {
         if (javaType instanceof ParameterizedType
-                && ((ParameterizedType)javaType).getRawType() instanceof Class){
-            return (Class)((ParameterizedType)javaType).getRawType();
-        }  else if (javaType instanceof GenericArrayType) {
+                && ((ParameterizedType) javaType).getRawType() instanceof Class) {
+            return (Class) ((ParameterizedType) javaType).getRawType();
+        } else if (javaType instanceof GenericArrayType) {
             return Object[].class;
-        }  else if (javaType instanceof Class) {
-            return (Class)javaType;
+        } else if (javaType instanceof Class) {
+            return (Class) javaType;
         }
 
         throw new ObjDiffException(ObjDiffExceptionCode.CLASS_EXTRACTION_ERROR, javaType);
@@ -121,10 +125,10 @@ public class ReflectionUtil {
 
     public static Optional<ObjDiffMember> getMirrorMember(ObjDiffMember member, Class methodSource) {
         if (member instanceof ObjDiffGetter) {
-            return (Optional)getMirrorGetter((ObjDiffGetter)member, methodSource);
+            return (Optional) getMirrorGetter((ObjDiffGetter) member, methodSource);
         }
         if (member instanceof ObjDiffField) {
-            return (Optional)getMirrorField((ObjDiffField)member, methodSource);
+            return (Optional) getMirrorField((ObjDiffField) member, methodSource);
         }
         throw new ObjDiffException(ObjDiffExceptionCode.NOT_IMPLEMENTED);
     }
@@ -156,7 +160,7 @@ public class ReflectionUtil {
         return false;
     }
 
-    public static Optional<Type> isConcreteType(Type javaType){
+    public static Optional<Type> isConcreteType(Type javaType) {
         if (javaType instanceof Class || javaType instanceof ParameterizedType) {
             return Optional.of(javaType);
         } else if (javaType instanceof WildcardType) {
@@ -189,7 +193,7 @@ public class ReflectionUtil {
         Validate.argumentIsNotNull(obj);
 
         StringBuilder ret = new StringBuilder();
-        for (ObjDiffField f : getAllPersistentFields(obj.getClass()) ){
+        for (ObjDiffField f : getAllPersistentFields(obj.getClass())) {
             Object val = f.getEvenIfPrivate(obj);
             if (val != null) {
                 ret.append(val.toString());
@@ -199,12 +203,12 @@ public class ReflectionUtil {
 
         if (ret.length() == 0) {
             return obj.toString();
-        }
-        else{
-            ret.delete(ret.length()-1, ret.length());
+        } else {
+            ret.delete(ret.length() - 1, ret.length());
             return ret.toString();
         }
     }
+
     private static boolean isPersistentField(Field field) {
         return !Modifier.isTransient(field.getModifiers()) &&
                 !Modifier.isStatic(field.getModifiers()) &&
@@ -213,13 +217,14 @@ public class ReflectionUtil {
 
     public static List<ObjDiffField> getAllPersistentFields(Class methodSource) {
         List<ObjDiffField> result = new ArrayList<>();
-        for(ObjDiffField field : getAllFields(methodSource)) {
+        for (ObjDiffField field : getAllFields(methodSource)) {
             if (isPersistentField(field.getRawMember())) {
                 result.add(field);
             }
         }
         return result;
     }
+
     public static <T> T getAnnotationValue(Annotation ann, String propertyName) {
         return (T) ReflectionUtil.invokeGetter(ann, propertyName);
     }
@@ -229,7 +234,7 @@ public class ReflectionUtil {
         try {
             Method m = target.getClass().getMethod(getterName);
             return m.invoke(target);
-        }catch (Exception e ) {
+        } catch (Exception e) {
             throw new ObjDiffException(e);
         }
     }
@@ -240,7 +245,7 @@ public class ReflectionUtil {
         List<Type> parents = new ArrayList<>();
 
         Class<?> current = clazz;
-        while (current != null && current != Object.class){
+        while (current != null && current != Object.class) {
             if (clazz != current) {
                 parents.add(current);
             }

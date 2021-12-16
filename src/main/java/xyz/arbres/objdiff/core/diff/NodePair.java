@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.diff;
 
 
-
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.commit.CommitMetadata;
 import xyz.arbres.objdiff.core.diff.changetype.PropertyChangeMetadata;
@@ -93,8 +92,7 @@ public class NodePair {
     public List<ObjDiffProperty> getProperties() {
         if (sameClass()) {
             return getManagedType().getProperties();
-        }
-        else {
+        } else {
             return Collections.unmodifiableList(getPropertiesFromBothSides());
         }
     }
@@ -105,8 +103,8 @@ public class NodePair {
 
 
         return Stream.concat(left.getManagedType().getProperties().stream(),
-                              right.getManagedType().getProperties().stream().filter(it -> !leftNames.contains(it.getName())))
-                       .collect(Collectors.toList());
+                        right.getManagedType().getProperties().stream().filter(it -> !leftNames.contains(it.getName())))
+                .collect(Collectors.toList());
     }
 
     public GlobalId getGlobalId() {
@@ -152,9 +150,9 @@ public class NodePair {
     public Object sanitize(Object value, ObjDiffType expectedType) {
         //all Enumerables (except Arrays) are sanitized
         if (expectedType instanceof EnumerableType && !(expectedType instanceof ArrayType)) {
-            EnumerableType enumerableType = (EnumerableType)expectedType;
+            EnumerableType enumerableType = (EnumerableType) expectedType;
             if (value == null || !enumerableType.getEnumerableInterface().isAssignableFrom(value.getClass())) {
-                return ((EnumerableType)expectedType).empty();
+                return ((EnumerableType) expectedType).empty();
             }
         }
         return value;

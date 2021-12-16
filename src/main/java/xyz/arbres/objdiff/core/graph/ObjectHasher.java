@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.graph;
 
 
-
 import xyz.arbres.objdiff.common.string.ShaDigest;
 import xyz.arbres.objdiff.core.json.JsonConverter;
 import xyz.arbres.objdiff.core.snapshot.SnapshotFactory;
@@ -23,9 +22,9 @@ class ObjectHasher {
 
     String hash(List<LiveCdo> objects) {
         String jsonState = objects.stream().map(cdo -> snapshotFactory.createSnapshotStateNoRefs(cdo))
-                        .map(state -> jsonConverter.toJson(state))
-                        .sorted()
-                        .collect(Collectors.joining( "\n" ));
+                .map(state -> jsonConverter.toJson(state))
+                .sorted()
+                .collect(Collectors.joining("\n"));
         return ShaDigest.longDigest(jsonState);
     }
 }

@@ -14,14 +14,15 @@ public class GraphFactoryModule extends InstantiatingModule {
     public GraphFactoryModule(MutablePicoContainer container) {
         super(container);
     }
+
     @Override
     protected Collection<Class> getImplementations() {
         return (Collection) Lists.asList(
-               LiveCdoFactory.class,
-               CollectionsCdoFactory.class,
-               LiveGraphFactory.class,
-               ObjectHasher.class,
-               ObjectGraphBuilder.class,
-               ObjectAccessHookDoNothingImpl.class);
+                LiveCdoFactory.class,
+                CollectionsCdoFactory.class,
+                LiveGraphFactory.class,
+                ObjectHasher.class,
+                ObjectGraphBuilder.class,
+                ObjectAccessHookDoNothingImpl.class);
     }
 }

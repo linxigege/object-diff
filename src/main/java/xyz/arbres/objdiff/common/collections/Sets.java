@@ -3,13 +3,13 @@ package xyz.arbres.objdiff.common.collections;
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.metamodel.property.MissingProperty;
 
-import java.util.*;
 import java.util.Collections;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
 
-import static java.util.Collections.EMPTY_SET;
 import static java.util.Arrays.asList;
+import static java.util.Collections.EMPTY_SET;
 
 /**
  * Sets
@@ -22,8 +22,8 @@ public class Sets {
     }
 
 
-    public static <E>Set<E> wrapNull(Object set) {
-        if ( set == MissingProperty.INSTANCE || !(set instanceof Set)) {
+    public static <E> Set<E> wrapNull(Object set) {
+        if (set == MissingProperty.INSTANCE || !(set instanceof Set)) {
             return Collections.emptySet();
         }
         return (Set<E>) set;
@@ -122,7 +122,7 @@ public class Sets {
      * @return index -> value
      */
     public static <T> Map<Integer, T> asMap(Set<T> input) {
-        if (input == null){
+        if (input == null) {
             return null;
         }
 

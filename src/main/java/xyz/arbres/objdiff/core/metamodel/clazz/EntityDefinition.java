@@ -2,6 +2,7 @@ package xyz.arbres.objdiff.core.metamodel.clazz;
 
 
 import xyz.arbres.objdiff.common.collections.Lists;
+import xyz.arbres.objdiff.core.metamodel.type.EntityType;
 
 import java.util.List;
 
@@ -9,8 +10,8 @@ import java.util.List;
 /**
  * Recipe for {@link EntityType}
  *
- * @see EntityDefinitionBuilder
  * @author bartosz walacik
+ * @see EntityDefinitionBuilder
  */
 public class EntityDefinition extends ClientsClassDefinition {
     private final List<String> idPropertyNames;
@@ -26,7 +27,7 @@ public class EntityDefinition extends ClientsClassDefinition {
     /**
      * Recipe for Entity with Id-property selected explicitly by name
      */
-    public EntityDefinition(Class<?> entity, String idPropertyName){
+    public EntityDefinition(Class<?> entity, String idPropertyName) {
         this(new EntityDefinitionBuilder(entity)
                 .withIdPropertyName(idPropertyName));
     }

@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core;
 
 
-
 import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.common.string.PrettyValuePrinter;
 import xyz.arbres.objdiff.common.validation.Validate;
@@ -50,13 +49,13 @@ public class Changes extends AbstractList<Change> implements Serializable {
     /**
      * Returns changes grouped by commits.
      * <br/>
-     *
+     * <p>
      * When formatting a changelog,
      * usually you need to group changes by commits and then by objects.
      * <br/><br/>
-     *
+     * <p>
      * A simple changelog, like {@link #devPrint()}, can be printed by this code:
-     *<br/><br/>
+     * <br/><br/>
      *
      * <pre>
      * changes.groupByCommit().forEach(byCommit -> {
@@ -82,11 +81,11 @@ public class Changes extends AbstractList<Change> implements Serializable {
         }
 
         Map<CommitMetadata, List<Change>> changesByCommit = changes.stream().collect(
-                groupingBy(c -> c.getCommitMetadata().orElseThrow( () -> new IllegalStateException("No CommitMetadata in this Change")),
-                           () -> new LinkedHashMap<>(), toList()));
+                groupingBy(c -> c.getCommitMetadata().orElseThrow(() -> new IllegalStateException("No CommitMetadata in this Change")),
+                        () -> new LinkedHashMap<>(), toList()));
 
         List<ChangesByCommit> result = new ArrayList<>();
-        changesByCommit.forEach((k,v) -> {
+        changesByCommit.forEach((k, v) -> {
             result.add(new ChangesByCommit(k, v, valuePrinter));
         });
 
@@ -94,7 +93,7 @@ public class Changes extends AbstractList<Change> implements Serializable {
     }
 
     public List<PropertyChange> getPropertyChanges(String propertyName) {
-        return (List)changes.stream()
+        return (List) changes.stream()
                 .filter(it -> it instanceof PropertyChange
                         && ((PropertyChange) it).getPropertyName().equals(propertyName))
                 .collect(Collectors.toList());
@@ -103,7 +102,7 @@ public class Changes extends AbstractList<Change> implements Serializable {
     /**
      * Changes grouped by entities.
      * <br/>
-     *
+     * <p>
      * See example in {@link #groupByCommit()}
      *
      * @since 3.9
@@ -191,7 +190,7 @@ public class Changes extends AbstractList<Change> implements Serializable {
         StringBuilder b = new StringBuilder();
 
         b.append("Changes:\n");
-        for (ChangesByCommit c : groupByCommit()){
+        for (ChangesByCommit c : groupByCommit()) {
             b.append(c.prettyPrint());
         }
         return b.toString();
@@ -200,11 +199,11 @@ public class Changes extends AbstractList<Change> implements Serializable {
     /**
      * Prints the Changes in a technical style. <br/>
      * Useful for development and debugging. <br/>
-     *  <br/>
+     * <br/>
      * You can use the implementation of this method as a template to create your own changelog<br/>
      * (if {@link #prettyPrint()} is not ok for you).
      * <br/><br/>
-     *
+     * <p>
      * Example:
      * <br/><br/>
      * <pre>
@@ -236,7 +235,7 @@ public class Changes extends AbstractList<Change> implements Serializable {
      */
     public String devPrint() {
         StringBuilder b = new StringBuilder();
-        b.append("Changes ("+size()+"):\n");
+        b.append("Changes (" + size() + "):\n");
 
         groupByCommit().forEach(byCommit -> {
             b.append("commit " + byCommit.getCommit().getId() + " \n");

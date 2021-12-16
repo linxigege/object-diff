@@ -15,7 +15,7 @@ import java.util.List;
 public abstract class CollectionChange<T extends Collection<?>> extends ContainerChange<T> {
 
     public CollectionChange(PropertyChangeMetadata metadata, List<ContainerElementChange> changes, Collection left, Collection right) {
-        super(metadata, changes, (T)left, (T)right);
+        super(metadata, changes, (T) left, (T) right);
     }
 
     /**

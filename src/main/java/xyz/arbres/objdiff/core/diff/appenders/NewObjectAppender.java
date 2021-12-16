@@ -12,8 +12,8 @@ class NewObjectAppender implements NodeChangeAppender {
 
     @Override
     public Set<Change> getChangeSet(GraphPair graphPair) {
-        return (Set)graphPair.getOnlyOnRight().stream()
-                .filter(it -> !(it.getManagedType() instanceof ValueObjectType) )
+        return (Set) graphPair.getOnlyOnRight().stream()
+                .filter(it -> !(it.getManagedType() instanceof ValueObjectType))
                 .map(input -> new NewObject(input.getGlobalId(), input.wrappedCdo(), graphPair.getCommitMetadata()))
                 .collect(Collectors.toSet());
     }

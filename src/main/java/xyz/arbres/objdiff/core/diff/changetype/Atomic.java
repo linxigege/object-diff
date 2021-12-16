@@ -17,7 +17,7 @@ public class Atomic implements Serializable {
     private final Object value;
 
     public Atomic(Object value) {
-        this.value = value instanceof HashWrapper ? ((HashWrapper)value).unwrap() : value;
+        this.value = value instanceof HashWrapper ? ((HashWrapper) value).unwrap() : value;
     }
 
     public boolean isNull() {
@@ -28,7 +28,7 @@ public class Atomic implements Serializable {
      * @return true if value is not null and is primitive, box or String
      */
     public boolean isJsonBasicType() {
-        if(isNull()) {
+        if (isNull()) {
             return false;
         }
 
@@ -44,7 +44,7 @@ public class Atomic implements Serializable {
 
     @Override
     public String toString() {
-        return "value:"+value;
+        return "value:" + value;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class Atomic implements Serializable {
             return false;
         }
 
-        Atomic other = (Atomic)obj;
+        Atomic other = (Atomic) obj;
         return Objects.equals(value, other.value);
     }
 

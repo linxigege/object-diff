@@ -30,24 +30,10 @@ public class HashWrapper {
         this.toStringFunction = toStringFunction;
     }
 
-    @Override
-    public boolean equals(Object that) {
-        return equalsFunction.apply(target, ((HashWrapper)that).target);
-    }
-
-    @Override
-    public int hashCode() {
-        return toStringFunction.apply(target).hashCode();
-    }
-
-    public Object unwrap() {
-        return target;
-    }
-
     public static Set wrapValuesIfNeeded(Set set, ObjDiffType itemType) {
         if (hasCustomValueComparator(itemType)) {
             CustomComparableType customType = (CustomComparableType) itemType;
-            return (Set)set.stream()
+            return (Set) set.stream()
                     .map(it -> new HashWrapper(it, itemType::equals, customType::valueToString))
                     .collect(Collectors.toSet());
         }
@@ -57,9 +43,9 @@ public class HashWrapper {
     public static Map wrapKeysIfNeeded(Map map, ObjDiffType keyType) {
         if (hasCustomValueComparator(keyType)) {
             CustomComparableType customType = (CustomComparableType) keyType;
-            return (Map)map.entrySet().stream().collect(Collectors.toMap(
-                    e -> new HashWrapper(((Map.Entry)e).getKey(), keyType::equals, customType::valueToString),
-                    e -> ((Map.Entry)e).getValue()));
+            return (Map) map.entrySet().stream().collect(Collectors.toMap(
+                    e -> new HashWrapper(((Map.Entry) e).getKey(), keyType::equals, customType::valueToString),
+                    e -> ((Map.Entry) e).getValue()));
         }
         return map;
     }
@@ -67,5 +53,19 @@ public class HashWrapper {
     private static boolean hasCustomValueComparator(ObjDiffType ObjDiffType) {
         return (ObjDiffType instanceof CustomComparableType &&
                 ((CustomComparableType) ObjDiffType).hasCustomValueComparator());
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        return equalsFunction.apply(target, ((HashWrapper) that).target);
+    }
+
+    @Override
+    public int hashCode() {
+        return toStringFunction.apply(target).hashCode();
+    }
+
+    public Object unwrap() {
+        return target;
     }
 }

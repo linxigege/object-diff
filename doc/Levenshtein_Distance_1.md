@@ -11,16 +11,17 @@
 ## 入门例子
 
 例如将 duck 转换成 docker ：
-    
+
     * dock  （ o 替换 u ）
     * docke （ 末尾添加 e ）
     * docker（ 末尾添加 r ）
 
 需要变更三次，距离 = 3
 
-字符相似度 =  1 - 3 / Math.Max(duck.length,docker.length) = 0.5
+字符相似度 = 1 - 3 / Math.Max(duck.length,docker.length) = 0.5
 
 ## 算法过程
+
 1.「变量标记」str1 ｜ str1.length = n ｜ str2 ｜ str2.length = m ｜ temp ｜ 矩阵d
 
 2.「边界」前后两者存在一个 length = 0 ，则另一个不为零的字符串长度。
@@ -29,14 +30,15 @@
 
 4.「遍历对比」扫描 str1 与 str2 ，如果 str1[i] == str2[j] , 则 temp = 0，否则 temp = 1。
 
-5.「矩阵赋值」d[i,j] 取 d[i-1,j] + 1 ，d[i,j-1] + 1 ，d[i-1,j-1] + temp 三个值中的最小值。 
+5.「矩阵赋值」d[i,j] 取 d[i-1,j] + 1 ，d[i,j-1] + 1 ，d[i-1,j-1] + temp 三个值中的最小值。
 
 6.「计算距离」矩阵的 d[n,m] 值就是 str1 与 str2 的距离
 
-7.「相似度公式」1 - d[n,m] / Math.Max(str1.length,str2.length) 
+7.「相似度公式」1 - d[n,m] / Math.Max(str1.length,str2.length)
 
 ## 图解算法
-1.使用 angle 和 angel 两个单词来观察矩阵变化 
+
+1.使用 angle 和 angel 两个单词来观察矩阵变化
 <table border="1">
 <tr>
 <td></td>
@@ -249,6 +251,7 @@ d[i-1,j-1] + temp = 0
 4.得到他们的距离为 2 ，相似度为 1 - 2 / 5 = 0.6
 
 ## 算法实现
+
 ```java
     public static int getLevenshteinDistance(String source,String target){
         int m = source.length() , n = target.length() ,temp;
@@ -278,4 +281,5 @@ d[i-1,j-1] + temp = 0
 ```
 
 ## 测试
+
 ![](./img/EditDistanceTest.png)

@@ -11,7 +11,6 @@ import java.util.Set;
 
 /**
  * @author bartosz.walacik
- *
  * @since 1.4
  */
 public class DuckType {
@@ -23,7 +22,7 @@ public class DuckType {
     }
 
     public DuckType(String typeName) {
-        this(typeName, (Set)Collections.emptySet());
+        this(typeName, (Set) Collections.emptySet());
     }
 
     public DuckType(String typeName, Set<String> properties) {
@@ -32,7 +31,7 @@ public class DuckType {
         this.properties = new HashSet<>(properties);
     }
 
-    public DuckType bareCopy(){
+    public DuckType bareCopy() {
         return new DuckType(typeName);
     }
 
@@ -62,7 +61,7 @@ public class DuckType {
                 '}';
     }
 
-    public boolean isBare(){
+    public boolean isBare() {
         return properties.isEmpty();
     }
 }

@@ -5,14 +5,16 @@ import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
 import xyz.arbres.objdiff.common.validation.Validate;
+import xyz.arbres.objdiff.core.metamodel.annotation.DiffIgnore;
+import xyz.arbres.objdiff.core.metamodel.annotation.DiffInclude;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * @since 1.4
  * @author bartosz.walacik
+ * @since 1.4
  */
 public abstract class ClientsClassDefinitionBuilder<T extends ClientsClassDefinitionBuilder> {
     private Class<?> clazz;
@@ -35,14 +37,14 @@ public abstract class ClientsClassDefinitionBuilder<T extends ClientsClassDefini
     /**
      * List of class properties to be ignored by ObjDiff.
      * <br/><br/>
-     *
+     * <p>
      * Properties can be also ignored with the {@link DiffIgnore} annotation.
      * <br/><br/>
-     *
+     * <p>
      * You can either specify includedProperties or ignoredProperties, not both.
      *
-     * @see DiffIgnore
      * @throws IllegalArgumentException If includedProperties was already set.
+     * @see DiffIgnore
      */
     public T withIgnoredProperties(List<String> ignoredProperties) {
         Validate.argumentIsNotNull(ignoredProperties);
@@ -57,10 +59,10 @@ public abstract class ClientsClassDefinitionBuilder<T extends ClientsClassDefini
      * If included properties are defined for a class,
      * only these properties are visible for ObjDiff, and the rest is ignored.
      * <br/><br/>
-     *
+     * <p>
      * Properties can be also included with the {@link DiffInclude} annotation.
      * <br/><br/>
-     *
+     * <p>
      * You can either specify includedProperties or ignoredProperties, not both.
      *
      * @throws ObjDiffException If ignoredProperties was already set

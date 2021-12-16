@@ -12,13 +12,13 @@ import java.util.Map;
  *
  * @author bartosz walacik
  */
-public class MapChange<T extends Map<?,?>> extends KeyValueChange<T> {
+public class MapChange<T extends Map<?, ?>> extends KeyValueChange<T> {
 
     public MapChange(PropertyChangeMetadata metadata, List<EntryChange> changes, T left, T right) {
         super(metadata, changes, left, right);
     }
 
     public MapChange(PropertyChangeMetadata metadata, List<EntryChange> changes) {
-        super(metadata, changes, (T)Collections.emptyMap(), (T)Collections.emptyMap());
+        super(metadata, changes, (T) Collections.emptyMap(), (T) Collections.emptyMap());
     }
 }

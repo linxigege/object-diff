@@ -1,6 +1,8 @@
 package xyz.arbres.objdiff.core.diff.changetype;
 
 
+import xyz.arbres.objdiff.core.ObjDiffBuilder;
+import xyz.arbres.objdiff.core.metamodel.type.PrimitiveOrValueType;
 
 /**
  * InitialValueChange is a subtype of ValueChange with null on left and a property value on right.

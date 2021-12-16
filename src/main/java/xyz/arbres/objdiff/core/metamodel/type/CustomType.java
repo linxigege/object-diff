@@ -1,8 +1,8 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
-
 import xyz.arbres.objdiff.common.validation.Validate;
+import xyz.arbres.objdiff.core.ObjDiffBuilder;
 import xyz.arbres.objdiff.core.diff.changetype.PropertyChange;
 import xyz.arbres.objdiff.core.diff.changetype.PropertyChangeMetadata;
 import xyz.arbres.objdiff.core.diff.customer.CustomPropertyComparator;
@@ -16,16 +16,16 @@ import java.util.Optional;
  * Custom Types are not easy to manage, use it as a last resort,<br/>
  * only for corner cases like comparing custom Collection types.</b>
  * <br/><br/>
- *
+ * <p>
  * ObjDiff treats a Custom Type as a black box
  * and doesn't take any assumptions about its content or behaviour.
  * It's a "not modeled" type, somehow similar to unbounded wildcard {@code <?>}.
  * <br/><br/>
- *
+ * <p>
  * Objects of Custom Type are compared by a {@link CustomPropertyComparator}.
  * Registering this comparator is the only way to map a Custom Type.
  * <br/><br/>
- *
+ * <p>
  * Custom Types are serialized to JSON using Gson defaults.
  *
  * @param <T> Custom Type
@@ -42,7 +42,7 @@ public class CustomType<T> extends ClassType implements CustomComparableType {
 
     @Override
     public boolean equals(Object left, Object right) {
-        return comparator.equals((T)left, (T)right);
+        return comparator.equals((T) left, (T) right);
     }
 
     CustomPropertyComparator<T, ?> getComparator() {
@@ -61,8 +61,7 @@ public class CustomType<T> extends ClassType implements CustomComparableType {
 
     private static class CustomPropertyComparatorNullSafe<T, C extends PropertyChange>
             extends CustomValueComparatorNullSafe<T>
-            implements CustomPropertyComparator<T, C>
-    {
+            implements CustomPropertyComparator<T, C> {
         private final CustomPropertyComparator<T, C> delegate;
 
         public CustomPropertyComparatorNullSafe(CustomPropertyComparator<T, C> delegate) {

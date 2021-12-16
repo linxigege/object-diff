@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.diff.changetype.container;
 
 
-
 import xyz.arbres.objdiff.common.string.PrettyValuePrinter;
 
 import java.io.Serializable;

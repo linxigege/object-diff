@@ -19,7 +19,7 @@ public class ContainerArgumentResolver implements ArgumentResolver {
 
     @Override
     public Object resolve(Class argType) {
-        if (argType == PicoContainer.class){
+        if (argType == PicoContainer.class) {
             return container;
         }
         Object component = container.getComponent(argType);

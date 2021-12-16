@@ -1,13 +1,15 @@
 package xyz.arbres.objdiff.core.metamodel.clazz;
 
 
+import xyz.arbres.objdiff.core.metamodel.type.ValueObjectType;
+
 import java.util.List;
 
 /**
  * Recipe for {@link ValueObjectType}
  *
- * @see ValueObjectDefinitionBuilder
  * @author bartosz walacik
+ * @see ValueObjectDefinitionBuilder
  */
 public class ValueObjectDefinition extends ClientsClassDefinition {
     private final boolean defaultType;

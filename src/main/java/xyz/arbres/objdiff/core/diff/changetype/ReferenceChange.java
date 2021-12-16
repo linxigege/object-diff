@@ -47,7 +47,7 @@ public class ReferenceChange extends PropertyChange {
 
     /**
      * Domain object reference at left side of a diff.
-     *<br/><br/>
+     * <br/><br/>
      *
      * <b>Optional</b> - available only for freshly generated diff.
      * Not available for Changes read from ObjDiffRepository
@@ -58,7 +58,7 @@ public class ReferenceChange extends PropertyChange {
 
     /**
      * Domain object reference at right side of a diff.
-     *<br/><br/>
+     * <br/><br/>
      *
      * <b>Optional</b> - available only for freshly generated diff.
      * Not available for Changes read from ObjDiffRepository
@@ -73,16 +73,15 @@ public class ReferenceChange extends PropertyChange {
 
         if (isPropertyAdded()) {
             return valuePrinter.formatWithQuotes(getPropertyNameWithPath()) +
-                    " property with reference " + valuePrinter.formatWithQuotes(getRight()) +" added";
-        }
-        else if (isPropertyRemoved()) {
+                    " property with reference " + valuePrinter.formatWithQuotes(getRight()) + " added";
+        } else if (isPropertyRemoved()) {
             return valuePrinter.formatWithQuotes(getPropertyNameWithPath()) +
-                    " property with reference " + valuePrinter.formatWithQuotes(getLeft()) +" removed";
+                    " property with reference " + valuePrinter.formatWithQuotes(getLeft()) + " removed";
         } else {
             if (left == null) {
                 return valuePrinter.formatWithQuotes(getPropertyNameWithPath()) +
                         " = " + valuePrinter.formatWithQuotes(getRight());
-            }else if (right == null) {
+            } else if (right == null) {
                 return valuePrinter.formatWithQuotes(getPropertyNameWithPath()) +
                         " reference " + valuePrinter.formatWithQuotes(getLeft()) + " unset";
             } else {
@@ -115,8 +114,8 @@ public class ReferenceChange extends PropertyChange {
     @Override
     public String toString() {
         PrettyValuePrinter valuePrinter = PrettyValuePrinter.getDefault();
-        return this.getClass().getSimpleName() + "{ property: '"+getPropertyName() +"'," +
-                " left:"+valuePrinter.formatWithQuotes(getLeft())+", " +
-                " right:"+valuePrinter.formatWithQuotes(getRight())+" }";
+        return this.getClass().getSimpleName() + "{ property: '" + getPropertyName() + "'," +
+                " left:" + valuePrinter.formatWithQuotes(getLeft()) + ", " +
+                " right:" + valuePrinter.formatWithQuotes(getRight()) + " }";
     }
 }

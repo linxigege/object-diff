@@ -8,6 +8,7 @@ package xyz.arbres.objdiff.core.metamodel.property;
  */
 public class MissingProperty {
     public static final MissingProperty INSTANCE = new MissingProperty();
+
     private MissingProperty() {
     }
 

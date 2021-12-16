@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.graph;
 
 
-
 import xyz.arbres.objdiff.core.metamodel.object.InstanceId;
 import xyz.arbres.objdiff.core.metamodel.object.ValueObjectId;
 
@@ -49,11 +48,11 @@ class NodeReuser {
         stubs.offer(nodeStub);
     }
 
-    LiveNode pollStub(){
-       return stubs.poll();
+    LiveNode pollStub() {
+        return stubs.poll();
     }
 
-    boolean hasMoreStubs(){
+    boolean hasMoreStubs() {
         return !stubs.isEmpty();
     }
 
@@ -97,7 +96,7 @@ class NodeReuser {
                 return false;
             }
 
-            return this.cdo == ((SystemIdentityWrapper)o).cdo;
+            return this.cdo == ((SystemIdentityWrapper) o).cdo;
         }
 
         @Override
@@ -108,7 +107,7 @@ class NodeReuser {
         @Override
         public String toString() {
             return "SystemIdentityWrapper{" +
-                    "hash:"+hashCode()+", "+
+                    "hash:" + hashCode() + ", " +
                     "cdo:" + cdo +
                     '}';
         }

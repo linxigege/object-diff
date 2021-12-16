@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.diff.appenders;
 
 
-
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
 import xyz.arbres.objdiff.core.diff.NodePair;
@@ -31,7 +30,7 @@ public class OptionalChangeAppender implements PropertyChangeAppender<PropertyCh
         OptionalType optionalType = property.getType();
         ObjDiffType contentType = optionalType.getItemObjDiffType();
 
-        Optional leftOptional =  normalize((Optional) pair.getLeftDehydratedPropertyValueAndSanitize(property));
+        Optional leftOptional = normalize((Optional) pair.getLeftDehydratedPropertyValueAndSanitize(property));
         Optional rightOptional = normalize((Optional) pair.getRightDehydratedPropertyValueAndSanitize(property));
 
         if (Objects.equals(leftOptional, rightOptional)) {
@@ -51,14 +50,14 @@ public class OptionalChangeAppender implements PropertyChangeAppender<PropertyCh
         throw new ObjDiffException(ObjDiffExceptionCode.UNSUPPORTED_OPTIONAL_CONTENT_TYPE, contentType);
     }
 
-    private GlobalId first(List<GlobalId> refs){
+    private GlobalId first(List<GlobalId> refs) {
         if (refs != null && refs.size() > 0) {
             return refs.get(0);
         }
         return null;
     }
 
-    private Object flat(Object optional){
+    private Object flat(Object optional) {
         if (optional instanceof Optional) {
             return ((Optional) optional).orElse(null);
         }

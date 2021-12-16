@@ -1,6 +1,10 @@
 package xyz.arbres.objdiff.core.metamodel.clazz;
 
 
+import xyz.arbres.objdiff.core.metamodel.type.CustomType;
+import xyz.arbres.objdiff.core.metamodel.type.EntityType;
+import xyz.arbres.objdiff.core.metamodel.type.ValueObjectType;
+import xyz.arbres.objdiff.core.metamodel.type.ValueType;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +65,7 @@ public abstract class ClientsClassDefinition {
         return typeName;
     }
 
-    public boolean hasTypeName(){
+    public boolean hasTypeName() {
         return typeName.isPresent();
     }
 

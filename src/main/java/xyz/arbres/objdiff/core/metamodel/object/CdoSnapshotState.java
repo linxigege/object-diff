@@ -1,12 +1,12 @@
 package xyz.arbres.objdiff.core.metamodel.object;
 
+import xyz.arbres.objdiff.common.collections.Arrays;
 import xyz.arbres.objdiff.common.collections.Defaults;
 import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.common.collections.Sets;
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.metamodel.property.Property;
 
-import xyz.arbres.objdiff.common.collections.Arrays;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -22,7 +22,7 @@ public class CdoSnapshotState {
         this.properties = state;
     }
 
-    int size(){
+    int size() {
         return properties.size();
     }
 
@@ -32,7 +32,7 @@ public class CdoSnapshotState {
     public Object getPropertyValue(Property property) {
         Validate.argumentIsNotNull(property);
         Object val = properties.get(property.getName());
-        if (val == null){
+        if (val == null) {
             return Defaults.defaultValue(property.getGenericType());
         }
         return val;
@@ -67,12 +67,12 @@ public class CdoSnapshotState {
 
         CdoSnapshotState that = (CdoSnapshotState) o;
 
-        if (this.properties.size() != that.properties.size()){
+        if (this.properties.size() != that.properties.size()) {
             return false;
         }
 
-        for (String pName :  this.properties.keySet()) {
-            if (!propertyEquals(that, pName)){
+        for (String pName : this.properties.keySet()) {
+            if (!propertyEquals(that, pName)) {
                 return false;
             }
         }
@@ -80,15 +80,15 @@ public class CdoSnapshotState {
         return true;
     }
 
-    private boolean propertyEquals(CdoSnapshotState that, String propertyName){
+    private boolean propertyEquals(CdoSnapshotState that, String propertyName) {
         Object thisValue = this.getPropertyValue(propertyName);
         Object thatValue = that.getPropertyValue(propertyName);
 
-        if (thisValue == null || thatValue == null){
+        if (thisValue == null || thatValue == null) {
             return false;
         }
 
-        if (thisValue.getClass().isArray()){
+        if (thisValue.getClass().isArray()) {
             return Arrays.equals(thisValue, thatValue);
         }
 
@@ -102,10 +102,10 @@ public class CdoSnapshotState {
         List<String> different = new ArrayList<>();
 
         for (String propertyName : properties.keySet()) {
-            if (previous.isNull(propertyName)){
+            if (previous.isNull(propertyName)) {
                 continue;
             }
-            if (!propertyEquals(previous, propertyName)){
+            if (!propertyEquals(previous, propertyName)) {
                 different.add(propertyName);
             }
         }

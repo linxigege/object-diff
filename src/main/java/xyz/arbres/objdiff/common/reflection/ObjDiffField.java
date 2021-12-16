@@ -13,9 +13,9 @@ import java.lang.reflect.Type;
  * @date 2021-12-08
  */
 public class ObjDiffField extends ObjDiffMember<Field> {
-    
-    protected ObjDiffField(Field rawField, Type resolvedReturnType){
-        super(rawField,resolvedReturnType);
+
+    protected ObjDiffField(Field rawField, Type resolvedReturnType) {
+        super(rawField, resolvedReturnType);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class ObjDiffField extends ObjDiffMember<Field> {
             return getOnMissingProperty(onObject);
         } catch (IllegalAccessException e) {
             throw new ObjDiffException(ObjDiffExceptionCode.PROPERTY_ACCESS_ERROR,
-                    this, onObject.getClass().getSimpleName(), e.getClass().getName()+": "+e.getMessage());
+                    this, onObject.getClass().getSimpleName(), e.getClass().getName() + ": " + e.getMessage());
         }
     }
 
@@ -44,12 +44,12 @@ public class ObjDiffField extends ObjDiffMember<Field> {
     public void setEvenIfPrivate(Object onObject, Object value) {
         try {
             getRawMember().set(onObject, value);
-        } catch (IllegalArgumentException ie){
+        } catch (IllegalArgumentException ie) {
             String valueType = value == null ? "null" : value.getClass().getName();
             throw new ObjDiffException(ObjDiffExceptionCode.PROPERTY_SETTING_ERROR, valueType, this, ie.getClass().getName() + " - " + ie.getMessage());
         } catch (IllegalAccessException e) {
             throw new ObjDiffException(ObjDiffExceptionCode.PROPERTY_ACCESS_ERROR,
-                    this, onObject.getClass().getSimpleName(), e.getClass().getName()+": "+e.getMessage());
+                    this, onObject.getClass().getSimpleName(), e.getClass().getName() + ": " + e.getMessage());
         }
     }
 

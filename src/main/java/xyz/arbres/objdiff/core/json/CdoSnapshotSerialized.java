@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.json;
 
 
-
 import xyz.arbres.objdiff.core.json.typeadapter.util.UtilTypeCoreAdapters;
 
 import java.math.BigDecimal;

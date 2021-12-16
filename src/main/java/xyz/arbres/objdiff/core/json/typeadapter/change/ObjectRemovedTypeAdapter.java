@@ -22,7 +22,7 @@ class ObjectRemovedTypeAdapter extends ChangeTypeAdapter<ObjectRemoved> {
         JsonObject jsonObject = (JsonObject) json;
 
         CommitMetadata commitMetadata = deserializeCommitMetadata(jsonObject, context);
-        return new ObjectRemoved(deserializeAffectedCdoId(jsonObject,context),Optional.empty(), ofNullable(commitMetadata));
+        return new ObjectRemoved(deserializeAffectedCdoId(jsonObject, context), Optional.empty(), ofNullable(commitMetadata));
     }
 
     @Override

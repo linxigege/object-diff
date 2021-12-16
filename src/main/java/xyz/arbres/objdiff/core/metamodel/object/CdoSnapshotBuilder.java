@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.object;
 
 
-
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.commit.CommitMetadata;
 import xyz.arbres.objdiff.core.metamodel.type.ManagedType;
@@ -29,7 +28,7 @@ public class CdoSnapshotBuilder {
     private CdoSnapshotBuilder() {
     }
 
-    static CdoSnapshotBuilder emptyCopyOf(CdoSnapshot snapshot){
+    static CdoSnapshotBuilder emptyCopyOf(CdoSnapshot snapshot) {
         return cdoSnapshot()
                 .withGlobalId(snapshot.getGlobalId())
                 .withManagedType(snapshot.getManagedType())
@@ -76,7 +75,7 @@ public class CdoSnapshotBuilder {
             changed = state.differentValues(previous.getState());
         }
 
-        if (markAllAsChanged){
+        if (markAllAsChanged) {
             changed = new ArrayList<>(state.getPropertyNames());
         }
 

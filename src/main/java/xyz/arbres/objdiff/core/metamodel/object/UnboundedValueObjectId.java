@@ -6,10 +6,9 @@ package xyz.arbres.objdiff.core.metamodel.object;
  * This kind of Id is assigned by graph builder to ValueObject which is not embedded in any Entity instance.
  * (by design or by accident)
  * <p/>
- *
+ * <p>
  * Its recommended to avoid Unbounded ValueObject since they don't have a real global id.
  * Prefer embedding ValueObject in Entity instances to leverage {@link ValueObjectId} global Id.
- *
  *
  * @author bartosz walacik
  */
@@ -22,6 +21,6 @@ public class UnboundedValueObjectId extends GlobalId {
 
     @Override
     public String value() {
-        return getTypeName()+UNBOUNDED_FRAGMENT;
+        return getTypeName() + UNBOUNDED_FRAGMENT;
     }
 }

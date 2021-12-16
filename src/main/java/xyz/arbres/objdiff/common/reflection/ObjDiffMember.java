@@ -20,18 +20,18 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author carlos
  * @date 2021-12-08
  */
-public  abstract class ObjDiffMember<T extends Member>{
+public abstract class ObjDiffMember<T extends Member> {
     private final T rawMember; //delegate
     private final Optional<Type> resolvedReturnType;
     private final boolean looksLikeId;
-    
-    private final Map<Class,Optional<ObjDiffMember>> mirrorMembersMemoized = new ConcurrentHashMap<>();
 
-    protected  ObjDiffMember(T rawMember,Type resolvedReturnType){
-        this(rawMember,resolvedReturnType,ReflectionUtil.looksLikeId(rawMember));
+    private final Map<Class, Optional<ObjDiffMember>> mirrorMembersMemoized = new ConcurrentHashMap<>();
+
+    protected ObjDiffMember(T rawMember, Type resolvedReturnType) {
+        this(rawMember, resolvedReturnType, ReflectionUtil.looksLikeId(rawMember));
     }
 
-    protected ObjDiffMember(final T rawMember,final Type resolvedReturnType,final boolean looksLikeId) {
+    protected ObjDiffMember(final T rawMember, final Type resolvedReturnType, final boolean looksLikeId) {
         Validate.argumentIsNotNull(rawMember);
         this.rawMember = rawMember;
         this.resolvedReturnType = Optional.ofNullable(resolvedReturnType);

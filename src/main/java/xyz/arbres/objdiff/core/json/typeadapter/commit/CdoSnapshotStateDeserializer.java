@@ -29,7 +29,7 @@ class CdoSnapshotStateDeserializer {
         this.context = context;
     }
 
-    public CdoSnapshotState deserialize(JsonElement stateElement, ManagedType managedType){
+    public CdoSnapshotState deserialize(JsonElement stateElement, ManagedType managedType) {
         Validate.argumentsAreNotNull(stateElement, managedType, context);
         JsonObject stateObject = (JsonObject) stateElement;
 
@@ -80,17 +80,17 @@ class CdoSnapshotStateDeserializer {
     }
 
     private Object deserializeValueWithTypeGuessing(JsonElement propertyElement, JsonDeserializationContext context) {
-        if (propertyElement.isJsonPrimitive()){
+        if (propertyElement.isJsonPrimitive()) {
             JsonPrimitive jsonPrimitive = (JsonPrimitive) propertyElement;
 
             if (jsonPrimitive.isString()) {
                 return jsonPrimitive.getAsString();
             }
             if (jsonPrimitive.isNumber()) {
-                if (jsonPrimitive.getAsString().equals(jsonPrimitive.getAsInt()+"")) {
+                if (jsonPrimitive.getAsString().equals(jsonPrimitive.getAsInt() + "")) {
                     return jsonPrimitive.getAsInt();
                 }
-                if (jsonPrimitive.getAsString().equals(jsonPrimitive.getAsLong()+"")) {
+                if (jsonPrimitive.getAsString().equals(jsonPrimitive.getAsLong() + "")) {
                     return jsonPrimitive.getAsLong();
                 }
             }
@@ -100,7 +100,7 @@ class CdoSnapshotStateDeserializer {
 
     private boolean unmatchedPrimitivesOnBothSides(ObjDiffType expectedObjDiffType, JsonElement propertyElement) {
         if (ifPrimitivesOnBothSides(expectedObjDiffType, propertyElement)) {
-            return !matches((PrimitiveOrValueType)expectedObjDiffType, (JsonPrimitive) propertyElement);
+            return !matches((PrimitiveOrValueType) expectedObjDiffType, (JsonPrimitive) propertyElement);
         }
         return false;
     }
@@ -111,8 +111,8 @@ class CdoSnapshotStateDeserializer {
                 propertyElement instanceof JsonPrimitive;
     }
 
-    private boolean shouldUseBareContainerClass(ObjDiffType expectedObjDiffType, JsonElement propertyElement){
-        if(!(expectedObjDiffType instanceof ContainerType) || !(propertyElement instanceof JsonArray)){
+    private boolean shouldUseBareContainerClass(ObjDiffType expectedObjDiffType, JsonElement propertyElement) {
+        if (!(expectedObjDiffType instanceof ContainerType) || !(propertyElement instanceof JsonArray)) {
             return false;
         }
 
@@ -130,8 +130,8 @@ class CdoSnapshotStateDeserializer {
 
     private boolean matches(PrimitiveOrValueType ObjDiffPrimitive, JsonPrimitive jsonPrimitive) {
         return (jsonPrimitive.isNumber() && ObjDiffPrimitive.isNumber()) ||
-               (jsonPrimitive.isString() && ObjDiffPrimitive.isStringy()) ||
-               (jsonPrimitive.isBoolean() && ObjDiffPrimitive.isBoolean());
+                (jsonPrimitive.isString() && ObjDiffPrimitive.isStringy()) ||
+                (jsonPrimitive.isBoolean() && ObjDiffPrimitive.isBoolean());
 
     }
 

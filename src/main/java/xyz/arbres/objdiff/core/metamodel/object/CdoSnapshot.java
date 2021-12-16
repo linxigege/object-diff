@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.object;
 
 
-
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.commit.CommitId;
 import xyz.arbres.objdiff.core.commit.CommitMetadata;
@@ -24,12 +23,12 @@ import static java.util.Collections.unmodifiableList;
  * @author bartosz walacik
  */
 public final class CdoSnapshot extends Cdo {
-    private CommitMetadata commitMetadata;
     private final CdoSnapshotState state;
     private final SnapshotType type;
     private final List<String> changed;
     private final long version;
     private final GlobalId globalId;
+    private CommitMetadata commitMetadata;
 
     /**
      * should be assembled by {@link CdoSnapshotBuilder}
@@ -95,7 +94,7 @@ public final class CdoSnapshot extends Cdo {
         return changed.contains(propertyName);
     }
 
-    public boolean isFirstVersion(){
+    public boolean isFirstVersion() {
         return version == 1;
     }
 
@@ -173,10 +172,10 @@ public final class CdoSnapshot extends Cdo {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
-            .append("Snapshot{commit:").append(getCommitMetadata().getId()).append(", ")
-            .append("id:").append(getGlobalId()).append(", ")
-            .append("version:").append(getVersion()).append(", ")
-            .append("state:" + getState()+"}");
+                .append("Snapshot{commit:").append(getCommitMetadata().getId()).append(", ")
+                .append("id:").append(getGlobalId()).append(", ")
+                .append("version:").append(getVersion()).append(", ")
+                .append("state:" + getState() + "}");
         return stringBuilder.toString();
     }
 
@@ -185,7 +184,7 @@ public final class CdoSnapshot extends Cdo {
      */
     public CdoSnapshotState stateWithAllPrimitives() {
         CdoSnapshotStateBuilder builder = CdoSnapshotStateBuilder.cdoSnapshotState();
-        getManagedType().getProperties().forEach( p ->
+        getManagedType().getProperties().forEach(p ->
                 builder.withPropertyValue(p, getPropertyValue(p)));
         return builder.build();
     }

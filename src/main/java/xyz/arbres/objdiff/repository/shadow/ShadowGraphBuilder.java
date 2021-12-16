@@ -22,10 +22,10 @@ import java.util.function.BiFunction;
 class ShadowGraphBuilder {
     private final JsonConverter jsonConverter;
     private final BiFunction<CommitMetadata, GlobalId, CdoSnapshot> referenceResolver;
-    private boolean built = false;
-    private Map<GlobalId, ShadowBuilder> builtNodes = new HashMap<>();
     private final TypeMapper typeMapper;
     private final CommitMetadata rootContext;
+    private boolean built = false;
+    private Map<GlobalId, ShadowBuilder> builtNodes = new HashMap<>();
 
     ShadowGraphBuilder(JsonConverter jsonConverter, BiFunction<CommitMetadata, GlobalId, CdoSnapshot> referenceResolver, TypeMapper typeMapper, CommitMetadata rootContext) {
         this.jsonConverter = jsonConverter;
@@ -84,7 +84,7 @@ class ShadowGraphBuilder {
     private Object deserializeObjectFromJsonElement(ManagedType managedType, JsonObject jsonElement) {
         try {
             return jsonConverter.fromJson(jsonElement, managedType.getBaseJavaClass());
-        } catch(JsonSyntaxException | DateTimeParseException e) {
+        } catch (JsonSyntaxException | DateTimeParseException e) {
             return sanitizedDeserialization(jsonElement, managedType);
         }
     }
@@ -93,8 +93,7 @@ class ShadowGraphBuilder {
         managedType.getProperties().forEach(p -> {
             try {
                 jsonConverter.fromJson(jsonElement.get(p.getName()), p.getRawType());
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 jsonElement.remove(p.getName());
             }
         });
@@ -104,18 +103,18 @@ class ShadowGraphBuilder {
 
     private void mapCustomPropertyNamesToJavaOrigin(ManagedType managedType, JsonObject jsonElement) {
         managedType.forEachProperty(ObjDiffProperty -> {
-                if (ObjDiffProperty.hasCustomName()) {
-                    JsonElement value = jsonElement.get(ObjDiffProperty.getName());
-                    jsonElement.remove(ObjDiffProperty.getName());
-                    jsonElement.add(ObjDiffProperty.getOriginalName(), value);
-                }
+            if (ObjDiffProperty.hasCustomName()) {
+                JsonElement value = jsonElement.get(ObjDiffProperty.getName());
+                jsonElement.remove(ObjDiffProperty.getName());
+                jsonElement.add(ObjDiffProperty.getOriginalName(), value);
+            }
         });
     }
 
     private void followReferences(ShadowBuilder currentNode, JsonObject jsonElement) {
         CdoSnapshot cdoSnapshot = currentNode.getCdoSnapshot();
 
-        cdoSnapshot.getManagedType().forEachProperty( property -> {
+        cdoSnapshot.getManagedType().forEachProperty(property -> {
             if (cdoSnapshot.isNull(property)) {
                 return;
             }
@@ -132,14 +131,13 @@ class ShadowGraphBuilder {
             }
 
             if (typeMapper.isContainerOfManagedTypes(property.getType()) ||
-                typeMapper.isKeyValueTypeWithManagedTypes(property.getType()))
-            {
+                    typeMapper.isKeyValueTypeWithManagedTypes(property.getType())) {
                 EnumerableType propertyType = property.getType();
 
                 Object containerWithRefs = cdoSnapshot.getPropertyValue(property);
                 if (!propertyType.isEmpty(containerWithRefs)) {
                     currentNode.addEnumerableWiring(property, propertyType
-                               .map(containerWithRefs, (value) -> passValueOrCreateNodeFromRef(value, property), true));
+                            .map(containerWithRefs, (value) -> passValueOrCreateNodeFromRef(value, property), true));
                     jsonElement.remove(property.getName());
                 }
             }
@@ -148,7 +146,7 @@ class ShadowGraphBuilder {
 
     private Object passValueOrCreateNodeFromRef(Object value, ObjDiffProperty property) {
         if (value instanceof GlobalId) {
-            return createOrReuseNodeFromRef((GlobalId)value, property);
+            return createOrReuseNodeFromRef((GlobalId) value, property);
         }
         return value;
     }
@@ -161,7 +159,7 @@ class ShadowGraphBuilder {
         if (property.isShallowReference()) {
             EntityType shallowReferenceType = property.getType() instanceof EntityType
                     ? property.getType()
-                    : (EntityType)typeMapper.getObjDiffManagedType(globalId);
+                    : (EntityType) typeMapper.getObjDiffManagedType(globalId);
 
             if (shallowReferenceType.getIdProperty().getType() instanceof ValueObjectType) {
                 //TODO don't know how to reconstruct Id in ShallowReference, which happened to be a ValueObject,
@@ -179,6 +177,6 @@ class ShadowGraphBuilder {
     }
 
     private JsonObject toJson(CdoSnapshotState state) {
-        return (JsonObject)jsonConverter.toJsonElement(state);
+        return (JsonObject) jsonConverter.toJsonElement(state);
     }
 }

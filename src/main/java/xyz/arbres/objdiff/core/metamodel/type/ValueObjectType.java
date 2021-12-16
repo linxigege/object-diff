@@ -13,17 +13,17 @@ import java.util.function.Function;
  * @author carlos
  * @date 2021-12-08
  */
-public class ValueObjectType extends ManagedType{
+public class ValueObjectType extends ManagedType {
 
     private final boolean defaultType;
     private final Optional<Function<Object, String>> toStringFunction = Optional.empty();
 
-    ValueObjectType(ManagedClass valueObject){
+    ValueObjectType(ManagedClass valueObject) {
         super(valueObject);
         this.defaultType = false;
     }
 
-    public ValueObjectType(Class baseJavaClass, List<ObjDiffProperty> allProperties){
+    public ValueObjectType(Class baseJavaClass, List<ObjDiffProperty> allProperties) {
         this(new ManagedClass(baseJavaClass, allProperties, Collections.emptyList(), ManagedPropertiesFilter.empty()));
     }
 

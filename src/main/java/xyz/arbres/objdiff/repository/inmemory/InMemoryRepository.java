@@ -16,7 +16,6 @@ import xyz.arbres.objdiff.repository.api.ObjDiffRepository;
 import xyz.arbres.objdiff.repository.api.QueryParams;
 import xyz.arbres.objdiff.repository.api.SnapshotIdentifier;
 
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -45,7 +44,7 @@ public class InMemoryRepository implements ObjDiffRepository {
     public List<CdoSnapshot> getValueObjectStateHistory(final EntityType ownerEntity, final String path, QueryParams queryParams) {
         Validate.argumentsAreNotNull(ownerEntity, path, queryParams);
 
-        List<CdoSnapshot> result =  Lists.positiveFilter(getAll(), input -> {
+        List<CdoSnapshot> result = Lists.positiveFilter(getAll(), input -> {
             if (!(input.getGlobalId() instanceof ValueObjectId)) {
                 return false;
             }
@@ -68,7 +67,7 @@ public class InMemoryRepository implements ObjDiffRepository {
             if (snapshot.getGlobalId().equals(globalId)) {
                 filtered.add(snapshot);
             }
-            if (queryParams.isAggregate() && isParent(globalId, snapshot.getGlobalId())){
+            if (queryParams.isAggregate() && isParent(globalId, snapshot.getGlobalId())) {
                 filtered.add(snapshot);
             }
         }
@@ -77,12 +76,12 @@ public class InMemoryRepository implements ObjDiffRepository {
     }
 
     private boolean isParent(GlobalId parentCandidate, GlobalId childCandidate) {
-        if (! (parentCandidate instanceof InstanceId && childCandidate instanceof ValueObjectId)){
+        if (!(parentCandidate instanceof InstanceId && childCandidate instanceof ValueObjectId)) {
             return false;
         }
 
-        InstanceId parent = (InstanceId)parentCandidate;
-        ValueObjectId child = (ValueObjectId)childCandidate;
+        InstanceId parent = (InstanceId) parentCandidate;
+        ValueObjectId child = (ValueObjectId) childCandidate;
 
         return child.getOwnerId().equals(parent);
     }
@@ -97,7 +96,7 @@ public class InMemoryRepository implements ObjDiffRepository {
                 if (snapshot.getGlobalId().isTypeOf(givenClass)) {
                     filtered.add(snapshot);
                 }
-                if (queryParams.isAggregate() && isParent(givenClass, snapshot.getGlobalId())){
+                if (queryParams.isAggregate() && isParent(givenClass, snapshot.getGlobalId())) {
                     filtered.add(snapshot);
                 }
             }
@@ -107,17 +106,17 @@ public class InMemoryRepository implements ObjDiffRepository {
     }
 
     private boolean isParent(ManagedType parentCandidate, GlobalId childCandidate) {
-        if (! (parentCandidate instanceof EntityType && childCandidate instanceof ValueObjectId)){
+        if (!(parentCandidate instanceof EntityType && childCandidate instanceof ValueObjectId)) {
             return false;
         }
 
-        EntityType parent = (EntityType)parentCandidate;
-        ValueObjectId child = (ValueObjectId)childCandidate;
+        EntityType parent = (EntityType) parentCandidate;
+        ValueObjectId child = (ValueObjectId) childCandidate;
 
         return child.getOwnerId().getTypeName().equals(parent.getName());
     }
 
-    private List<CdoSnapshot> applyQueryParams(List<CdoSnapshot> snapshots, final QueryParams queryParams){
+    private List<CdoSnapshot> applyQueryParams(List<CdoSnapshot> snapshots, final QueryParams queryParams) {
         if (queryParams.commitIds().size() > 0) {
             snapshots = filterSnapshotsByCommitIds(snapshots, queryParams.commitIds());
         }
@@ -139,7 +138,7 @@ public class InMemoryRepository implements ObjDiffRepository {
         if (queryParams.changedProperties().size() > 0) {
             snapshots = filterByPropertyNames(snapshots, queryParams.changedProperties());
         }
-        if (queryParams.snapshotType().isPresent()){
+        if (queryParams.snapshotType().isPresent()) {
             snapshots = Lists.positiveFilter(snapshots, snapshot -> snapshot.getType() == queryParams.snapshotType().get());
         }
         snapshots = filterSnapshotsByCommitProperties(snapshots, queryParams.commitProperties());
@@ -164,10 +163,10 @@ public class InMemoryRepository implements ObjDiffRepository {
     }
 
     public boolean isDateInRange(QueryParams q, LocalDateTime date) {
-        if (q.from().isPresent() && q.from().get().isAfter(date)){
+        if (q.from().isPresent() && q.from().get().isAfter(date)) {
             return false;
         }
-        if (q.to().isPresent() && q.to().get().isBefore(date)){
+        if (q.to().isPresent() && q.to().get().isBefore(date)) {
             return false;
         }
 
@@ -191,21 +190,21 @@ public class InMemoryRepository implements ObjDiffRepository {
 
     private List<CdoSnapshot> filterSnapshotsByCommitProperties(List<CdoSnapshot> snapshots, final Map<String, Collection<String>> commitProperties) {
         return Lists.positiveFilter(snapshots, snapshot ->
-            commitProperties.entrySet().stream().allMatch(commitProperty -> {
-                Map<String, String> actualCommitProperties = snapshot.getCommitMetadata().getProperties();
-                return actualCommitProperties.containsKey(commitProperty.getKey()) &&
-                        commitProperty.getValue().contains( actualCommitProperties.get(commitProperty.getKey()));
-            })
+                commitProperties.entrySet().stream().allMatch(commitProperty -> {
+                    Map<String, String> actualCommitProperties = snapshot.getCommitMetadata().getProperties();
+                    return actualCommitProperties.containsKey(commitProperty.getKey()) &&
+                            commitProperty.getValue().contains(actualCommitProperties.get(commitProperty.getKey()));
+                })
         );
     }
 
     private List<CdoSnapshot> filterSnapshotsByCommitPropertiesLike(List<CdoSnapshot> snapshots, final Map<String, String> commitPropertiesLike) {
         return Lists.positiveFilter(snapshots, snapshot ->
-            commitPropertiesLike.entrySet().stream().allMatch(commitProperty -> {
-                Map<String, String> actualCommitProperties = snapshot.getCommitMetadata().getProperties();
-                return actualCommitProperties.containsKey(commitProperty.getKey()) &&
-                    actualCommitProperties.get(commitProperty.getKey()).contains(commitProperty.getValue());
-            })
+                commitPropertiesLike.entrySet().stream().allMatch(commitProperty -> {
+                    Map<String, String> actualCommitProperties = snapshot.getCommitMetadata().getProperties();
+                    return actualCommitProperties.containsKey(commitProperty.getKey()) &&
+                            actualCommitProperties.get(commitProperty.getKey()).contains(commitProperty.getValue());
+                })
         );
     }
 
@@ -237,13 +236,13 @@ public class InMemoryRepository implements ObjDiffRepository {
     public List<CdoSnapshot> getSnapshots(Collection<SnapshotIdentifier> snapshotIdentifiers) {
         return Lists.transform(getPersistedIdentifiers(snapshotIdentifiers), snapshotIdentifier -> {
             List<CdoSnapshot> objectSnapshots = readSnapshots(snapshotIdentifier.getGlobalId());
-            return objectSnapshots.get(objectSnapshots.size() - ((int)snapshotIdentifier.getVersion()));
+            return objectSnapshots.get(objectSnapshots.size() - ((int) snapshotIdentifier.getVersion()));
         });
     }
 
     private List<SnapshotIdentifier> getPersistedIdentifiers(Collection<SnapshotIdentifier> snapshotIdentifiers) {
         return Lists.positiveFilter(new ArrayList<>(snapshotIdentifiers), snapshotIdentifier -> contains(snapshotIdentifier.getGlobalId()) &&
-            snapshotIdentifier.getVersion() <= readSnapshots(snapshotIdentifier.getGlobalId()).size());
+                snapshotIdentifier.getVersion() <= readSnapshots(snapshotIdentifier.getGlobalId()).size());
     }
 
     @Override
@@ -251,7 +250,7 @@ public class InMemoryRepository implements ObjDiffRepository {
         Validate.argumentsAreNotNull(commit);
 
         List<CdoSnapshot> snapshots = commit.getSnapshots();
-        for (CdoSnapshot s : snapshots){
+        for (CdoSnapshot s : snapshots) {
             persist(s);
         }
         head = commit.getId();
@@ -268,11 +267,11 @@ public class InMemoryRepository implements ObjDiffRepository {
         this.jsonConverter = jsonConverter;
     }
 
-    private List<CdoSnapshot> filterByPropertyNames(List<CdoSnapshot> snapshots, final Set<String> propertyNames){
+    private List<CdoSnapshot> filterByPropertyNames(List<CdoSnapshot> snapshots, final Set<String> propertyNames) {
         return Lists.positiveFilter(snapshots, input -> propertyNames.stream().anyMatch(input::hasChangeAt));
     }
 
-    private List<CdoSnapshot> getAll(){
+    private List<CdoSnapshot> getAll() {
         List<CdoSnapshot> all = new ArrayList<>();
 
         snapshots.keySet().forEach(it -> all.addAll(readSnapshots(it)));
@@ -290,7 +289,7 @@ public class InMemoryRepository implements ObjDiffRepository {
         String globalIdValue = snapshot.getGlobalId().value();
 
         LinkedList<String> snapshotsList = snapshots.get(globalIdValue);
-        if (snapshotsList == null){
+        if (snapshotsList == null) {
             snapshotsList = new LinkedList<>();
             snapshots.put(globalIdValue, snapshotsList);
         }

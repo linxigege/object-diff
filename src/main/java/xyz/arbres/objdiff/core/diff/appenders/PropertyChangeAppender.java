@@ -10,7 +10,7 @@ import xyz.arbres.objdiff.core.metamodel.type.ObjDiffType;
  * Property-scope comparator,
  * follows Chain-of-responsibility pattern.
  * <br/><br/>
- *
+ * <p>
  * Implementation should calculate diff between two property values
  *
  * @author bartosz walacik

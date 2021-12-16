@@ -26,7 +26,7 @@ public abstract class ContainerChange<T> extends PropertyChange<T> {
     ContainerChange(PropertyChangeMetadata metadata, List<ContainerElementChange> changes, T left, T right) {
         super(metadata);
         Validate.argumentIsNotNull(changes);
-        Validate.argumentCheck(!changes.isEmpty(),"changes list should not be empty");
+        Validate.argumentCheck(!changes.isEmpty(), "changes list should not be empty");
         this.changes = Collections.unmodifiableList(new ArrayList<>(changes));
         this.left = left;
         this.right = right;
@@ -61,7 +61,7 @@ public abstract class ContainerChange<T> extends PropertyChange<T> {
     }
 
     public List<ValueRemoved> getValueRemovedChanges() {
-        return (List)Lists.positiveFilter(changes, input -> input instanceof ValueRemoved);
+        return (List) Lists.positiveFilter(changes, input -> input instanceof ValueRemoved);
     }
 
     public List<?> getAddedValues() {
@@ -80,7 +80,7 @@ public abstract class ContainerChange<T> extends PropertyChange<T> {
 
         builder.append(valuePrinter.formatWithQuotes(getPropertyNameWithPath()) + " collection changes :\n");
 
-        changes.forEach(cc -> builder.append("   " + cc.prettyPrint(valuePrinter)+"\n"));
+        changes.forEach(cc -> builder.append("   " + cc.prettyPrint(valuePrinter) + "\n"));
 
         String result = builder.toString();
         return result.substring(0, result.length() - 1);
@@ -106,7 +106,7 @@ public abstract class ContainerChange<T> extends PropertyChange<T> {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "{ property: '"+getPropertyName() +"'," +
-                " elementChanges:"+changes.size() + ", left.size: "+getLeftSize()+", right.size: "+getRightSize()+"}";
+        return this.getClass().getSimpleName() + "{ property: '" + getPropertyName() + "'," +
+                " elementChanges:" + changes.size() + ", left.size: " + getLeftSize() + ", right.size: " + getRightSize() + "}";
     }
 }

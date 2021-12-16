@@ -22,17 +22,17 @@ class AtomicTypeAdapter extends JsonTypeAdapterTemplate<Atomic> {
 
         JsonElement rawValue = jsonSerializationContext.serialize(sourceValue.unwrap());
 
-        if (sourceValue.isJsonBasicType()|| !typeSafety){
+        if (sourceValue.isJsonBasicType() || !typeSafety) {
             return rawValue;
         }
 
         return wrapTypeSafely(sourceValue, jsonSerializationContext);
     }
 
-    private JsonElement wrapTypeSafely(Atomic sourceValue, JsonSerializationContext jsonSerializationContext){
+    private JsonElement wrapTypeSafely(Atomic sourceValue, JsonSerializationContext jsonSerializationContext) {
         JsonObject element = new JsonObject();
         element.addProperty("typeAlias", sourceValue.unwrap().getClass().getSimpleName());
-        element.add("value" ,  jsonSerializationContext.serialize(sourceValue.unwrap()));
+        element.add("value", jsonSerializationContext.serialize(sourceValue.unwrap()));
         return element;
     }
 

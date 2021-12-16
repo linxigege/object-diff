@@ -7,7 +7,6 @@ package xyz.arbres.objdiff.core.pico;
  */
 
 
-
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.adapters.AbstractAdapter;
@@ -28,8 +27,8 @@ public abstract class InstantiatingModule {
         this.argumentResolver = new ContainerArgumentResolver(container);
     }
 
-    public final void instantiateAndBindComponents(){
-        for (Class<?> implementation : getImplementations()){
+    public final void instantiateAndBindComponents() {
+        for (Class<?> implementation : getImplementations()) {
             ConstructorInjector constructorInjector = new ConstructorInjector(implementation);
             container.addAdapter(constructorInjector);
         }
@@ -44,6 +43,10 @@ public abstract class InstantiatingModule {
     }
 
     protected abstract Collection<Class> getImplementations();
+
+    protected MutablePicoContainer getContainer() {
+        return container;
+    }
 
     private class ConstructorInjector extends AbstractAdapter {
 
@@ -68,9 +71,5 @@ public abstract class InstantiatingModule {
         public String getDescriptor() {
             return getComponentKey().toString();
         }
-    }
-
-    protected MutablePicoContainer getContainer() {
-        return container;
     }
 }

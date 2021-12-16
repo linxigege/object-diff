@@ -1,6 +1,8 @@
 package xyz.arbres.objdiff.core.metamodel.annotation;
 
 
+import xyz.arbres.objdiff.core.metamodel.type.ValueObjectType;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 

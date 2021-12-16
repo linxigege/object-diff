@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.clazz;
 
 
-
 import xyz.arbres.objdiff.common.collections.Arrays;
 import xyz.arbres.objdiff.common.validation.Validate;
 
@@ -19,12 +18,12 @@ import java.util.List;
  *    .withIgnoredProperties(ignoredProperties)
  *    .withTypeName("typeName")
  *    .build();
- *</pre>
+ * </pre>
  *
- * @since 1.4
  * @author bartosz.walacik
+ * @since 1.4
  */
-public class EntityDefinitionBuilder extends ClientsClassDefinitionBuilder<EntityDefinitionBuilder>{
+public class EntityDefinitionBuilder extends ClientsClassDefinitionBuilder<EntityDefinitionBuilder> {
     private List<String> idPropertyNames = new ArrayList<>();
     private boolean shallowReference;
 
@@ -55,7 +54,7 @@ public class EntityDefinitionBuilder extends ClientsClassDefinitionBuilder<Entit
         return this;
     }
 
-    public EntityDefinitionBuilder withShallowReference(){
+    public EntityDefinitionBuilder withShallowReference() {
         this.shallowReference = true;
         return this;
     }

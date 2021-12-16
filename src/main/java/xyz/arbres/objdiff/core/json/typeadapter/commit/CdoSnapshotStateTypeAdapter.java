@@ -25,7 +25,7 @@ public class CdoSnapshotStateTypeAdapter extends JsonTypeAdapterTemplate<CdoSnap
     @Override
     public JsonElement toJson(CdoSnapshotState snapshotState, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
-        snapshotState.forEachProperty( (pName, pValue) -> jsonObject.add(pName, context.serialize(pValue)));
+        snapshotState.forEachProperty((pName, pValue) -> jsonObject.add(pName, context.serialize(pValue)));
         return jsonObject;
     }
 }

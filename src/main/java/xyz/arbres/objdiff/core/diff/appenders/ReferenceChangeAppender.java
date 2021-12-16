@@ -19,7 +19,7 @@ class ReferenceChangeAppender implements PropertyChangeAppender<ReferenceChange>
 
     @Override
     public boolean supports(ObjDiffType propertyType) {
-        return propertyType instanceof ManagedType && ! (propertyType instanceof ValueObjectType);
+        return propertyType instanceof ManagedType && !(propertyType instanceof ValueObjectType);
     }
 
     @Override

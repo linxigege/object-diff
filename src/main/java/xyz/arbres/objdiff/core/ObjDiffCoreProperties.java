@@ -31,12 +31,24 @@ public class ObjDiffCoreProperties {
         return algorithm;
     }
 
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
+    }
+
     public String getCommitIdGenerator() {
         return commitIdGenerator;
     }
 
+    public void setCommitIdGenerator(String commitIdGenerator) {
+        this.commitIdGenerator = commitIdGenerator;
+    }
+
     public String getMappingStyle() {
         return mappingStyle;
+    }
+
+    public void setMappingStyle(String mappingStyle) {
+        this.mappingStyle = mappingStyle;
     }
 
     /**
@@ -75,16 +87,8 @@ public class ObjDiffCoreProperties {
         return packagesToScan;
     }
 
-    public void setAlgorithm(String algorithm) {
-        this.algorithm = algorithm;
-    }
-
-    public void setCommitIdGenerator(String commitIdGenerator) {
-        this.commitIdGenerator = commitIdGenerator;
-    }
-
-    public void setMappingStyle(String mappingStyle) {
-        this.mappingStyle = mappingStyle;
+    public void setPackagesToScan(String packagesToScan) {
+        this.packagesToScan = packagesToScan;
     }
 
     public void setInitialChanges(Boolean initialChanges) {
@@ -99,10 +103,6 @@ public class ObjDiffCoreProperties {
         this.typeSafeValues = typeSafeValues;
     }
 
-    public void setPackagesToScan(String packagesToScan) {
-        this.packagesToScan = packagesToScan;
-    }
-
     public PrettyPrintDateFormats getPrettyPrintDateFormats() {
         return prettyPrintDateFormats;
     }
@@ -112,14 +112,13 @@ public class ObjDiffCoreProperties {
     }
 
     public static class PrettyPrintDateFormats {
-        private Map<Class<? extends Temporal>, String> formats = new HashMap<>();
-
         private static final String DEFAULT_DATE_FORMAT = "dd MMM yyyy";
         private static final String DEFAULT_TIME_FORMAT = "HH:mm:ss";
+        private Map<Class<? extends Temporal>, String> formats = new HashMap<>();
 
         public PrettyPrintDateFormats() {
             setLocalDateTime(DEFAULT_DATE_FORMAT + ", " + DEFAULT_TIME_FORMAT);
-            setZonedDateTime(DEFAULT_DATE_FORMAT + ", " + DEFAULT_TIME_FORMAT+"Z");
+            setZonedDateTime(DEFAULT_DATE_FORMAT + ", " + DEFAULT_TIME_FORMAT + "Z");
             setLocalDate(DEFAULT_DATE_FORMAT);
             setLocalTime(DEFAULT_TIME_FORMAT);
         }
@@ -128,36 +127,36 @@ public class ObjDiffCoreProperties {
             formats.put(forType, format);
         }
 
-        public void setLocalDateTime(String localDateTime) {
-            registerFormat(LocalDateTime.class, localDateTime);
-        }
-
-        public void setZonedDateTime(String zonedDateTime) {
-            registerFormat(ZonedDateTime.class, zonedDateTime);
-        }
-
-        public void setLocalDate(String localDate) {
-            registerFormat(LocalDate.class, localDate);
-        }
-
-        public void setLocalTime(String localTime) {
-            registerFormat(LocalTime.class, localTime);
-        }
-
         public String getLocalDateTime() {
             return formats.get(LocalDateTime.class);
+        }
+
+        public void setLocalDateTime(String localDateTime) {
+            registerFormat(LocalDateTime.class, localDateTime);
         }
 
         public String getZonedDateTime() {
             return formats.get(ZonedDateTime.class);
         }
 
+        public void setZonedDateTime(String zonedDateTime) {
+            registerFormat(ZonedDateTime.class, zonedDateTime);
+        }
+
         public String getLocalDate() {
             return formats.get(LocalDate.class);
         }
 
+        public void setLocalDate(String localDate) {
+            registerFormat(LocalDate.class, localDate);
+        }
+
         public String getLocalTime() {
             return formats.get(LocalTime.class);
+        }
+
+        public void setLocalTime(String localTime) {
+            registerFormat(LocalTime.class, localTime);
         }
 
         public Map<Class<? extends Temporal>, String> getFormats() {

@@ -1,8 +1,6 @@
 package xyz.arbres.objdiff.core.diff.appenders;
 
 
-
-
 import xyz.arbres.objdiff.core.diff.NodePair;
 import xyz.arbres.objdiff.core.diff.changetype.PropertyChange;
 import xyz.arbres.objdiff.core.metamodel.type.ObjDiffProperty;
@@ -27,15 +25,15 @@ public abstract class CorePropertyChangeAppender<T extends PropertyChange> imple
      */
     public static final String GENERIC_TYPE_NOT_PARAMETRIZED = "GENERIC_TYPE_NOT_PARAMETRIZED";
 
-    public static void renderNotParametrizedWarningIfNeeded(Type parameterType, String parameterName, String colType, ObjDiffProperty property){
-        if (parameterType == ObjDiffType.DEFAULT_TYPE_PARAMETER){
+    public static void renderNotParametrizedWarningIfNeeded(Type parameterType, String parameterName, String colType, ObjDiffProperty property) {
+        if (parameterType == ObjDiffType.DEFAULT_TYPE_PARAMETER) {
 
         }
     }
 
     @Override
     final public T calculateChanges(NodePair pair, ObjDiffProperty property) {
-        Object leftValue =  pair.getLeftDehydratedPropertyValueAndSanitize(property);
+        Object leftValue = pair.getLeftDehydratedPropertyValueAndSanitize(property);
         Object rightValue = pair.getRightDehydratedPropertyValueAndSanitize(property);
         return calculateChanges(leftValue, rightValue, pair, property);
     }

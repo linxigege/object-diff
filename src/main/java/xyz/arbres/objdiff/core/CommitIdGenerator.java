@@ -1,8 +1,8 @@
 package xyz.arbres.objdiff.core;
 
 
-
 import xyz.arbres.objdiff.core.commit.CommitMetadata;
+import xyz.arbres.objdiff.repository.api.ObjDiffRepository;
 
 import java.util.Comparator;
 
@@ -14,7 +14,7 @@ public enum CommitIdGenerator {
      * Generates neat, sequential commit identifiers.
      * Based on {@link ObjDiffRepository#getHeadId()}.
      * <br/><br/>
-     *
+     * <p>
      * Should not be used in distributed applications.
      */
     SYNCHRONIZED_SEQUENCE {
@@ -28,7 +28,7 @@ public enum CommitIdGenerator {
     /**
      * Non-blocking algorithm based on UUID.
      * <br/><br/>
-     *
+     * <p>
      * Suitable for distributed applications.<br/>
      *
      * <b>Warning!</b> When RANDOM generator is set,

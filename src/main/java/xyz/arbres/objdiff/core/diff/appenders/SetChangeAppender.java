@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.diff.appenders;
 
 
-
 import xyz.arbres.objdiff.common.collections.Sets;
 import xyz.arbres.objdiff.core.diff.NodePair;
 import xyz.arbres.objdiff.core.diff.changetype.container.ContainerElementChange;
@@ -40,7 +39,7 @@ class SetChangeAppender extends CorePropertyChangeAppender<SetChange> {
     }
 
     private Set wrapValuesIfNeeded(Set set, ObjDiffProperty property) {
-        ObjDiffType itemType = ((ContainerType)property.getType()).getItemObjDiffType();
+        ObjDiffType itemType = ((ContainerType) property.getType()).getItemObjDiffType();
         return HashWrapper.wrapValuesIfNeeded(set, itemType);
     }
 
@@ -48,7 +47,7 @@ class SetChangeAppender extends CorePropertyChangeAppender<SetChange> {
         if (collection instanceof Set) {
             return (Set) collection;
         }
-        return new HashSet((Collection)collection);
+        return new HashSet((Collection) collection);
     }
 
     private List<ContainerElementChange> calculateDiff(Set leftSet, Set rightSet) {

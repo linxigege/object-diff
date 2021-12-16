@@ -2,15 +2,15 @@ package xyz.arbres.objdiff.common.collections;
 
 import xyz.arbres.objdiff.core.metamodel.property.MissingProperty;
 
+import java.util.Collections;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.Collections;
+
 import static java.util.Collections.EMPTY_LIST;
 import static java.util.Collections.unmodifiableList;
-
 import static xyz.arbres.objdiff.common.validation.Validate.argumentsAreNotNull;
 
 /**
@@ -24,7 +24,7 @@ public class Lists {
         if (list == null || list == MissingProperty.INSTANCE || !(list instanceof List)) {
             return Collections.emptyList();
         }
-        return (List)list;
+        return (List) list;
     }
 
     public static <T> List<T> join(List<T> a, List<T> b) {

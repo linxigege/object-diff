@@ -11,7 +11,7 @@ import java.util.Collections;
 /**
  * @author bartosz.walacik
  */
-public abstract class ConditionalTypesPlugin  {
+public abstract class ConditionalTypesPlugin {
 
     public Collection<Class<? extends PropertyChangeAppender<?>>> getPropertyChangeAppenders() {
         return Collections.emptyList();

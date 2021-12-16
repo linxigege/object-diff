@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.commit;
 
 
-
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.Changes;
 import xyz.arbres.objdiff.core.diff.Diff;
@@ -18,10 +17,10 @@ import java.util.TimeZone;
  * ObjDiff commit is a similar concept to GIT commit.
  * It records snapshots of <b>changed</b> domain objects.
  * <br><br>
- *
+ * <p>
  * One commit can affect one or more domain objects.
  * <br><br>
- *
+ * <p>
  * Commit holds following data:
  * <ul>
  *     <li>who did change the data - {@link CommitMetadata#getAuthor()} </li>
@@ -75,13 +74,13 @@ public final class Commit {
     /**
      * Commit creation timestamp in UTC.
      * <br/><br/>
-     *
+     * <p>
      * Since 5.1, commitDateInstant is persisted in ObjDiffRepository
      * to provide reliable chronological ordering, especially when
      * is used.
-     *
+     * <p>
      * <br/><br/>
-     *
+     * <p>
      * Commits persisted by ObjDiff older then 5.1
      * have commitDateInstant guessed from commitDate and current {@link TimeZone}
      *

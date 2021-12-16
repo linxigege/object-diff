@@ -15,7 +15,7 @@ import java.util.Objects;
 public final class ListChange extends CollectionChange<List<?>> {
 
     public ListChange(PropertyChangeMetadata metadata, List<ContainerElementChange> changes, List left, List right) {
-        super(metadata, changes,left,right);
+        super(metadata, changes, left, right);
     }
 
     public ListChange(PropertyChangeMetadata metadata, List<ContainerElementChange> changes) {

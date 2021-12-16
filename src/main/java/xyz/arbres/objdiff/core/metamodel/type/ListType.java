@@ -15,7 +15,7 @@ import java.util.function.Function;
 import static java.util.Collections.unmodifiableList;
 import static java.util.stream.Collectors.toList;
 
-public class ListType extends CollectionType{
+public class ListType extends CollectionType {
 
     public ListType(Type baseJavaType, TypeMapperLazy typeMapperLazy) {
         super(baseJavaType, typeMapperLazy);
@@ -31,7 +31,7 @@ public class ListType extends CollectionType{
         List targetList = new ArrayList(sourceList.size());
 
         EnumerationAwareOwnerContext enumerationContext = new IndexableEnumerationOwnerContext(owner);
-        for (Object sourceVal : sourceList){
+        for (Object sourceVal : sourceList) {
             targetList.add(sourceVal == null ? null : mapFunction.apply(sourceVal, enumerationContext));
         }
         return unmodifiableList(targetList);
@@ -40,10 +40,10 @@ public class ListType extends CollectionType{
     @Override
     public Object map(Object sourceEnumerable, Function mapFunction, boolean filterNulls) {
         List sourceCol = Lists.wrapNull(sourceEnumerable);
-        return unmodifiableList((List)sourceCol.stream()
-            .map(sourceVal -> sourceVal == null ? null : mapFunction.apply(sourceVal))
-            .filter(mappedVal -> !filterNulls || mappedVal != null)
-            .collect(toList()));
+        return unmodifiableList((List) sourceCol.stream()
+                .map(sourceVal -> sourceVal == null ? null : mapFunction.apply(sourceVal))
+                .filter(mappedVal -> !filterNulls || mappedVal != null)
+                .collect(toList()));
     }
 
     @Override

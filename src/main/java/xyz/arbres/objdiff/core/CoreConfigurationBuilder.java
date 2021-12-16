@@ -42,7 +42,7 @@ class CoreConfigurationBuilder {
                 customCommitIdGenerator,
                 terminalChanges,
                 prettyPrint
-                );
+        );
     }
 
     CoreConfigurationBuilder withPrettyPrint(boolean prettyPrint) {

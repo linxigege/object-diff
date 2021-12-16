@@ -9,7 +9,7 @@ import xyz.arbres.objdiff.core.diff.DiffFactory;
  * @author carlos
  * @date 2021-12-07
  */
-public class ObjDiffCore implements ObjDiff{
+public class ObjDiffCore implements ObjDiff {
 
     private final DiffFactory diffFactory;
 

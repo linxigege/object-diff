@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author carlos
  * @date 2021-12-07
  */
-abstract class ClassType extends ObjDiffType{
+abstract class ClassType extends ObjDiffType {
 
     private final Class baseJavaClass;
 
@@ -43,9 +43,9 @@ abstract class ClassType extends ObjDiffType{
 
     /**
      * Type for JSON representation.
-     *
+     * <p>
      * For Values it's simply baseJavaType.
-     *
+     * <p>
      * For ManagedTypes (references to Entities and ValueObjects) it's GlobalId
      * because ObjDiff serializes references in the 'dehydrated' form.
      */

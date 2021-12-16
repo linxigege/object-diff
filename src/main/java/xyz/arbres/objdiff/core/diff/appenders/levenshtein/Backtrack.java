@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.diff.appenders.levenshtein;
 
 
-
 import xyz.arbres.objdiff.core.diff.EqualsFunction;
 
 import java.util.List;

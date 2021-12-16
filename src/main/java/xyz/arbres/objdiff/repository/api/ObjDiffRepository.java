@@ -1,10 +1,10 @@
 package xyz.arbres.objdiff.repository.api;
 
 
-
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.commit.Commit;
 import xyz.arbres.objdiff.core.commit.CommitId;
+import xyz.arbres.objdiff.core.commit.CommitMetadata;
 import xyz.arbres.objdiff.core.json.JsonConverter;
 import xyz.arbres.objdiff.core.metamodel.object.CdoSnapshot;
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * ObjDiffRepository is responsible for persisting {@link Commit}s calculated by ObjDiff core.
  * <br><br>
- *
+ * <p>
  * It should persist {@link CommitMetadata} and Snapshots,
  * {@link Change}s should not be persisted as they are recalculated by ObjDiff core as diff between relevant snapshots.
  * <br><br>
@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
  *    <li/>Essentially, object-oriented data are persisted as JSON.
  *    <li/>Repository impl should leverage {@link JsonConverter}.
  * </ul>
- *
  *
  * @author bartosz walacik
  */

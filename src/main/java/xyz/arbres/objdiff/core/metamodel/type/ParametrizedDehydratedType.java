@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
-
 import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.common.string.ToStringBuilder;
 
@@ -14,7 +13,7 @@ import java.util.List;
 /**
  * @author bartosz walacik
  */
-public class ParametrizedDehydratedType implements ParameterizedType{
+public class ParametrizedDehydratedType implements ParameterizedType {
     private final Type rawType;
     private final Type[] actualTypeArguments;
 

@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
-
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
 import xyz.arbres.objdiff.common.validation.Validate;
@@ -50,7 +49,7 @@ class InstanceIdFactory {
         if (idProperty.isValueObjectType()) {
             ValueObjectType valueObjectType = idProperty.getType();
             return valueObjectType.smartToString(deserializedJsonLocalId);
-         }
+        }
         if (idProperty.isPrimitiveOrValueType()) {
             PrimitiveOrValueType primitiveOrValueType = idProperty.getType();
             return primitiveOrValueType.valueToString(deserializedJsonLocalId);
@@ -81,9 +80,9 @@ class InstanceIdFactory {
     private DehydratedLocalId dehydratedLocalId(Object localId) {
 
         if (entityType.hasCompositeId()) {
-            Map<String,?> compositeLocalId = (Map)localId;
+            Map<String, ?> compositeLocalId = (Map) localId;
 
-            return new CompositeDehydratedLocalId( compositeLocalId
+            return new CompositeDehydratedLocalId(compositeLocalId
                     .entrySet()
                     .stream()
                     .sorted(Map.Entry.comparingByKey())
@@ -124,6 +123,7 @@ class InstanceIdFactory {
 
     private interface DehydratedLocalId {
         String toLocalIdString();
+
         Object getId();
     }
 

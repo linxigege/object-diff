@@ -39,7 +39,7 @@ public abstract class AbstractContainerBuilder {
         }
     }
 
-    protected <T> List<T> getComponents(Class<T> ofClass){
+    protected <T> List<T> getComponents(Class<T> ofClass) {
         checkIfBuilt();
         return container.getComponents(ofClass);
     }

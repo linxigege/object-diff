@@ -14,10 +14,11 @@ public class DiffTypeDeserializer implements JsonDeserializer<Diff> {
 
     @Override
     public Diff deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        JsonElement changesObject = ((JsonObject)json).get(CHANGES_FIELD);
+        JsonElement changesObject = ((JsonObject) json).get(CHANGES_FIELD);
 
         if (changesObject != null) {
-            List<Change> changes = context.deserialize(changesObject, new TypeToken<List<Change>>(){}.getType());
+            List<Change> changes = context.deserialize(changesObject, new TypeToken<List<Change>>() {
+            }.getType());
             return new DiffBuilder()
                     .addChanges(changes)
                     .build();

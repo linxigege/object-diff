@@ -8,26 +8,26 @@ import xyz.arbres.objdiff.core.graph.LiveGraphFactory;
  * @author bartosz walacik
  */
 public final class UnboundedValueObjectIdDTO extends GlobalIdDTO {
-    private final Class  javaClass;
+    private final Class javaClass;
 
     UnboundedValueObjectIdDTO(Class javaClass) {
         Validate.argumentsAreNotNull(javaClass);
         this.javaClass = javaClass;
     }
 
-    public static UnboundedValueObjectIdDTO unboundedMapId(){
+    public static UnboundedValueObjectIdDTO unboundedMapId() {
         return new UnboundedValueObjectIdDTO(LiveGraphFactory.getMapWrapperType());
     }
 
-    public static UnboundedValueObjectIdDTO unboundedSetId(){
+    public static UnboundedValueObjectIdDTO unboundedSetId() {
         return new UnboundedValueObjectIdDTO(LiveGraphFactory.getSetWrapperType());
     }
 
-    public static UnboundedValueObjectIdDTO unboundedListId(){
+    public static UnboundedValueObjectIdDTO unboundedListId() {
         return new UnboundedValueObjectIdDTO(LiveGraphFactory.getListWrapperType());
     }
 
-    public static UnboundedValueObjectIdDTO unboundedArrayId(){
+    public static UnboundedValueObjectIdDTO unboundedArrayId() {
         return new UnboundedValueObjectIdDTO(LiveGraphFactory.getArrayWrapperType());
     }
 
@@ -41,6 +41,6 @@ public final class UnboundedValueObjectIdDTO extends GlobalIdDTO {
 
     @Override
     public String value() {
-        return javaClass.getName()+"/";
+        return javaClass.getName() + "/";
     }
 }

@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.graph;
 
 
-
 import xyz.arbres.objdiff.core.metamodel.type.ObjDiffProperty;
 
 import java.util.Collections;

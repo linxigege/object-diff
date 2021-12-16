@@ -24,45 +24,12 @@ public class MapType extends KeyValueType {
         super(baseJavaType, 2, typeMapperlazy);
     }
 
-    /**
-     * @return immutable Map
-     */
-    @Override
-    public Object map(Object sourceEnumerable, EnumerableFunction mapFunction, OwnerContext owner) {
-        Validate.argumentsAreNotNull(mapFunction, owner);
-
-        Map sourceMap = Maps.wrapNull(sourceEnumerable);
-        Map targetMap = new HashMap(sourceMap.size());
-        MapEnumerationOwnerContext enumeratorContext = new MapEnumerationOwnerContext(this, owner);
-
-        mapEntrySet(this, sourceMap.entrySet(), mapFunction, enumeratorContext, (k,v) ->  targetMap.put(k,v), false);
-
-        return Collections.unmodifiableMap(targetMap);
-    }
-
-    @Override
-    public Object map(Object source, Function mapFunction, boolean filterNulls) {
-        Validate.argumentsAreNotNull(mapFunction);
-
-        Map sourceMap = Maps.wrapNull(source);
-        Map targetMap = new HashMap(sourceMap.size());
-
-        mapEntrySet(this, sourceMap.entrySet(), mapFunction, (k,v) -> targetMap.put(k,v), filterNulls);
-
-        return Collections.unmodifiableMap(targetMap);
-    }
-
-    @Override
-    public boolean isEmpty(Object map) {
-        return map == null || ((Map)map).isEmpty();
-    }
-
     public static void mapEntrySet(KeyValueType keyValueType,
-                              Collection<Map.Entry<?,?>> sourceEntries,
-                              EnumerableFunction mapFunction,
-                              MapEnumerationOwnerContext mapEnumerationContext,
-                              BiConsumer entryConsumer,
-                              boolean filterNulls) {
+                                   Collection<Map.Entry<?, ?>> sourceEntries,
+                                   EnumerableFunction mapFunction,
+                                   MapEnumerationOwnerContext mapEnumerationContext,
+                                   BiConsumer entryConsumer,
+                                   boolean filterNulls) {
         for (Map.Entry entry : sourceEntries) {
             //key
             mapEnumerationContext.switchToKey();
@@ -85,13 +52,46 @@ public class MapType extends KeyValueType {
     }
 
     public static void mapEntrySet(KeyValueType keyValueType,
-                                   Collection<Map.Entry<?,?>> sourceEntries,
+                                   Collection<Map.Entry<?, ?>> sourceEntries,
                                    Function mapFunction,
                                    BiConsumer entryConsumer,
                                    boolean filterNulls) {
         MapEnumerationOwnerContext enumeratorContext = MapEnumerationOwnerContext.dummy(keyValueType);
         EnumerableFunction enumerableFunction = (input, ownerContext) -> mapFunction.apply(input);
-        mapEntrySet(keyValueType, sourceEntries, enumerableFunction, enumeratorContext, entryConsumer,  filterNulls);
+        mapEntrySet(keyValueType, sourceEntries, enumerableFunction, enumeratorContext, entryConsumer, filterNulls);
+    }
+
+    /**
+     * @return immutable Map
+     */
+    @Override
+    public Object map(Object sourceEnumerable, EnumerableFunction mapFunction, OwnerContext owner) {
+        Validate.argumentsAreNotNull(mapFunction, owner);
+
+        Map sourceMap = Maps.wrapNull(sourceEnumerable);
+        Map targetMap = new HashMap(sourceMap.size());
+        MapEnumerationOwnerContext enumeratorContext = new MapEnumerationOwnerContext(this, owner);
+
+        mapEntrySet(this, sourceMap.entrySet(), mapFunction, enumeratorContext, (k, v) -> targetMap.put(k, v), false);
+
+        return Collections.unmodifiableMap(targetMap);
+    }
+
+    @Override
+    public Object map(Object source, Function mapFunction, boolean filterNulls) {
+        Validate.argumentsAreNotNull(mapFunction);
+
+        Map sourceMap = Maps.wrapNull(source);
+        Map targetMap = new HashMap(sourceMap.size());
+
+        mapEntrySet(this, sourceMap.entrySet(), mapFunction, (k, v) -> targetMap.put(k, v), filterNulls);
+
+        return Collections.unmodifiableMap(targetMap);
+    }
+
+    @Override
+    public boolean isEmpty(Object map) {
+        return map == null || ((Map) map).isEmpty();
     }
 
     @Override

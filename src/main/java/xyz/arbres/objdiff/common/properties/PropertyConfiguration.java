@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.common.properties;
 
 
-
 import java.util.Properties;
 
 /**
@@ -13,7 +12,6 @@ import java.util.Properties;
 public class PropertyConfiguration {
 
 
-
     /**
      * raw String properties bag, loaded from configuration file
      */
@@ -21,6 +19,7 @@ public class PropertyConfiguration {
 
     /**
      * loads a properties file from classpath
+     *
      * @param classpathName classpath resource name, ex. "resources/config.properties"
      */
     public PropertyConfiguration(String classpathName) {
@@ -29,7 +28,6 @@ public class PropertyConfiguration {
 
     /**
      * assembles mandatory enum property from {@link #properties} bag
-
      */
     public <T extends Enum<T>> T getEnumProperty(String propertyKey, Class<T> enumType) {
         return PropertiesUtil.getEnumProperty(properties, propertyKey, enumType);
@@ -41,14 +39,13 @@ public class PropertyConfiguration {
 
     /**
      * gets mandatory String property from {@link #properties} bag
-
      */
     public String getStringProperty(String propertyKey) {
         return PropertiesUtil.getStringProperty(properties, propertyKey);
     }
 
     /**
-
+     *
      */
     public boolean getBooleanProperty(String propertyKey) {
         return PropertiesUtil.getBooleanProperty(properties, propertyKey);

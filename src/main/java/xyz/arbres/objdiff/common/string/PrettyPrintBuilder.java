@@ -13,7 +13,7 @@ public class PrettyPrintBuilder {
     private StringBuilder out = new StringBuilder();
 
     public PrettyPrintBuilder(Object instance) {
-        println(instance.getClass().getSimpleName()+"{");
+        println(instance.getClass().getSimpleName() + "{");
     }
 
     public PrettyPrintBuilder addField(String fieldName, Object value) {
@@ -28,6 +28,7 @@ public class PrettyPrintBuilder {
         }
         return this;
     }
+
     private void println(String text) {
         out.append(text + "\n");
     }

@@ -4,12 +4,13 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
+import xyz.arbres.objdiff.core.metamodel.type.ValueType;
 
 /**
  * Convenient abstract implementation of {@link JsonTypeAdapter}.
  * Extend it if you need to represent your {@link ValueType} as a single String.
  * <p/>
- *
+ * <p>
  * For a concrete adapter implementation example see {@link org.ObjDiff.java8support.LocalDateTimeTypeAdapter}.
  *
  * @author bartosz walacik
@@ -23,6 +24,7 @@ public abstract class BasicStringTypeAdapter<T> extends JsonTypeAdapterTemplate<
      *     return ISO_DATE_TIME_FORMATTER.print(sourceValue);
      * }
      * </pre>
+     *
      * @param sourceValue not null
      */
     public abstract String serialize(T sourceValue);
@@ -40,7 +42,7 @@ public abstract class BasicStringTypeAdapter<T> extends JsonTypeAdapterTemplate<
     public abstract T deserialize(String serializedValue);
 
     @Override
-    public T fromJson(JsonElement json, JsonDeserializationContext jsonDeserializationContext ) {
+    public T fromJson(JsonElement json, JsonDeserializationContext jsonDeserializationContext) {
         return deserialize(json.getAsJsonPrimitive().getAsString());
     }
 

@@ -12,15 +12,15 @@ import java.lang.reflect.Type;
  * ObjDiff is meant to support various persistence stores for
  * any kind of client's data, hence we use JSON format to serialize/deserialize client's domain objects.
  * <br><br>
- *
+ * <p>
  * ObjDiff uses <a href='http://sites.google.com/site/gson/'>Gson</a>
  * library which provides neat and pretty JSON representation for well known Java types.
  * <br><br>
- *
+ * <p>
  * But sometimes Gson's default JSON representation isn't appropriate for your domain model.
  * This is often the case when dealing with Values like Date or Money.
  * <br><br>
- *
+ * <p>
  * If so, you can easily customize ObjDiff serialization/deserialization behaviour
  * by providing plugins for each of your custom type.
  * ObjDiff accepts several kind of plugins:
@@ -32,7 +32,7 @@ import java.lang.reflect.Type;
  *     <li> native Gson {@link JsonSerializer}
  *     <li> native Gson {@link JsonDeserializer}
  * </ul>
- *
+ * <p>
  * ObjDiff provides JsonTypeAdapters for some well known Values like java.time.LocalDateTime,
  * org.joda.time.LocalDateTime.
  *
@@ -55,7 +55,7 @@ public class JsonConverter {
         return gson.toJsonTree(value);
     }
 
-    public <T> T fromJson(String json, Class<T> expectedType){
+    public <T> T fromJson(String json, Class<T> expectedType) {
         return gson.fromJson(json, expectedType);
     }
 
@@ -67,7 +67,7 @@ public class JsonConverter {
         return gson.fromJson(json, expectedType);
     }
 
-    public JsonElement fromJsonToJsonElement(String json){
+    public JsonElement fromJsonToJsonElement(String json) {
         return gson.fromJson(json, JsonElement.class);
     }
 

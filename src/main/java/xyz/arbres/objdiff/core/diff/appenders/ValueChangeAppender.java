@@ -13,7 +13,7 @@ class ValueChangeAppender implements PropertyChangeAppender<ValueChange> {
 
     @Override
     public boolean supports(ObjDiffType propertyType) {
-        return  propertyType instanceof PrimitiveOrValueType || propertyType instanceof TokenType;
+        return propertyType instanceof PrimitiveOrValueType || propertyType instanceof TokenType;
     }
 
     /**
@@ -41,11 +41,11 @@ class ValueChangeAppender implements PropertyChangeAppender<ValueChange> {
         return ValueChangeFactory.create(pair, property, leftValue, rightValue);
     }
 
-    private boolean isIdProperty(NodePair nodePair, ObjDiffProperty property){
+    private boolean isIdProperty(NodePair nodePair, ObjDiffProperty property) {
         ManagedType managedType = nodePair.getManagedType();
 
         if (managedType instanceof EntityType) {
-            return ((EntityType)managedType).isIdProperty(property);
+            return ((EntityType) managedType).isIdProperty(property);
         }
         return false;
     }

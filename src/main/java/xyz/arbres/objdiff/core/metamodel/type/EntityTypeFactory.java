@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
-
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
 import xyz.arbres.objdiff.core.metamodel.clazz.EntityDefinition;

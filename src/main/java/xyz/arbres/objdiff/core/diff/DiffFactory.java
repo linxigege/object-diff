@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.diff;
 
 
-
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
 import xyz.arbres.objdiff.common.validation.Validate;
@@ -10,7 +9,10 @@ import xyz.arbres.objdiff.core.commit.CommitMetadata;
 import xyz.arbres.objdiff.core.diff.appenders.NodeChangeAppender;
 import xyz.arbres.objdiff.core.diff.appenders.PropertyChangeAppender;
 import xyz.arbres.objdiff.core.diff.changetype.ObjectRemoved;
-import xyz.arbres.objdiff.core.graph.*;
+import xyz.arbres.objdiff.core.graph.FakeNode;
+import xyz.arbres.objdiff.core.graph.LiveGraphFactory;
+import xyz.arbres.objdiff.core.graph.ObjectGraph;
+import xyz.arbres.objdiff.core.graph.ObjectNode;
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
 import xyz.arbres.objdiff.core.metamodel.type.*;
 
@@ -41,7 +43,7 @@ public class DiffFactory {
         this.ObjDiffCoreConfiguration = ObjDiffCoreConfiguration;
 
         //sort by priority
-        Collections.sort(propertyChangeAppender, (p1, p2) -> ((Integer)p1.priority()).compareTo(p2.priority()));
+        Collections.sort(propertyChangeAppender, (p1, p2) -> ((Integer) p1.priority()).compareTo(p2.priority()));
         this.propertyChangeAppender = propertyChangeAppender;
     }
 
@@ -56,7 +58,8 @@ public class DiffFactory {
         GraphPair graphPair = new GraphPair(leftGraph, rightGraph, commitMetadata);
         return createAndAppendChanges(graphPair);
     }
-    public Diff singleTerminal(GlobalId removedId, CommitMetadata commitMetadata){
+
+    public Diff singleTerminal(GlobalId removedId, CommitMetadata commitMetadata) {
         Validate.argumentsAreNotNull(removedId, commitMetadata);
 
         DiffBuilder diff = new DiffBuilder(ObjDiffCoreConfiguration.getPrettyValuePrinter());
@@ -64,19 +67,19 @@ public class DiffFactory {
 
         return diff.build();
     }
+
     private ObjectGraph buildGraph(Object handle) {
         if (handle == null) {
             return new EmptyGraph();
         }
 
         ObjDiffType jType = typeMapper.getObjDiffType(handle.getClass());
-        if (jType instanceof ValueType || jType instanceof PrimitiveType){
+        if (jType instanceof ValueType || jType instanceof PrimitiveType) {
             throw new ObjDiffException(ObjDiffExceptionCode.COMPARING_TOP_LEVEL_VALUES_NOT_SUPPORTED,
                     jType.getClass().getSimpleName(), handle.getClass().getSimpleName());
         }
         return graphFactory.createLiveGraph(handle);
     }
-
 
 
     /**
@@ -130,7 +133,7 @@ public class DiffFactory {
 
     private void appendChanges(DiffBuilder diff, NodePair pair, ObjDiffProperty property, ObjDiffType ObjDiffType) {
         for (PropertyChangeAppender appender : propertyChangeAppender) {
-            if (! appender.supports(ObjDiffType)){
+            if (!appender.supports(ObjDiffType)) {
                 continue;
             }
 

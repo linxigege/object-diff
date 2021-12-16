@@ -44,10 +44,10 @@ public class EntryValueChange extends EntryChange {
 
     @Override
     protected String prettyPrint(PrettyValuePrinter valuePrinter) {
-        return "· entry ["+ valuePrinter.formatWithQuotes(getKey()) + " : " +
-                valuePrinter.formatWithQuotes(getLeftValue())+"] -> ["+
+        return "· entry [" + valuePrinter.formatWithQuotes(getKey()) + " : " +
+                valuePrinter.formatWithQuotes(getLeftValue()) + "] -> [" +
                 valuePrinter.formatWithQuotes(getKey()) + " : " +
-                valuePrinter.formatWithQuotes(getRightValue())+"]";
+                valuePrinter.formatWithQuotes(getRightValue()) + "]";
     }
 
     @Override

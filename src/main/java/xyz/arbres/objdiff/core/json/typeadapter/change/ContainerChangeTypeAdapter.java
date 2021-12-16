@@ -46,11 +46,11 @@ abstract class ContainerChangeTypeAdapter<T extends ContainerChange> extends Cha
 
         JsonArray array = jsonObject.getAsJsonArray(CHANGES_FIELD);
 
-        for (JsonElement e : array){
-            JsonObject elementChange = (JsonObject)e;
-            String elementChangeType  = elementChange.get(ELEMENT_CHANGE_TYPE_FIELD).getAsString();
+        for (JsonElement e : array) {
+            JsonObject elementChange = (JsonObject) e;
+            String elementChangeType = elementChange.get(ELEMENT_CHANGE_TYPE_FIELD).getAsString();
 
-            if (ValueAdded.class.getSimpleName().equals(elementChangeType)){
+            if (ValueAdded.class.getSimpleName().equals(elementChangeType)) {
                 result.add(parseValueAdded(elementChange, context, containerType));
             } else if (ValueRemoved.class.getSimpleName().equals(elementChangeType)) {
                 result.add(parseValueRemoved(elementChange, context, containerType));
@@ -64,13 +64,13 @@ abstract class ContainerChangeTypeAdapter<T extends ContainerChange> extends Cha
         return result;
     }
 
-    private ElementValueChange parseElementValueChange(JsonObject elementChange, JsonDeserializationContext context, ContainerType containerType){
+    private ElementValueChange parseElementValueChange(JsonObject elementChange, JsonDeserializationContext context, ContainerType containerType) {
         Object lValue = decodeValue(elementChange, context, LEFT_VALUE_FIELD, containerType.getItemJavaType());
         Object rValue = decodeValue(elementChange, context, RIGHT_VALUE_FIELD, containerType.getItemJavaType());
         return new ElementValueChange(parseIndex(elementChange), lValue, rValue);
     }
 
-    private ValueAdded parseValueAdded(JsonObject elementChange, JsonDeserializationContext context, ContainerType containerType){
+    private ValueAdded parseValueAdded(JsonObject elementChange, JsonDeserializationContext context, ContainerType containerType) {
         Object value = decodeValue(elementChange, context, VALUE_FIELD, containerType.getItemClass());
 
         Integer idx = parseIndex(elementChange);
@@ -81,7 +81,7 @@ abstract class ContainerChangeTypeAdapter<T extends ContainerChange> extends Cha
         }
     }
 
-    private ValueRemoved parseValueRemoved(JsonObject elementChange, JsonDeserializationContext context, ContainerType containerType){
+    private ValueRemoved parseValueRemoved(JsonObject elementChange, JsonDeserializationContext context, ContainerType containerType) {
         Object value = decodeValue(elementChange, context, VALUE_FIELD, containerType.getItemClass());
         Integer idx = parseIndex(elementChange);
         if (idx != null) {
@@ -92,13 +92,13 @@ abstract class ContainerChangeTypeAdapter<T extends ContainerChange> extends Cha
     }
 
     private Integer parseIndex(JsonObject elementChange) {
-        if (!elementChange.has(INDEX_FIELD) || elementChange.get(INDEX_FIELD).isJsonNull()){
+        if (!elementChange.has(INDEX_FIELD) || elementChange.get(INDEX_FIELD).isJsonNull()) {
             return null;
         }
         return elementChange.get(INDEX_FIELD).getAsInt();
     }
 
-    private Object decodeValue(JsonObject elementChange, JsonDeserializationContext context, String fieldName, Type expectedType){
+    private Object decodeValue(JsonObject elementChange, JsonDeserializationContext context, String fieldName, Type expectedType) {
         return context.deserialize(elementChange.get(fieldName), typeMapper.getDehydratedType(expectedType));
     }
 
@@ -115,8 +115,7 @@ abstract class ContainerChangeTypeAdapter<T extends ContainerChange> extends Cha
         JsonArray jsonArray = new JsonArray();
 
 
-
-        for (ContainerElementChange elementChange : (List<ContainerElementChange>)change.getChanges()) {
+        for (ContainerElementChange elementChange : (List<ContainerElementChange>) change.getChanges()) {
             JsonObject jsonElement = new JsonObject();
             jsonElement.addProperty(ELEMENT_CHANGE_TYPE_FIELD, elementChange.getClass().getSimpleName());
 

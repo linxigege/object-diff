@@ -24,7 +24,7 @@ class ReferenceChangeTypeAdapter extends ChangeTypeAdapter<ReferenceChange> {
         JsonObject jsonObject = (JsonObject) json;
         PropertyChangeMetadata stub = deserializeStub(jsonObject, context);
 
-        GlobalId leftRef  = context.deserialize(jsonObject.get(LEFT_REFERENCE_FIELD),  GlobalId.class);
+        GlobalId leftRef = context.deserialize(jsonObject.get(LEFT_REFERENCE_FIELD), GlobalId.class);
         GlobalId rightRef = context.deserialize(jsonObject.get(RIGHT_REFERENCE_FIELD), GlobalId.class);
 
         CommitMetadata commitMetadata = deserializeCommitMetadata(jsonObject, context);
@@ -35,7 +35,7 @@ class ReferenceChangeTypeAdapter extends ChangeTypeAdapter<ReferenceChange> {
     public JsonElement toJson(ReferenceChange change, JsonSerializationContext context) {
         final JsonObject jsonObject = createJsonObject(change, context);
 
-        jsonObject.add(LEFT_REFERENCE_FIELD,  context.serialize(change.getLeft()));
+        jsonObject.add(LEFT_REFERENCE_FIELD, context.serialize(change.getLeft()));
         jsonObject.add(RIGHT_REFERENCE_FIELD, context.serialize(change.getRight()));
 
         return jsonObject;

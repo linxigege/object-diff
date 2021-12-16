@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.snapshot;
 
 
-
 import xyz.arbres.objdiff.core.graph.ObjectNode;
 import xyz.arbres.objdiff.core.metamodel.object.CdoSnapshot;
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
@@ -19,11 +18,11 @@ class SnapshotNode extends ObjectNode<CdoSnapshot> {
     }
 
     @Override
-    public GlobalId getReference(Property property){
+    public GlobalId getReference(Property property) {
 
         Object propertyValue = getPropertyValue(property);
         if (propertyValue instanceof GlobalId) {
-            return (GlobalId)propertyValue;
+            return (GlobalId) propertyValue;
         } else {
             //when user's class is refactored, a property can have different type
             return null;
@@ -46,8 +45,7 @@ class SnapshotNode extends ObjectNode<CdoSnapshot> {
             Object propertyValue = getPropertyValue(property);
             EnumerableType enumerableType = property.getType();
             return enumerableType.filterToList(propertyValue, GlobalId.class);
-        }
-        else {
+        } else {
             return Collections.emptyList();
         }
     }

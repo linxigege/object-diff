@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.graph;
 
 
-
 import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
 import xyz.arbres.objdiff.core.metamodel.object.ValueObjectId;
@@ -14,7 +13,7 @@ import java.util.function.Predicate;
 
 import static java.util.stream.Collectors.toList;
 
-public class LiveNode extends ObjectNode<LiveCdo>{
+public class LiveNode extends ObjectNode<LiveCdo> {
 
     private final Map<String, Edge> edges = new HashMap<>();
 
@@ -36,13 +35,12 @@ public class LiveNode extends ObjectNode<LiveCdo>{
     }
 
     @Override
-    public GlobalId getReference(Property property){
+    public GlobalId getReference(Property property) {
         Edge edge = getEdge(property);
 
-        if (edge instanceof AbstractSingleEdge){
-            return ((AbstractSingleEdge)edge).getReference();
-        }
-        else {
+        if (edge instanceof AbstractSingleEdge) {
+            return ((AbstractSingleEdge) edge).getReference();
+        } else {
             //when user's class is refactored, a property can have different type
             return null;
         }
@@ -52,10 +50,10 @@ public class LiveNode extends ObjectNode<LiveCdo>{
     public List<GlobalId> getReferences(ObjDiffProperty property) {
         Edge edge = getEdge(property); //could be null for snapshots
 
-        if (edge != null){
+        if (edge != null) {
             return edge.getReferences()
                     .stream()
-                    .map(it-> it.getGlobalId())
+                    .map(it -> it.getGlobalId())
                     .collect(toList());
         } else {
             //when user's class is refactored, a collection can contain different items
@@ -109,6 +107,12 @@ public class LiveNode extends ObjectNode<LiveCdo>{
                 (LiveNode n) -> n.getGlobalId() instanceof ValueObjectId).descendantsList();
     }
 
+    @Override
+    public String toString() {
+        return "LiveNode{" + hashCode() + ", globaId:" + getGlobalId() +
+                ", edges:" + edges.size() + " }";
+    }
+
     private static class NodeTraverser {
         private final List<LiveCdo> descendantsList = new ArrayList<>();
         private final int maxDepth;
@@ -118,13 +122,13 @@ public class LiveNode extends ObjectNode<LiveCdo>{
         NodeTraverser(LiveNode root, int maxDepth, Predicate<LiveNode> filter) {
             this.maxDepth = maxDepth;
             this.root = root;
-            this.filter = filter != null ? filter : (LiveNode n) -> true ;
+            this.filter = filter != null ? filter : (LiveNode n) -> true;
             followEdges(root, 1);
         }
 
         void follow(Edge edge, int depth) {
             edge.getReferences().forEach(n -> {
-                if(!n.equals(root) && filter.test(n)) {
+                if (!n.equals(root) && filter.test(n)) {
                     descendantsList.add(n.getCdo());
                     if (depth < maxDepth) {
                         followEdges(n, depth + 1);
@@ -142,13 +146,7 @@ public class LiveNode extends ObjectNode<LiveCdo>{
         }
 
         void followEdges(LiveNode node, int depth) {
-            node.edges.values().forEach(e -> follow((Edge)e, depth));
+            node.edges.values().forEach(e -> follow((Edge) e, depth));
         }
-    }
-
-    @Override
-    public String toString() {
-        return "LiveNode{" + hashCode() + ", globaId:" + getGlobalId() +
-                ", edges:" +edges.size() +" }";
     }
 }

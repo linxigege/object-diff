@@ -1,12 +1,8 @@
 package xyz.arbres.objdiff.core.metamodel.scanner;
 
-import xyz.arbres.objdiff.core.metamodel.property.Property;
-
-import java.util.List;
-import java.util.Optional;
-
 /**
  * Facade for PropertyScanner and ClassAnnotationScanner
+ *
  * @author bartosz.walacik
  */
 public class ClassScanner {
@@ -19,7 +15,7 @@ public class ClassScanner {
         this.classAnnotationsScanner = classAnnotationsScanner;
     }
 
-    public ClassScan scan(Class<?> managedClass){
+    public ClassScan scan(Class<?> managedClass) {
         ClassAnnotationsScan classAnnScan = classAnnotationsScanner.scan(managedClass);
         return new ClassScan(propertyScanner.scan(managedClass, classAnnScan.hasIgnoreDeclaredProperties()), classAnnScan);
     }

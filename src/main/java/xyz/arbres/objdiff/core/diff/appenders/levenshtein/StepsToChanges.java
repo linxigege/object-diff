@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.diff.appenders.levenshtein;
 
 
-
 import xyz.arbres.objdiff.core.diff.EqualsFunction;
 import xyz.arbres.objdiff.core.diff.changetype.container.ContainerElementChange;
 import xyz.arbres.objdiff.core.diff.changetype.container.ElementValueChange;
@@ -45,12 +44,12 @@ class StepsToChanges {
             }
         }
 
-        while(i > 0) {
+        while (i > 0) {
             changes.add(new ValueRemoved(i - 1, leftList.get(i - 1)));
             i--;
         }
 
-        while(j > 0) {
+        while (j > 0) {
             changes.add(new ValueAdded(j - 1, rightList.get(j - 1)));
             j--;
         }

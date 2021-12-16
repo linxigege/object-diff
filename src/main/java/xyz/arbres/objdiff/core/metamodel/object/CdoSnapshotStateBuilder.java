@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.object;
 
 
-
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
 import xyz.arbres.objdiff.common.validation.Validate;
@@ -16,20 +15,20 @@ import java.util.Map;
 public class CdoSnapshotStateBuilder {
     private final Map<String, Object> properties = new HashMap<>();
 
-    private CdoSnapshotStateBuilder(){
+    private CdoSnapshotStateBuilder() {
     }
 
-    public static CdoSnapshotStateBuilder cdoSnapshotState(){
+    public static CdoSnapshotStateBuilder cdoSnapshotState() {
         return new CdoSnapshotStateBuilder();
     }
 
-    public CdoSnapshotStateBuilder withPropertyValue(String propertyName, Object value){
+    public CdoSnapshotStateBuilder withPropertyValue(String propertyName, Object value) {
         Validate.argumentIsNotNull(propertyName);
-        if (value == null){
+        if (value == null) {
             return this;
         }
 
-        if (properties.containsKey(propertyName)){
+        if (properties.containsKey(propertyName)) {
             throw new ObjDiffException(ObjDiffExceptionCode.SNAPSHOT_STATE_VIOLATION, propertyName);
         }
 
@@ -37,7 +36,7 @@ public class CdoSnapshotStateBuilder {
         return this;
     }
 
-    public CdoSnapshotStateBuilder withPropertyValue(Property property, Object value){
+    public CdoSnapshotStateBuilder withPropertyValue(Property property, Object value) {
         return withPropertyValue(property.getName(), value);
     }
 

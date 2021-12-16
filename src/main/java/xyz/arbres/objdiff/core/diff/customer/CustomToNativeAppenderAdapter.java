@@ -26,8 +26,8 @@ public class CustomToNativeAppenderAdapter<T, C extends PropertyChange> implemen
 
     @Override
     public C calculateChanges(NodePair pair, ObjDiffProperty property) {
-        T leftValue = (T)pair.getLeftPropertyValue(property);
-        T rightValue = (T)pair.getRightPropertyValue(property);
+        T leftValue = (T) pair.getLeftPropertyValue(property);
+        T rightValue = (T) pair.getRightPropertyValue(property);
 
         return delegate.compare(leftValue, rightValue, pair.createPropertyChangeMetadata(property), property).orElse(null);
     }

@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.repository.api;
 
 
-
 import xyz.arbres.objdiff.common.string.ToStringBuilder;
 import xyz.arbres.objdiff.core.commit.CommitId;
 import xyz.arbres.objdiff.core.metamodel.object.SnapshotType;
@@ -36,7 +35,7 @@ public class QueryParams {
     private final boolean loadCommitProps;
     private final Integer snapshotQueryLimit;
 
-    QueryParams(int limit, int skip, LocalDateTime from, Instant fromInstant, LocalDateTime to, Instant toInstant, Set<CommitId> commitIds, Long version, String author, Map<String, Collection<String>> commitProperties, Map<String,String> commitPropertiesLike, boolean aggregate, Set<String> changedProperties, CommitId toCommitId, SnapshotType snapshotType, boolean loadCommitProps, Integer snapshotQueryLimit) {
+    QueryParams(int limit, int skip, LocalDateTime from, Instant fromInstant, LocalDateTime to, Instant toInstant, Set<CommitId> commitIds, Long version, String author, Map<String, Collection<String>> commitProperties, Map<String, String> commitPropertiesLike, boolean aggregate, Set<String> changedProperties, CommitId toCommitId, SnapshotType snapshotType, boolean loadCommitProps, Integer snapshotQueryLimit) {
         this.snapshotQueryLimit = snapshotQueryLimit;
         this.limit = limit;
         this.skip = skip;
@@ -143,7 +142,7 @@ public class QueryParams {
      */
     public Map<String, String> commitPropertiesLike() {
         return commitPropertiesLike != null ?
-            commitPropertiesLike : Collections.emptyMap();
+                commitPropertiesLike : Collections.emptyMap();
     }
 
     /**

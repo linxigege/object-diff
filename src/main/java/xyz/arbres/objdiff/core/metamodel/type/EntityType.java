@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @author carlos
  * @date 2021-12-08
  */
-public class EntityType extends ManagedType{
+public class EntityType extends ManagedType {
 
     private final List<ObjDiffProperty> idProperties;
     private final InstanceIdFactory instanceIdFactory;
@@ -119,8 +119,12 @@ public class EntityType extends ManagedType{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) { return true; }
-        if (!(o instanceof EntityType)) {return false;}
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof EntityType)) {
+            return false;
+        }
 
         EntityType that = (EntityType) o;
         return super.equals(that) && idProperties.equals(that.idProperties);

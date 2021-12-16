@@ -25,7 +25,7 @@ public class CdoSnapshotAssembler {
         return jsonObject;
     }
 
-    private JsonElement assembleGlobalId(CdoSnapshotSerialized snapshot){
+    private JsonElement assembleGlobalId(CdoSnapshotSerialized snapshot) {
         String fragment = snapshot.getGlobalIdFragment();
         String localIdJSON = snapshot.getGlobalIdLocalId();
         String cdoType = snapshot.getGlobalIdTypeName();
@@ -34,7 +34,7 @@ public class CdoSnapshotAssembler {
         String ownerCdoType = snapshot.getOwnerGlobalIdTypeName();
 
         JsonObject json = assembleOneGlobalId(cdoType, localIdJSON, fragment);
-        if (ownerFragment != null || ownerLocalId != null || ownerCdoType != null){
+        if (ownerFragment != null || ownerLocalId != null || ownerCdoType != null) {
             JsonObject ownerId = assembleOneGlobalId(ownerCdoType, ownerLocalId, ownerFragment);
             json.add(GlobalIdTypeAdapter.OWNER_ID_FIELD, ownerId);
         }
@@ -43,11 +43,10 @@ public class CdoSnapshotAssembler {
 
     private JsonObject assembleOneGlobalId(String typeName, String localIdJson, String fragment) {
         JsonObject json = new JsonObject();
-        if (localIdJson != null){
+        if (localIdJson != null) {
             json.addProperty(GlobalIdTypeAdapter.ENTITY_FIELD, typeName);
             json.add(GlobalIdTypeAdapter.CDO_ID_FIELD, jsonConverter.fromJsonToJsonElement(localIdJson));
-        }
-        else{
+        } else {
             json.addProperty(GlobalIdTypeAdapter.VALUE_OBJECT_FIELD, typeName);
             json.addProperty(GlobalIdTypeAdapter.FRAGMENT_FIELD, fragment);
         }
@@ -56,7 +55,7 @@ public class CdoSnapshotAssembler {
 
     private JsonElement assembleChangedPropNames(CdoSnapshotSerialized snapshot) {
         String changed = snapshot.getChangedProperties();
-        if (changed == null || changed.isEmpty()){
+        if (changed == null || changed.isEmpty()) {
             return new JsonObject();
         }
         return jsonConverter.fromJsonToJsonElement(changed);

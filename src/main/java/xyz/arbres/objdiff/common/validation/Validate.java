@@ -9,34 +9,35 @@ package xyz.arbres.objdiff.common.validation;
 public class Validate {
     /**
      * Checks if given argument is not null.
-     * @throws  IllegalArgumentException
+     *
+     * @throws IllegalArgumentException
      */
     public static void argumentIsNotNull(Object argument, String message) {
-        if(argument == null) {
+        if (argument == null) {
             throw new IllegalArgumentException(message);
         }
     }
 
     /**
-     * @throws  IllegalArgumentException
+     * @throws IllegalArgumentException
      */
     public static void argumentIsNotNull(Object argument) {
-        argumentIsNotNull(argument,"argument should not be null");
+        argumentIsNotNull(argument, "argument should not be null");
     }
 
     /**
-     * @throws  IllegalArgumentException
+     * @throws IllegalArgumentException
      */
     public static void argumentsAreNotNull(Object... arguments) {
         for (Object argument : arguments) {
-            if(argument == null) {
+            if (argument == null) {
                 throw new IllegalArgumentException("argument should not be null");
             }
         }
     }
 
     /**
-     * @throws  IllegalArgumentException
+     * @throws IllegalArgumentException
      */
     public static void argumentCheck(boolean argumentCondition, String message) {
         if (!argumentCondition) {
@@ -46,7 +47,7 @@ public class Validate {
     }
 
     /**
-     * @throws  IllegalStateException
+     * @throws IllegalStateException
      */
     public static void conditionFulfilled(boolean condition, String message) {
         if (!condition) {

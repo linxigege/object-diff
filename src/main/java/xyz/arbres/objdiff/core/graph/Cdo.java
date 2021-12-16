@@ -7,7 +7,7 @@ import xyz.arbres.objdiff.core.metamodel.type.ManagedType;
 
 import java.util.Optional;
 
-public  abstract class Cdo {
+public abstract class Cdo {
 
     private final ManagedType managedType;
 
@@ -38,7 +38,7 @@ public  abstract class Cdo {
         }
 
         Cdo other = (Cdo) o;
-        return  getGlobalId().equals(other.getGlobalId());
+        return getGlobalId().equals(other.getGlobalId());
     }
 
     @Override

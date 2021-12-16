@@ -16,7 +16,7 @@ import static xyz.arbres.objdiff.common.validation.Validate.argumentsAreNotNull;
  * @author carlos
  * @date 2021-12-08
  */
-public class ValueObjectId extends GlobalId{
+public class ValueObjectId extends GlobalId {
     private static final String SEGMENT_SEP = "/";
     private final GlobalId ownerId;
     private final String fragment;
@@ -37,7 +37,7 @@ public class ValueObjectId extends GlobalId{
         return fragment;
     }
 
-    public boolean hasOwnerOfType(EntityType entityType){
+    public boolean hasOwnerOfType(EntityType entityType) {
         return ownerId.getTypeName().equals(entityType.getName());
     }
 
@@ -52,7 +52,7 @@ public class ValueObjectId extends GlobalId{
 
     @Override
     public String value() {
-        return getOwnerId().value() +"#"+ fragment;
+        return getOwnerId().value() + "#" + fragment;
     }
 
     public Set<ValueObjectId> getParentValueObjectIds() {
@@ -62,7 +62,7 @@ public class ValueObjectId extends GlobalId{
         }
 
         return segments.stream()
-                .limit(segments.size()-1)
+                .limit(segments.size() - 1)
                 .map(s -> new ValueObjectId(this.getTypeName(), ownerId, s))
                 .collect(Collectors.toSet());
     }
@@ -82,7 +82,7 @@ public class ValueObjectId extends GlobalId{
 
     @Override
     public String toString() {
-        return getOwnerId().toString() +"#"+ fragment;
+        return getOwnerId().toString() + "#" + fragment;
     }
 
 }

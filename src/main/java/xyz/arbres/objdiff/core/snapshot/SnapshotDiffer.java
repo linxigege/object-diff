@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.snapshot;
 
 
-
 import xyz.arbres.objdiff.common.collections.Sets;
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.CoreConfiguration;

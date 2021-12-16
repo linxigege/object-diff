@@ -100,8 +100,8 @@ class TypeFactory {
 
         return dynamicType
                 .orElseGet(() -> inferFromAnnotations(javaRichType)
-                .orElseGet(() -> inferFromHints(javaRichType)
-                .orElseGet(() -> createDefaultType(javaRichType))));
+                        .orElseGet(() -> inferFromHints(javaRichType)
+                                .orElseGet(() -> createDefaultType(javaRichType))));
     }
 
     private Optional<ObjDiffType> resolveIfTokenType(Type javaType) {
@@ -157,7 +157,7 @@ class TypeFactory {
         }
 
         if (t.getScan().hasValueObjectAnn()) {
-            return Optional.of(create(ValueObjectDefinitionBuilder.valueObjectDefinition(t.javaClass).withTypeName(t.getAnnTypeName()).build(),t.getScan()));
+            return Optional.of(create(ValueObjectDefinitionBuilder.valueObjectDefinition(t.javaClass).withTypeName(t.getAnnTypeName()).build(), t.getScan()));
         }
 
         if (t.getScan().hasShallowReferenceAnn()) {
@@ -171,11 +171,22 @@ class TypeFactory {
         return Optional.empty();
     }
 
+    private interface Hint {
+        ObjDiffType vote(JavaRichType richType);
+    }
+
+    private static class EntityIdHint implements Hint {
+        @Override
+        public ObjDiffType vote(JavaRichType richType) {
+            return new ValueType(richType.javaType);
+        }
+    }
+
     private class JavaRichType {
+        Supplier<ClassScan> classScan;
         private Type javaType;
         private Class javaClass;
         private ClassScan scan;
-        Supplier<ClassScan> classScan;
 
         JavaRichType(Type javaType) {
             this.javaType = javaType;
@@ -200,17 +211,6 @@ class TypeFactory {
 
         Optional<String> getAnnTypeName() {
             return getScan().typeName();
-        }
-    }
-
-    private interface Hint {
-        ObjDiffType vote(JavaRichType richType);
-    }
-
-    private static class EntityIdHint implements Hint {
-        @Override
-        public ObjDiffType vote(JavaRichType richType) {
-            return new ValueType(richType.javaType);
         }
     }
 }

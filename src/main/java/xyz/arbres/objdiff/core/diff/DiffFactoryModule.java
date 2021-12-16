@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.diff;
 
 
-
 import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.core.pico.ObjDiffModule;
 

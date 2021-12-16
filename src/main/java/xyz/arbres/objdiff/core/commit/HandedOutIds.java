@@ -1,11 +1,6 @@
 package xyz.arbres.objdiff.core.commit;
 
 
-
-
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +13,11 @@ class HandedOutIds {
 
     private List<CommitId> handedOutList = new ArrayList<>();
 
-    void put (CommitId handedOut) {
+    void put(CommitId handedOut) {
 
         int found = findExistingIndex(handedOut.getMajorId());
 
-        if (found >= 0){
+        if (found >= 0) {
             handedOutList.remove(found);
             handedOutList.add(found, handedOut);
             maintainQueueSize(found);
@@ -35,24 +30,23 @@ class HandedOutIds {
     }
 
     private void maintainQueueSize(int touchedIndex) {
-        if (touchedIndex < qLimit /2) {
+        if (touchedIndex < qLimit / 2) {
             if (handedOutList.size() > qLimit) {
                 handedOutList.remove(handedOutList.size() - 1);
             }
-        }
-        else {
-            qLimit += qLimit/10;
+        } else {
+            qLimit += qLimit / 10;
         }
 
     }
 
     private int findInsertIndex(Long majorId) {
-        if (handedOutList.size() == 0){
+        if (handedOutList.size() == 0) {
             return 0;
         }
 
         int i = 0;
-        while (i < handedOutList.size() &&  handedOutList.get(i).getMajorId() > majorId) {
+        while (i < handedOutList.size() && handedOutList.get(i).getMajorId() > majorId) {
             i++;
         }
 
@@ -62,23 +56,23 @@ class HandedOutIds {
         return i;
     }
 
-    private int findExistingIndex(Long majorId){
-        for (int i=0; i<handedOutList.size(); i++){
+    private int findExistingIndex(Long majorId) {
+        for (int i = 0; i < handedOutList.size(); i++) {
             CommitId c = handedOutList.get(i);
-            if (c.getMajorId() == majorId){
+            if (c.getMajorId() == majorId) {
                 return i;
             }
 
-            if (c.getMajorId() < majorId){
+            if (c.getMajorId() < majorId) {
                 return -1;
             }
         }
         return -1;
     }
 
-    CommitId get(Long majorId)  {
-        for (CommitId id : handedOutList){
-            if (id.getMajorId() == majorId){
+    CommitId get(Long majorId) {
+        for (CommitId id : handedOutList) {
+            if (id.getMajorId() == majorId) {
                 return id;
             }
         }

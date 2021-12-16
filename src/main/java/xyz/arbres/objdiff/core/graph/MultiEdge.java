@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.graph;
 
 
-
 import xyz.arbres.objdiff.core.metamodel.type.EnumerableType;
 import xyz.arbres.objdiff.core.metamodel.type.ObjDiffProperty;
 
@@ -10,10 +9,10 @@ import java.util.List;
 class MultiEdge extends AbstractMultiEdge {
     /**
      * This is the tricky part.
-     *
+     * <p>
      * This object holds a copy of original structure,
      * with references replaced with corresponding LiveNodes.
-     *
+     * <p>
      * Having that, it's easy to compute dehydratedPropertyValue and
      * list of referenced nodes.
      */
@@ -37,7 +36,7 @@ class MultiEdge extends AbstractMultiEdge {
 
         memoizedDehydratedPropertyValue = enumerableType.map(nodesEnumerable, (it) -> {
             if (it instanceof LiveNode) {
-                return ((LiveNode)it).getGlobalId();
+                return ((LiveNode) it).getGlobalId();
             }
             return it;
         });

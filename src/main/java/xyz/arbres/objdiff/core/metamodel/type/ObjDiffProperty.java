@@ -19,7 +19,7 @@ public class ObjDiffProperty extends Property {
     private final Supplier<ObjDiffType> propertyType;
 
     public ObjDiffProperty(Supplier<ObjDiffType> propertyType, Property property) {
-        super(property.getMember(),  property.hasTransientAnn(), property.hasShallowReferenceAnn(), property.getName(), property.isHasIncludedAnn());
+        super(property.getMember(), property.hasTransientAnn(), property.hasShallowReferenceAnn(), property.getName(), property.isHasIncludedAnn());
         this.propertyType = propertyType;
     }
 
@@ -58,7 +58,7 @@ public class ObjDiffProperty extends Property {
         return super.hashCode();
     }
 
-    public boolean isShallowReference(){
+    public boolean isShallowReference() {
         return (hasShallowReferenceAnn()
                 || getType() instanceof ShallowReferenceType);
     }
@@ -68,7 +68,7 @@ public class ObjDiffProperty extends Property {
         return getMember().memberType() + " " +
                 getType().getClass().getSimpleName() + ":" +
                 ToStringBuilder.typeName(getMember().getGenericResolvedType()) + " " +
-                getName() + (getMember().memberType().equals("Getter") ? "()" : "")+
+                getName() + (getMember().memberType().equals("Getter") ? "()" : "") +
                 ", declared in " + getDeclaringClass().getSimpleName();
     }
 }

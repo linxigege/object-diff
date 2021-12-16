@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.commit;
 
 
-
 import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.common.date.DateProvider;
 import xyz.arbres.objdiff.core.diff.Diff;
@@ -22,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static xyz.arbres.objdiff.common.validation.Validate.*;
+import static xyz.arbres.objdiff.common.validation.Validate.argumentsAreNotNull;
 
 /**
  * @author bartosz walacik
@@ -48,7 +47,7 @@ public class CommitFactory {
         this.commitIdFactory = commitIdFactory;
     }
 
-    public Commit createTerminalByGlobalId(String author, Map<String, String> properties, GlobalId removedId){
+    public Commit createTerminalByGlobalId(String author, Map<String, String> properties, GlobalId removedId) {
         argumentsAreNotNull(author, properties, removedId);
         Optional<CdoSnapshot> previousSnapshot = ObjDiffRepository.getLatest(removedId);
 
@@ -58,33 +57,33 @@ public class CommitFactory {
         return new Commit(commitMetadata, Lists.asList(terminalSnapshot), diff);
     }
 
-    public Commit createTerminal(String author, Map<String, String> properties, Object removed){
+    public Commit createTerminal(String author, Map<String, String> properties, Object removed) {
         argumentsAreNotNull(author, properties, removed);
         Cdo removedCdo = liveGraphFactory.createCdo(removed);
         return createTerminalByGlobalId(author, properties, removedCdo.getGlobalId());
     }
 
-    public Commit create(String author, Map<String, String> properties, Object currentVersion){
+    public Commit create(String author, Map<String, String> properties, Object currentVersion) {
         argumentsAreNotNull(author, currentVersion);
         LiveGraph currentGraph = createLiveGraph(currentVersion);
         return createCommit(author, properties, currentGraph);
     }
 
-    private Commit createCommit(String author, Map<String, String> properties, LiveGraph currentGraph){
+    private Commit createCommit(String author, Map<String, String> properties, LiveGraph currentGraph) {
         CommitMetadata commitMetadata = newCommitMetadata(author, properties);
         ObjectGraph<CdoSnapshot> latestSnapshotGraph = snapshotGraphFactory.createLatest(currentGraph.globalIds());
         List<CdoSnapshot> changedCdoSnapshots =
-            changedCdoSnapshotsFactory.create(currentGraph, latestSnapshotGraph.cdos(), commitMetadata);
+                changedCdoSnapshotsFactory.create(currentGraph, latestSnapshotGraph.cdos(), commitMetadata);
         Diff diff = diffFactory.create(latestSnapshotGraph, currentGraph, Optional.of(commitMetadata));
         return new Commit(commitMetadata, changedCdoSnapshots, diff);
     }
 
-    private LiveGraph createLiveGraph(Object currentVersion){
+    private LiveGraph createLiveGraph(Object currentVersion) {
         argumentsAreNotNull(currentVersion);
         return liveGraphFactory.createLiveGraph(currentVersion);
     }
 
-    private CommitMetadata newCommitMetadata(String author, Map<String, String> properties){
+    private CommitMetadata newCommitMetadata(String author, Map<String, String> properties) {
         ZonedDateTime now = dateProvider.now();
         return new CommitMetadata(author, properties,
                 now.toLocalDateTime(), now.toInstant(),

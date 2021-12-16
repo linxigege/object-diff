@@ -1,12 +1,14 @@
 package xyz.arbres.objdiff.core.graph;
 
 
-
 import xyz.arbres.objdiff.common.validation.Validate;
+import xyz.arbres.objdiff.core.metamodel.object.CdoSnapshot;
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
 import xyz.arbres.objdiff.core.metamodel.property.Property;
+import xyz.arbres.objdiff.core.metamodel.type.EntityType;
 import xyz.arbres.objdiff.core.metamodel.type.ManagedType;
 import xyz.arbres.objdiff.core.metamodel.type.ObjDiffProperty;
+import xyz.arbres.objdiff.core.metamodel.type.ValueObjectType;
 
 import java.util.List;
 import java.util.Optional;
@@ -60,7 +62,7 @@ public abstract class ObjectNode<T extends Cdo> {
         return cdo.getPropertyValue(property);
     }
 
-    public boolean isNull(Property property){
+    public boolean isNull(Property property) {
         return cdo.isNull(property);
     }
 

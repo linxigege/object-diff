@@ -9,6 +9,6 @@ import java.util.UUID;
  */
 class DistributedCommitSeqGenerator {
     CommitId nextId() {
-        return new CommitId(Math.abs(UUID.randomUUID().getLeastSignificantBits()),0);
+        return new CommitId(Math.abs(UUID.randomUUID().getLeastSignificantBits()), 0);
     }
 }

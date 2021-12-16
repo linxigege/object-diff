@@ -21,12 +21,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Add {@code DiffIgnore} to classes to mark them as ignored. <br/>
  * When a class is ignored, all properties
  * (found in other classes) with this class type are ignored.
- *
+ * <p>
  * <br/><br/>
  * <b>Warning</b>: {@code DiffIgnore} can't be mixed with {@code DiffInclude} in the same class.
  *
- * @see DiffInclude
  * @author bartosz walacik
+ * @see DiffInclude
  */
 @Target({METHOD, FIELD, TYPE})
 @Retention(RUNTIME)

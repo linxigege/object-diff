@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.object;
 
 
-
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
 import xyz.arbres.objdiff.common.string.ToStringBuilder;
@@ -25,8 +24,8 @@ import java.util.function.Supplier;
  */
 public class GlobalIdFactory {
     private final TypeMapper typeMapper;
-    private ObjectAccessHook objectAccessHook;
     private final GlobalIdPathParser pathParser;
+    private ObjectAccessHook objectAccessHook;
 
     public GlobalIdFactory(TypeMapper typeMapper, ObjectAccessHook objectAccessHook) {
         this.typeMapper = typeMapper;
@@ -50,10 +49,9 @@ public class GlobalIdFactory {
         ManagedType targetManagedType = typeMapper.getObjDiffManagedType(targetClass);
 
         if (targetManagedType instanceof EntityType) {
-            if (cdoProxy.isPresent() && cdoProxy.get().getLocalId().isPresent()){
+            if (cdoProxy.isPresent() && cdoProxy.get().getLocalId().isPresent()) {
                 return createInstanceId(cdoProxy.get().getLocalId().get(), targetClass);
-            }
-            else {
+            } else {
                 return ((EntityType) targetManagedType).createIdFromInstance(targetCdo);
             }
         }
@@ -67,15 +65,14 @@ public class GlobalIdFactory {
             String localPath = ownerContext.getPath();
 
             if (ownerContext.requiresObjectHasher() ||
-                   ValueObjectIdWithHash.containsHashPlaceholder(parentFragment.get())) {
+                    ValueObjectIdWithHash.containsHashPlaceholder(parentFragment.get())) {
                 return new ValueObjectIdWithHash.ValueObjectIdWithPlaceholder(
                         targetManagedType.getName(),
                         getRootOwnerId(ownerContext),
                         parentFragment,
                         localPath,
                         ownerContext.requiresObjectHasher());
-            }
-            else {
+            } else {
                 return new ValueObjectId(targetManagedType.getName(), getRootOwnerId(ownerContext),
                         parentFragment.get() + localPath);
             }
@@ -85,30 +82,30 @@ public class GlobalIdFactory {
     }
 
     private Supplier<String> createParentFragment(GlobalId parentId) {
-        if (parentId instanceof ValueObjectId){
-            return () -> ((ValueObjectId)parentId).getFragment() +"/";
-        } else{
+        if (parentId instanceof ValueObjectId) {
+            return () -> ((ValueObjectId) parentId).getFragment() + "/";
+        } else {
             return () -> "";
         }
     }
 
     private GlobalId getRootOwnerId(OwnerContext ownerContext) {
-        if (ownerContext.getOwnerId() instanceof ValueObjectId){
-            return ((ValueObjectId)ownerContext.getOwnerId()).getOwnerId();
-        } else{
+        if (ownerContext.getOwnerId() instanceof ValueObjectId) {
+            return ((ValueObjectId) ownerContext.getOwnerId()).getOwnerId();
+        } else {
             return ownerContext.getOwnerId();
         }
     }
 
-    public UnboundedValueObjectId createUnboundedValueObjectId(Class valueObjectClass){
+    public UnboundedValueObjectId createUnboundedValueObjectId(Class valueObjectClass) {
         ValueObjectType valueObject = typeMapper.getObjDiffManagedType(valueObjectClass, ValueObjectType.class);
         return new UnboundedValueObjectId(valueObject.getName());
     }
 
     @Deprecated
-    public ValueObjectId createValueObjectIdFromPath(GlobalId owner, String fragment){
+    public ValueObjectId createValueObjectIdFromPath(GlobalId owner, String fragment) {
         ManagedType ownerType = typeMapper.getObjDiffManagedType(owner);
-        ValueObjectType valueObjectType = pathParser.parseChildValueObject(ownerType,fragment);
+        ValueObjectType valueObjectType = pathParser.parseChildValueObject(ownerType, fragment);
         return new ValueObjectId(valueObjectType.getName(), owner, fragment);
     }
 
@@ -125,19 +122,19 @@ public class GlobalIdFactory {
     public InstanceId createInstanceId(Object localId, String typeName) {
         Optional<EntityType> entity = typeMapper.getObjDiffManagedTypeMaybe(typeName, EntityType.class);
         return entity.map(e -> e.createIdFromInstanceId(localId))
-                     .orElseGet(() -> new InstanceId(typeName, localId, ToStringBuilder.smartToString(localId)));
+                .orElseGet(() -> new InstanceId(typeName, localId, ToStringBuilder.smartToString(localId)));
     }
 
-    public GlobalId createFromDto(GlobalIdDTO globalIdDTO){
-        if (globalIdDTO instanceof InstanceIdDTO){
+    public GlobalId createFromDto(GlobalIdDTO globalIdDTO) {
+        if (globalIdDTO instanceof InstanceIdDTO) {
             InstanceIdDTO idDTO = (InstanceIdDTO) globalIdDTO;
             return createInstanceId(idDTO.getCdoId(), idDTO.getEntity());
         }
-        if (globalIdDTO instanceof UnboundedValueObjectIdDTO){
+        if (globalIdDTO instanceof UnboundedValueObjectIdDTO) {
             UnboundedValueObjectIdDTO idDTO = (UnboundedValueObjectIdDTO) globalIdDTO;
             return createUnboundedValueObjectId(idDTO.getVoClass());
         }
-        if (globalIdDTO instanceof ValueObjectIdDTO){
+        if (globalIdDTO instanceof ValueObjectIdDTO) {
             ValueObjectIdDTO idDTO = (ValueObjectIdDTO) globalIdDTO;
             GlobalId ownerId = createFromDto(idDTO.getOwnerIdDTO());
             return createValueObjectIdFromPath(ownerId, idDTO.getPath());

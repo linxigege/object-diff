@@ -22,10 +22,6 @@ public class ManagedPropertiesFilter {
     private final Set<ObjDiffProperty> includedProperties;
     private final Set<ObjDiffProperty> ignoredProperties;
 
-    static ManagedPropertiesFilter empty() {
-        return new ManagedPropertiesFilter();
-    }
-
     ManagedPropertiesFilter(Class<?> baseJavaClass, List<ObjDiffProperty> allSourceProperties, PropertiesFilter propertiesFilter) {
         this.includedProperties = filter(allSourceProperties, propertiesFilter.getIncludedProperties(), baseJavaClass);
         this.includedProperties.addAll(allSourceProperties.stream().filter(p -> p.isHasIncludedAnn()).collect(Collectors.toSet()));
@@ -43,7 +39,11 @@ public class ManagedPropertiesFilter {
         this.ignoredProperties = Collections.emptySet();
     }
 
-    List<ObjDiffProperty> filterProperties(List<ObjDiffProperty> allProperties){
+    static ManagedPropertiesFilter empty() {
+        return new ManagedPropertiesFilter();
+    }
+
+    List<ObjDiffProperty> filterProperties(List<ObjDiffProperty> allProperties) {
         if (hasIncludedProperties()) {
             return new ArrayList<>(includedProperties);
         }

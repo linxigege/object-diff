@@ -16,7 +16,6 @@ import xyz.arbres.objdiff.core.metamodel.type.TypeMapper;
 import java.util.Objects;
 
 
-
 /**
  * @author bartosz walacik
  */
@@ -52,7 +51,7 @@ public class SnapshotFactory {
                 .withState(createSnapshotState(liveNode))
                 .withType(SnapshotType.UPDATE)
                 .markChanged(previous)
-                .withVersion(previous.getVersion()+1)
+                .withVersion(previous.getVersion() + 1)
                 .build();
     }
 
@@ -60,7 +59,7 @@ public class SnapshotFactory {
         CdoSnapshotStateBuilder stateBuilder = CdoSnapshotStateBuilder.cdoSnapshotState();
         for (ObjDiffProperty property : managedType.getProperties()) {
             if (property.getType() instanceof ManagedType ||
-                typeMapper.isEnumerableOfManagedTypes(property.getType())) {
+                    typeMapper.isEnumerableOfManagedTypes(property.getType())) {
                 continue;
             }
 
@@ -79,11 +78,11 @@ public class SnapshotFactory {
         return stateBuilder.build();
     }
 
-    public CdoSnapshotState createSnapshotStateNoRefs(Cdo liveCdo){
+    public CdoSnapshotState createSnapshotStateNoRefs(Cdo liveCdo) {
         return createSnapshotStateNoRefs(liveCdo.getManagedType(), liveCdo.getWrappedCdo().get());
     }
 
-    public CdoSnapshotState createSnapshotState(LiveNode liveNode){
+    public CdoSnapshotState createSnapshotState(LiveNode liveNode) {
         CdoSnapshotStateBuilder stateBuilder = CdoSnapshotStateBuilder.cdoSnapshotState();
         for (ObjDiffProperty property : liveNode.getManagedType().getProperties()) {
             Object dehydratedPropertyValue = liveNode.getDehydratedPropertyValue(property);

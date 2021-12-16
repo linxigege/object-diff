@@ -15,7 +15,7 @@ class JavaUtilDateTypeAdapter extends BasicStringTypeAdapter<Date> {
 
     @Override
     public String serialize(Date sourceValue) {
-        return UtilTypeCoreAdapters.serialize(sourceValue.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime() );
+        return UtilTypeCoreAdapters.serialize(sourceValue.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
     }
 
     @Override

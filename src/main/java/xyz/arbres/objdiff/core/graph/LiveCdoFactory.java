@@ -43,8 +43,7 @@ public class LiveCdoFactory {
 
         if (objectAccessor.isPresent()) {
             return new LazyCdoWrapper(objectAccessor.get().getObjectSupplier(), globalId, managedType);
-        }
-        else {
+        } else {
             return new LiveCdoWrapper(cdo, globalId, managedType);
         }
     }

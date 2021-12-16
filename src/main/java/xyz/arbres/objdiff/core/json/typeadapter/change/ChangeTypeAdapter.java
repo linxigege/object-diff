@@ -30,9 +30,8 @@ class ChangeTypeAdapter<T extends Change> extends JsonTypeAdapterTemplate<T> {
     private static final String PROPERTY_FIELD = "property";
     private static final String COMMIT_METADATA = "commitMetadata";
     private static final String PROPERTY_CHANGE_TYPE = "propertyChangeType";
-
-    private final Map<String, Class<? extends Change>> changeTypeMap;
     protected final TypeMapper typeMapper;
+    private final Map<String, Class<? extends Change>> changeTypeMap;
 
     public ChangeTypeAdapter(TypeMapper typeMapper) {
         this.changeTypeMap = new HashMap<>();
@@ -78,8 +77,8 @@ class ChangeTypeAdapter<T extends Change> extends JsonTypeAdapterTemplate<T> {
         CommitMetadata commitMetadata = deserializeCommitMetadata(jsonObject, context);
 
         PropertyChangeType propertyChangeType = jsonObject.get(PROPERTY_CHANGE_TYPE) != null
-            ? PropertyChangeType.valueOf(jsonObject.get(PROPERTY_CHANGE_TYPE).getAsString())
-            : PropertyChangeType.PROPERTY_VALUE_CHANGED;
+                ? PropertyChangeType.valueOf(jsonObject.get(PROPERTY_CHANGE_TYPE).getAsString())
+                : PropertyChangeType.PROPERTY_VALUE_CHANGED;
 
         return new PropertyChangeMetadata(id, propertyName, Optional.ofNullable(commitMetadata), propertyChangeType);
     }
@@ -99,7 +98,7 @@ class ChangeTypeAdapter<T extends Change> extends JsonTypeAdapterTemplate<T> {
 
         if (change instanceof PropertyChange) {
             jsonObject.addProperty(PROPERTY_FIELD, ((PropertyChange) change).getPropertyName());
-            PropertyChangeType changeType =  ((PropertyChange) change).getChangeType();
+            PropertyChangeType changeType = ((PropertyChange) change).getChangeType();
             if (changeType != null) {
                 jsonObject.addProperty(PROPERTY_CHANGE_TYPE, changeType.name());
             }
@@ -120,7 +119,7 @@ class ChangeTypeAdapter<T extends Change> extends JsonTypeAdapterTemplate<T> {
         return valueChangeClass.getSimpleName();
     }
 
-    Class<? extends Change> decodeChangeType(JsonObject jsonObject){
+    Class<? extends Change> decodeChangeType(JsonObject jsonObject) {
         String changeTypeField = jsonObject.get(CHANGE_TYPE_FIELD).getAsString();
         if (!changeTypeMap.containsKey(changeTypeField)) {
             throw new ObjDiffException(ObjDiffExceptionCode.MALFORMED_CHANGE_TYPE_FIELD, changeTypeField);

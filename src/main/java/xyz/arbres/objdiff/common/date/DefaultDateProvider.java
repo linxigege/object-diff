@@ -8,10 +8,10 @@ import java.time.ZonedDateTime;
  * @author carlos
  * @date 2021-12-07
  */
-public class DefaultDateProvider implements DateProvider{
+public class DefaultDateProvider implements DateProvider {
 
     @Override
-    public ZonedDateTime now(){
+    public ZonedDateTime now() {
         return ZonedDateTime.now();
     }
 }

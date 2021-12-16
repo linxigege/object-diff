@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.json.typeadapter.change;
 
 
-
 import xyz.arbres.objdiff.core.diff.changetype.PropertyChangeMetadata;
 import xyz.arbres.objdiff.core.diff.changetype.container.ContainerChange;
 import xyz.arbres.objdiff.core.diff.changetype.container.ContainerElementChange;

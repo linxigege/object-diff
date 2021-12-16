@@ -15,6 +15,10 @@ public class Objects {
     private Objects() {
     }
 
+    public static BiPredicate<Object, Object> nullSafetyWrapper(BiPredicate<Object, Object> unsafeEquals) {
+        return new NullSafetyEqualsWrapper(unsafeEquals);
+    }
+
     private static class NullSafetyEqualsWrapper implements BiPredicate<Object, Object> {
 
         private final BiPredicate<Object, Object> delegate;
@@ -34,9 +38,5 @@ public class Objects {
             }
             return delegate.test(o1, o2);
         }
-    }
-
-    public static BiPredicate<Object, Object> nullSafetyWrapper(BiPredicate<Object, Object> unsafeEquals) {
-        return new NullSafetyEqualsWrapper(unsafeEquals);
     }
 }

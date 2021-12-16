@@ -11,12 +11,12 @@ import java.util.Objects;
  * @author carlos
  * @date 2021-12-08
  */
-public class ValueChange extends PropertyChange<Object>{
+public class ValueChange extends PropertyChange<Object> {
 
     private final Atomic left;
     private final Atomic right;
 
-    public ValueChange(PropertyChangeMetadata metadata, Object leftValue, Object rightValue){
+    public ValueChange(PropertyChangeMetadata metadata, Object leftValue, Object rightValue) {
         super(metadata);
         this.left = new Atomic(leftValue);
         this.right = new Atomic(rightValue);
@@ -38,18 +38,17 @@ public class ValueChange extends PropertyChange<Object>{
 
         if (isPropertyAdded()) {
             return valuePrinter.formatWithQuotes(getPropertyNameWithPath()) +
-                    " property with value " + valuePrinter.formatWithQuotes(right.unwrap()) +" added";
-        }
-        else if (isPropertyRemoved()) {
+                    " property with value " + valuePrinter.formatWithQuotes(right.unwrap()) + " added";
+        } else if (isPropertyRemoved()) {
             return valuePrinter.formatWithQuotes(getPropertyNameWithPath()) +
-                    " property with value " + valuePrinter.formatWithQuotes(left.unwrap()) +" removed";
+                    " property with value " + valuePrinter.formatWithQuotes(left.unwrap()) + " removed";
         } else {
             if (left.isNull()) {
                 return valuePrinter.formatWithQuotes(getPropertyNameWithPath()) +
                         " = " + valuePrinter.formatWithQuotes(getRight());
-            }else if (right.isNull()) {
+            } else if (right.isNull()) {
                 return valuePrinter.formatWithQuotes(getPropertyNameWithPath()) +
-                        " value " + valuePrinter.formatWithQuotes(getLeft() )+ " unset";
+                        " value " + valuePrinter.formatWithQuotes(getLeft()) + " unset";
             } else {
                 return valuePrinter.formatWithQuotes(getPropertyNameWithPath()) +
                         " changed: " + valuePrinter.formatWithQuotes(getLeft()) + " -> " +
@@ -80,8 +79,8 @@ public class ValueChange extends PropertyChange<Object>{
     @Override
     public String toString() {
         PrettyValuePrinter printer = PrettyValuePrinter.getDefault();
-        return this.getClass().getSimpleName() + "{ property: '"+getPropertyName() +"'," +
-                " left:"+printer.formatWithQuotes(getLeft())+", " +
-                " right:"+printer.formatWithQuotes(getRight())+" }";
+        return this.getClass().getSimpleName() + "{ property: '" + getPropertyName() + "'," +
+                " left:" + printer.formatWithQuotes(getLeft()) + ", " +
+                " right:" + printer.formatWithQuotes(getRight()) + " }";
     }
 }

@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
-
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
 import xyz.arbres.objdiff.common.reflection.ReflectionUtil;
@@ -52,33 +51,33 @@ public class TypeMapper implements TypeMapperLazy {
     /**
      * is Set, List or Array of ManagedClasses
      */
-    public boolean isContainerOfManagedTypes(ObjDiffType ObjDiffType){
-        if (! (ObjDiffType instanceof ContainerType)) {
+    public boolean isContainerOfManagedTypes(ObjDiffType ObjDiffType) {
+        if (!(ObjDiffType instanceof ContainerType)) {
             return false;
         }
 
-        return ((ContainerType)ObjDiffType).getItemObjDiffType() instanceof ManagedType;
+        return ((ContainerType) ObjDiffType).getItemObjDiffType() instanceof ManagedType;
     }
 
     /**
      * is Map (or Multimap) with ManagedClass on Key or Value position
      */
     public boolean isKeyValueTypeWithManagedTypes(ObjDiffType enumerableType) {
-        if (enumerableType instanceof KeyValueType){
-            KeyValueType mapType = (KeyValueType)enumerableType;
+        if (enumerableType instanceof KeyValueType) {
+            KeyValueType mapType = (KeyValueType) enumerableType;
 
             ObjDiffType keyType = mapType.getKeyObjDiffType();
             ObjDiffType valueType = mapType.getValueObjDiffType();
 
             return keyType instanceof ManagedType ||
-                   valueType instanceof ManagedType ||
-                   isContainerOfManagedTypes(valueType);
-        } else{
+                    valueType instanceof ManagedType ||
+                    isContainerOfManagedTypes(valueType);
+        } else {
             return false;
         }
     }
 
-    public boolean isEnumerableOfManagedTypes(ObjDiffType ObjDiffType){
+    public boolean isEnumerableOfManagedTypes(ObjDiffType ObjDiffType) {
         return isContainerOfManagedTypes(ObjDiffType) || isKeyValueTypeWithManagedTypes(ObjDiffType);
     }
 
@@ -108,15 +107,15 @@ public class TypeMapper implements TypeMapperLazy {
         }
 
         throw new ObjDiffException(ObjDiffExceptionCode.CLASS_MAPPING_ERROR,
-                    javaType,
-                    jType.getClass().getSimpleName(),
-                    ClassType.class.getSimpleName());
+                javaType,
+                jType.getClass().getSimpleName(),
+                ClassType.class.getSimpleName());
     }
 
     /**
      * @throws ObjDiffException TYPE_NAME_NOT_FOUND if given typeName is not registered
      */
-    public ManagedType getObjDiffManagedType(GlobalId globalId){
+    public ManagedType getObjDiffManagedType(GlobalId globalId) {
         return getObjDiffManagedType(engine.getClassByTypeName(globalId.getTypeName()), ManagedType.class);
     }
 
@@ -131,7 +130,7 @@ public class TypeMapper implements TypeMapperLazy {
      * for tests only
      */
     private <T extends ManagedType> T getObjDiffManagedType(String typeName) {
-        return (T)getObjDiffManagedType(engine.getClassByTypeName(typeName), ManagedType.class);
+        return (T) getObjDiffManagedType(engine.getClassByTypeName(typeName), ManagedType.class);
     }
 
     /**
@@ -186,18 +185,17 @@ public class TypeMapper implements TypeMapperLazy {
         }
     }
 
-    public <T extends ObjDiffType> T getPropertyType(Property property){
+    public <T extends ObjDiffType> T getPropertyType(Property property) {
 
         try {
             return (T) getObjDiffType(property.getGenericType());
-        }catch (ObjDiffException e) {
+        } catch (ObjDiffException e) {
             throw e;
         }
     }
 
     public void registerClientsClass(ClientsClassDefinition def) {
         ObjDiffType newType = typeFactory.create(def);
-
 
 
         engine.registerExplicitType(newType);
@@ -217,7 +215,7 @@ public class TypeMapper implements TypeMapperLazy {
         }
     }
 
-    boolean contains(Type javaType){
+    boolean contains(Type javaType) {
         return engine.contains(javaType);
     }
 
@@ -234,8 +232,8 @@ public class TypeMapper implements TypeMapperLazy {
         }
 
         ObjDiffType selfClassType = engine.get(javaClass);
-        if (selfClassType != null && javaClass != javaType){
-            return  Optional.of(selfClassType); //returns rawType for ParametrizedTypes
+        if (selfClassType != null && javaClass != javaType) {
+            return Optional.of(selfClassType); //returns rawType for ParametrizedTypes
         }
 
         List<Type> hierarchy = ReflectionUtil.calculateHierarchyDistance(javaClass);

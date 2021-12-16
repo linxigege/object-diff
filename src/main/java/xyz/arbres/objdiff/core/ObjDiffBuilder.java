@@ -1,22 +1,24 @@
 package xyz.arbres.objdiff.core;
 
-import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
 import xyz.arbres.objdiff.common.date.DateProvider;
 import xyz.arbres.objdiff.common.date.DefaultDateProvider;
 import xyz.arbres.objdiff.common.reflection.ReflectionUtil;
 import xyz.arbres.objdiff.common.validation.Validate;
+import xyz.arbres.objdiff.core.commit.Commit;
 import xyz.arbres.objdiff.core.commit.CommitFactoryModule;
-import xyz.arbres.objdiff.core.commit.CommitId;
 import xyz.arbres.objdiff.core.diff.Diff;
 import xyz.arbres.objdiff.core.diff.DiffFactoryModule;
 import xyz.arbres.objdiff.core.diff.ListCompareAlgorithm;
 import xyz.arbres.objdiff.core.diff.appenders.DiffAppendersModule;
+import xyz.arbres.objdiff.core.diff.changetype.InitialValueChange;
+import xyz.arbres.objdiff.core.diff.changetype.NewObject;
+import xyz.arbres.objdiff.core.diff.changetype.ValueChange;
+import xyz.arbres.objdiff.core.diff.changetype.container.ListChange;
+import xyz.arbres.objdiff.core.diff.changetype.container.ValueAdded;
 import xyz.arbres.objdiff.core.diff.customer.CustomPropertyComparator;
 import xyz.arbres.objdiff.core.diff.customer.CustomToNativeAppenderAdapter;
 import xyz.arbres.objdiff.core.diff.customer.CustomValueComparator;
 import xyz.arbres.objdiff.core.graph.GraphFactoryModule;
-import xyz.arbres.objdiff.core.graph.ObjectAccessHook;
 import xyz.arbres.objdiff.core.graph.TailoredObjDiffMemberFactoryModule;
 import xyz.arbres.objdiff.core.json.JsonConverter;
 import xyz.arbres.objdiff.core.json.JsonConverterBuilder;
@@ -24,6 +26,7 @@ import xyz.arbres.objdiff.core.json.JsonTypeAdapter;
 import xyz.arbres.objdiff.core.json.typeadapter.change.ChangeTypeAdaptersModule;
 import xyz.arbres.objdiff.core.json.typeadapter.commit.CommitTypeAdaptersModule;
 import xyz.arbres.objdiff.core.json.typeadapter.commit.DiffTypeDeserializer;
+import xyz.arbres.objdiff.core.metamodel.annotation.DiffIgnore;
 import xyz.arbres.objdiff.core.metamodel.annotation.TypeName;
 import xyz.arbres.objdiff.core.metamodel.clazz.*;
 import xyz.arbres.objdiff.core.metamodel.scanner.ScannerModule;
@@ -41,21 +44,20 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
-import  static xyz.arbres.objdiff.common.validation.Validate.*;
-
+import static xyz.arbres.objdiff.common.validation.Validate.argumentIsNotNull;
+import static xyz.arbres.objdiff.common.validation.Validate.argumentsAreNotNull;
 
 
 /**
  * Creates a ObjDiff instance based on your domain model metadata and custom configuration.
  * <br/><br/>
- *
+ * <p>
  * For example, to build a ObjDiff instance configured with reasonable defaults:
  * <pre>
  * ObjDiff ObjDiff = ObjDiffBuilder.ObjDiff().build();
  * </pre>
- *
+ * <p>
  * To build a ObjDiff instance with an Entity type:
  * <pre>
  * ObjDiff ObjDiff = ObjDiffBuilder.ObjDiff()
@@ -63,8 +65,8 @@ import  static xyz.arbres.objdiff.common.validation.Validate.*;
  *                              .build();
  * </pre>
  *
- * @see <a href="http://ObjDiff.org/documentation/domain-configuration/">http://ObjDiff.org/documentation/domain-configuration</a>
  * @author bartosz walacik
+ * @see <a href="http://ObjDiff.org/documentation/domain-configuration/">http://ObjDiff.org/documentation/domain-configuration</a>
  */
 public class ObjDiffBuilder extends AbstractContainerBuilder {
 
@@ -83,10 +85,6 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
 
     private IgnoredClassesStrategy ignoredClassesStrategy;
 
-    public static ObjDiffBuilder ObjDiff() {
-        return new ObjDiffBuilder();
-    }
-
     /**
      * use static factory method {@link ObjDiffBuilder#ObjDiff()}
      */
@@ -96,10 +94,13 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
         conditionalTypesPlugins = new HashSet<>();
 
 
-
         // bootstrap pico container & core module
         bootContainer();
         addModule(new CoreObjDiffModule(getContainer()));
+    }
+
+    public static ObjDiffBuilder ObjDiff() {
+        return new ObjDiffBuilder();
     }
 
     public ObjDiff build() {
@@ -111,7 +112,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
         return ObjDiff;
     }
 
-    protected ObjDiff assembleObjDiffInstance(){
+    protected ObjDiff assembleObjDiffInstance() {
         CoreConfiguration coreConfiguration = configurationBuilder().build();
         addComponent(coreConfiguration);
 
@@ -139,7 +140,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
         bootDateTimeProvider();
 
         // clases to scan & additionalTypes
-        for (Class c : classesToScan){
+        for (Class c : classesToScan) {
             typeMapper().getObjDiffType(c);
         }
         typeMapper().addPluginTypes(additionalTypes);
@@ -164,10 +165,10 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * Registers an {@link EntityType}. <br/>
      * Use @Id annotation to mark exactly one Id-property.
      * <br/><br/>
-     *
+     * <p>
      * Optionally, use @Transient or @{@link DiffIgnore} annotations to mark ignored properties.
      * <br/><br/>
-     *
+     * <p>
      * For example, Entities are: Person, Document
      *
      * @see <a href="http://ObjDiff.org/documentation/domain-configuration/#entity">http://ObjDiff.org/documentation/domain-configuration/#entity</a>
@@ -175,14 +176,14 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      */
     public ObjDiffBuilder registerEntity(Class<?> entityClass) {
 
-        return registerEntity( new EntityDefinition(entityClass));
+        return registerEntity(new EntityDefinition(entityClass));
     }
 
     /**
      * Registers a {@link ValueObjectType}. <br/>
      * Optionally, use @Transient or @{@link DiffIgnore} annotations to mark ignored properties.
      * <br/><br/>
-     *
+     * <p>
      * For example, ValueObjects are: Address, Point
      *
      * @see <a href="http://ObjDiff.org/documentation/domain-configuration/#value-object">http://ObjDiff.org/documentation/domain-configuration/#value-object</a>
@@ -198,7 +199,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * Registers an {@link EntityType}. <br/>
      * Use this method if you are not willing to use {@link Entity} annotation.
      * <br/></br/>
-     *
+     * <p>
      * Recommended way to create {@link EntityDefinition} is {@link EntityDefinitionBuilder},
      * for example:
      * <pre>
@@ -209,7 +210,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      *     .withIgnoredProperties("notImportantProperty","transientProperty")
      *     .build());
      * </pre>
-     *
+     * <p>
      * For simple cases, you can use {@link EntityDefinition} constructors,
      * for example:
      * <pre>
@@ -219,7 +220,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * @see <a href="http://ObjDiff.org/documentation/domain-configuration/#entity">http://ObjDiff.org/documentation/domain-configuration/#entity</a>
      * @see EntityDefinitionBuilder#entityDefinition(Class)
      */
-    public ObjDiffBuilder registerEntity(EntityDefinition entityDefinition){
+    public ObjDiffBuilder registerEntity(EntityDefinition entityDefinition) {
 
         return registerType(entityDefinition);
     }
@@ -244,7 +245,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * Registers a {@link ValueObjectType}. <br/>
      * Use this method if you are not willing to use {@link ValueObject} annotations.
      * <br/></br/>
-     *
+     * <p>
      * Recommended way to create {@link ValueObjectDefinition} is {@link ValueObjectDefinitionBuilder}.
      * For example:
      * <pre>
@@ -253,7 +254,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      *     .withTypeName(typeName)
      *     .build();
      * </pre>
-     *
+     * <p>
      * For simple cases, you can use {@link ValueObjectDefinition} constructors,
      * for example:
      * <pre>
@@ -273,7 +274,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * Comma separated list of packages scanned by ObjDiff in search of
      * your classes with the {@link TypeName} annotation.
      * <br/><br/>
-     *
+     * <p>
      * It's <b>important</b> to declare here all of your packages containing classes with {@literal @}TypeName,<br/>
      * because ObjDiff needs <i>live</i> class definitions to properly deserialize Snapshots from {@link ObjDiffRepository}.
      * <br/><br/>
@@ -289,12 +290,12 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      *      private String name;
      *  }
      * </pre>
-     *
+     * <p>
      * In the scenario when ObjDiff reads a Snapshot of type named 'Person'
      * before having a chance to map the Person class definition,
      * the 'Person' type will be mapped to generic {@link UnknownType}.
      * <br/><br/>
-     *
+     * <p>
      * Since 5.8.4, ObjDiff logs <code>WARNING</code> when UnknownType is created
      * because Snapshots with UnknownType can't be properly deserialized from {@link ObjDiffRepository}.
      *
@@ -308,30 +309,30 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
 
         long start = System.currentTimeMillis();
 
-        List<Class<?>> scan = ReflectionUtil.findClasses(TypeName.class, packagesToScan.replaceAll(" ","").split(","));
-		for (Class<?> c : scan) {
-			scanTypeName(c);
-		}
-		long delta = System.currentTimeMillis() - start;
+        List<Class<?>> scan = ReflectionUtil.findClasses(TypeName.class, packagesToScan.replaceAll(" ", "").split(","));
+        for (Class<?> c : scan) {
+            scanTypeName(c);
+        }
+        long delta = System.currentTimeMillis() - start;
 
 
-		return this;
+        return this;
     }
 
     /**
      * Register your class with &#64;{@link TypeName} annotation
      * in order to use it in all kinds of JQL queries.
      * <br/><br/>
-     *
+     * <p>
      * You can also use {@link #withPackagesToScan(String)}
      * to scan all your classes.
      * <br/><br/>
-     *
+     * <p>
      * Technically, this method is the convenient alias for {@link ObjDiff#getTypeMapping(Type)}
      *
      * @since 1.4
      */
-    public ObjDiffBuilder scanTypeName(Class userType){
+    public ObjDiffBuilder scanTypeName(Class userType) {
         classesToScan.add(userType);
         return this;
     }
@@ -339,13 +340,13 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
     /**
      * Registers a simple value type (see {@link ValueType}).
      * <br/><br/>
-     *
+     * <p>
      * For example, values are: BigDecimal, LocalDateTime.
      * <br/><br/>
-     *
+     * <p>
      * Use this method if can't use the {@link Value} annotation.
      * <br/><br/>
-     *
+     * <p>
      * By default, Values are compared using {@link Object#equals(Object)}.
      * You can provide external <code>equals()</code> function
      * by registering a {@link CustomValueComparator}.
@@ -363,7 +364,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * Registers a {@link ValueType} with a custom comparator to be used instead of
      * {@link Object#equals(Object)}.
      * <br/><br/>
-     *
+     * <p>
      * For example, by default, BigDecimals are Values
      * compared using {@link java.math.BigDecimal#equals(Object)},
      * sadly it isn't the correct mathematical equality:
@@ -371,7 +372,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * <pre>
      *     new BigDecimal("1.000").equals(new BigDecimal("1.00")) == false
      * </pre>
-     *
+     * <p>
      * If you want to compare them in the right way &mdash; ignoring trailing zeros &mdash;
      * register this comparator:
      *
@@ -397,7 +398,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
     /**
      * Lambda-style variant of {@link #registerValue(Class, CustomValueComparator)}.
      * <br/><br/>
-     *
+     * <p>
      * For example, you can register the comparator for BigDecimals with fixed equals:
      *
      * <pre>
@@ -412,14 +413,14 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * @since 5.8
      */
     public <T> ObjDiffBuilder registerValue(Class<T> valueClass,
-                                           BiFunction<T, T, Boolean> equalsFunction,
-                                           Function<T, String> toStringFunction) {
+                                            BiFunction<T, T, Boolean> equalsFunction,
+                                            Function<T, String> toStringFunction) {
         Validate.argumentsAreNotNull(valueClass, equalsFunction, toStringFunction);
 
         return registerValue(valueClass, new CustomValueComparator<T>() {
             @Override
             public boolean equals(T a, T b) {
-                return equalsFunction.apply(a,b);
+                return equalsFunction.apply(a, b);
             }
 
             @Override
@@ -431,9 +432,9 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
 
     /**
      * <b>Deprecated</b>, use {@link #registerValue(Class, CustomValueComparator)}.
-     *
+     * <p>
      * <br/><br/>
-     *
+     * <p>
      * Since this comparator is not aligned with {@link Object#hashCode()},
      * it calculates incorrect results when a given Value is used in hashing context
      * (when comparing Sets with Values or Maps with Values as keys).
@@ -447,7 +448,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
         return registerValue(valueClass, new CustomValueComparator<T>() {
             @Override
             public boolean equals(T a, T b) {
-                return equalsFunction.apply(a,b);
+                return equalsFunction.apply(a, b);
             }
 
             @Override
@@ -466,13 +467,13 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
     @Deprecated
     public <T> ObjDiffBuilder registerValueWithCustomToString(Class<T> valueClass, Function<T, String> toStringFunction) {
         Validate.argumentsAreNotNull(valueClass, toStringFunction);
-        return registerValue(valueClass, (a,b) -> Objects.equals(a,b), toStringFunction);
+        return registerValue(valueClass, (a, b) -> Objects.equals(a, b), toStringFunction);
     }
 
     /**
      * Marks given class as ignored by ObjDiff.
      * <br/><br/>
-     *
+     * <p>
      * Use this method as an alternative to the {@link DiffIgnore} annotation.
      *
      * @see DiffIgnore
@@ -488,7 +489,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * <br/>
      * Registers a custom strategy for marking certain classes as ignored.
      * <br/><br/>
-     *
+     * <p>
      * For example, you can ignore classes by package naming convention:
      *
      * <pre>
@@ -496,7 +497,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      *         .registerIgnoredClassesStrategy(c -> c.getName().startsWith("com.ignore.me"))
      *         .build();
      * </pre>
-     *
+     * <p>
      * Use this method as the alternative to the {@link DiffIgnore} annotation
      * or multiple calls of {@link ObjDiffBuilder#registerIgnoredClass(Class)}.
      */
@@ -507,20 +508,10 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
     }
 
 
-
-
-
-
-
-
-
-
-
-
     /**
      * The Initial Changes switch, enabled by default since ObjDiff 6.0.
      * <br/><br/>
-     *
+     * <p>
      * When the switch is enabled, {@link ObjDiff#compare(Object oldVersion, Object currentVersion)}
      * and {@link ObjDiff#findChanges(JqlQuery)}
      * generate additional set of Initial Changes for each
@@ -528,7 +519,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * <br/>
      * Internally, ObjDiff generates Initial Changes by comparing a virtual, totally empty object
      * with a real NewObject.
-     *
+     * <p>
      * <br/><br/>
      * For Primitives and Values
      * an Initial Change is modeled as {@link InitialValueChange} (subtype of {@link ValueChange})
@@ -538,16 +529,17 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * So, for example, an Initial Change for a List is a regular {@link ListChange}
      * with all elements from this list reflected as {@link ValueAdded}.
      * <br/><br/>
-     *
+     * <p>
      * In ObjDiff Spring Boot starter you can disabled initial Value Changes in `application.yml`:
      *
      * <pre>
      * ObjDiff:
      *   initialChanges: false
      * </pre>
+     *
      * @see NewObject
      */
-    public ObjDiffBuilder withInitialChanges(boolean initialChanges){
+    public ObjDiffBuilder withInitialChanges(boolean initialChanges) {
         configurationBuilder().withInitialChanges(initialChanges);
         return this;
     }
@@ -556,10 +548,9 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * Use {@link #withInitialChanges(boolean)}
      */
     @Deprecated
-    public ObjDiffBuilder withNewObjectsSnapshot(boolean newObjectsSnapshot){
+    public ObjDiffBuilder withNewObjectsSnapshot(boolean newObjectsSnapshot) {
         return this.withInitialChanges(newObjectsSnapshot);
     }
-
 
 
     /**
@@ -571,7 +562,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * Custom Types are not easy to manage, use it as a last resort,<br/>
      * only for corner cases like comparing custom Collection types.</b>
      * <br/><br/>
-     *
+     * <p>
      * In most cases, it's better to customize the ObjDiff' diff algorithm using
      * much more simpler {@link CustomValueComparator},
      * see {@link #registerValue(Class, CustomValueComparator)}.
@@ -579,7 +570,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * @param <T> Custom Type
      * @see <a href="https://ObjDiff.org/documentation/diff-configuration/#custom-comparators">https://ObjDiff.org/documentation/diff-configuration/#custom-comparators</a>
      */
-    public <T> ObjDiffBuilder registerCustomType(Class<T> customType, CustomPropertyComparator<T, ?> comparator){
+    public <T> ObjDiffBuilder registerCustomType(Class<T> customType, CustomPropertyComparator<T, ?> comparator) {
         registerType(new CustomDefinition(customType, comparator));
         bindComponent(comparator, new CustomToNativeAppenderAdapter(comparator, customType));
         return this;
@@ -589,7 +580,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * @deprecated Renamed to {@link #registerCustomType(Class, CustomPropertyComparator)}
      */
     @Deprecated
-    public <T> ObjDiffBuilder registerCustomComparator(CustomPropertyComparator<T, ?> comparator, Class<T> customType){
+    public <T> ObjDiffBuilder registerCustomComparator(CustomPropertyComparator<T, ?> comparator, Class<T> customType) {
         return registerCustomType(customType, comparator);
     }
 
@@ -600,7 +591,7 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
      * Generally, we recommend using LEVENSHTEIN_DISTANCE, because it's smarter.
      * However, it can be slow for long lists, so SIMPLE is enabled by default.
      * <br/><br/>
-     *
+     * <p>
      * Refer to <a href="http://ObjDiff.org/documentation/diff-configuration/#list-algorithms">http://ObjDiff.org/documentation/diff-configuration/#list-algorithms</a>
      * for description of both algorithms
      *
@@ -612,13 +603,13 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
         return this;
     }
 
-  /**
-   * DateProvider providers current timestamp for {@link Commit#getCommitDate()}.
-   * <br/>
-   * By default, now() is used.
-   * <br/>
-   * Overriding default dateProvider probably makes sense only in test environment.
-   */
+    /**
+     * DateProvider providers current timestamp for {@link Commit#getCommitDate()}.
+     * <br/>
+     * By default, now() is used.
+     * <br/>
+     * Overriding default dateProvider probably makes sense only in test environment.
+     */
     public ObjDiffBuilder withDateTimeProvider(DateProvider dateProvider) {
         argumentIsNotNull(dateProvider);
         this.dateProvider = dateProvider;
@@ -629,7 +620,6 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
         configurationBuilder().withPrettyPrintDateFormats(prettyPrintDateFormats);
         return this;
     }
-
 
 
     private void mapRegisteredClasses() {
@@ -648,13 +638,12 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
         return this.coreConfigurationBuilder;
     }
 
-    private JsonConverterBuilder jsonConverterBuilder(){
+    private JsonConverterBuilder jsonConverterBuilder() {
         return getContainerComponent(JsonConverterBuilder.class);
     }
 
     private Set<ObjDiffType> bootAddOns() {
         Set<ObjDiffType> additionalTypes = new HashSet<>();
-
 
 
         return additionalTypes;
@@ -671,7 +660,6 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
         addModule(new CommitTypeAdaptersModule(getContainer()));
 
 
-
         jsonConverterBuilder.registerJsonTypeAdapters(getComponents(JsonTypeAdapter.class));
         jsonConverterBuilder.registerNativeGsonDeserializer(Diff.class, new DiffTypeDeserializer());
         JsonConverter jsonConverter = jsonConverterBuilder.build();
@@ -685,15 +673,15 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
         addComponent(dateProvider);
     }
 
-    private void bootRepository(){
+    private void bootRepository() {
         CoreConfiguration coreConfiguration = coreConfiguration();
-        if (repository == null){
+        if (repository == null) {
             repository = new InMemoryRepository();
         }
 
-        repository.setJsonConverter( getContainerComponent(JsonConverter.class));
+        repository.setJsonConverter(getContainerComponent(JsonConverter.class));
 
-        if (repository instanceof ConfigurationAware){
+        if (repository instanceof ConfigurationAware) {
             ((ConfigurationAware) repository).setConfiguration(coreConfiguration);
         }
 
@@ -702,7 +690,6 @@ public class ObjDiffBuilder extends AbstractContainerBuilder {
         //ObjDiffExtendedRepository can be created after users calls ObjDiffBuilder.registerObjDiffRepository()
         addComponent(ObjDiffExtendedRepository.class);
     }
-
 
 
     private CoreConfiguration coreConfiguration() {

@@ -1,8 +1,6 @@
 package xyz.arbres.objdiff.core.graph;
 
 
-
-
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.metamodel.type.EnumerableType;
 import xyz.arbres.objdiff.core.metamodel.type.ManagedType;
@@ -23,10 +21,10 @@ class ObjectGraphBuilder {
     private static final int MAX_VO_HASHING_DEPTH = 1;
 
     private final TypeMapper typeMapper;
-    private boolean built;
     private final EdgeBuilder edgeBuilder;
     private final NodeReuser nodeReuser = new NodeReuser();
     private final LiveCdoFactory cdoFactory;
+    private boolean built;
 
     ObjectGraphBuilder(TypeMapper typeMapper, LiveCdoFactory cdoFactory) {
         Validate.argumentsAreNotNull(typeMapper, cdoFactory);
@@ -54,7 +52,7 @@ class ObjectGraphBuilder {
         LiveNode root = edgeBuilder.buildNodeStub(cdo);
 
         //we can't use recursion here, it could cause StackOverflow for large graphs
-        while(nodeReuser.hasMoreStubs()){
+        while (nodeReuser.hasMoreStubs()) {
             LiveNode stub = nodeReuser.pollStub();
             buildEdges(stub); //edgeBuilder should append new stubs to queue
         }
@@ -73,7 +71,7 @@ class ObjectGraphBuilder {
         nodes.forEach(this::enrichHashIfNeeded);
     }
 
-    private void reloadHashFromParent (List<LiveNode> nodes) {
+    private void reloadHashFromParent(List<LiveNode> nodes) {
         nodes.forEach(this::reloadHashFromParentIfNeeded);
     }
 
@@ -104,7 +102,7 @@ class ObjectGraphBuilder {
 
     private void buildMultiEdges(LiveNode node) {
 
-        for (ObjDiffProperty containerProperty : getNonEmptyEnumerablesWithManagedTypes(node))  {
+        for (ObjDiffProperty containerProperty : getNonEmptyEnumerablesWithManagedTypes(node)) {
             EnumerableType enumerableType = containerProperty.getType();
 
             //looks like we have Container or Map with Entity references or Value Objects
@@ -114,7 +112,7 @@ class ObjectGraphBuilder {
     }
 
     private void switchToBuilt() {
-        if (built){
+        if (built) {
             throw new IllegalStateException("ObjectGraphBuilder is a stateful builder (not a Service)");
         }
         built = true;

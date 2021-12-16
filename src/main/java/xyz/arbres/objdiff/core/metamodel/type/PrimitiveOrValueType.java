@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
-
 import xyz.arbres.objdiff.common.collections.Primitives;
 import xyz.arbres.objdiff.common.string.PrettyPrintBuilder;
 import xyz.arbres.objdiff.core.diff.customer.CustomValueComparator;
@@ -14,11 +13,6 @@ import java.lang.reflect.Type;
 public abstract class PrimitiveOrValueType<T> extends ClassType implements CustomComparableType {
     private final CustomValueComparator<T> valueComparator;
 
-    @Override
-    public boolean hasCustomValueComparator() {
-        return valueComparator != null;
-    }
-
     PrimitiveOrValueType(Type baseJavaType) {
         this(baseJavaType, null);
     }
@@ -26,21 +20,26 @@ public abstract class PrimitiveOrValueType<T> extends ClassType implements Custo
     PrimitiveOrValueType(Type baseJavaType, CustomValueComparator<T> comparator) {
         super(baseJavaType);
         this.valueComparator = (comparator == null || comparator.handlesNulls()) ?
-            comparator :
-            new CustomValueComparatorNullSafe<>(comparator);
+                comparator :
+                new CustomValueComparatorNullSafe<>(comparator);
+    }
+
+    @Override
+    public boolean hasCustomValueComparator() {
+        return valueComparator != null;
     }
 
     @Override
     public boolean equals(Object left, Object right) {
         if (valueComparator != null) {
-            return valueComparator.equals((T)left, (T)right);
+            return valueComparator.equals((T) left, (T) right);
         }
         return super.equals(left, right);
     }
 
     public boolean isNumber() {
         return Number.class.isAssignableFrom(getBaseJavaClass()) ||
-               Primitives.isPrimitiveNumber(getBaseJavaClass());
+                Primitives.isPrimitiveNumber(getBaseJavaClass());
     }
 
     public boolean isBoolean() {
@@ -49,9 +48,9 @@ public abstract class PrimitiveOrValueType<T> extends ClassType implements Custo
 
     public boolean isStringy() {
         return String.class == getBaseJavaClass() ||
-               CharSequence.class == getBaseJavaClass() ||
-               char.class == getBaseJavaClass() ||
-               Character.class == getBaseJavaClass();
+                CharSequence.class == getBaseJavaClass() ||
+                char.class == getBaseJavaClass() ||
+                Character.class == getBaseJavaClass();
     }
 
     public boolean isJsonPrimitive() {

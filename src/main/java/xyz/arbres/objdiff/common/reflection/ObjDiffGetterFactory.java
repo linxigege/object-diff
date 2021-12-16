@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.common.reflection;
 
 
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
@@ -23,48 +22,9 @@ class ObjDiffGetterFactory {
     private final Class getterSource;
     private final List<ObjDiffGetter> getters = new ArrayList<>();
     private final TypeResolvingContext context = new TypeResolvingContext();
+
     ObjDiffGetterFactory(Class getterSource) {
         this.getterSource = getterSource;
-    }
-
-    /**
-     * List all class getters, including inherited and private.
-     */
-    List<ObjDiffGetter> getAllGetters() {
-        if (getters.size() > 0) {
-            throw new IllegalStateException("getters.size() > 0");
-        }
-        findAllGetters(getterSource);
-
-        return getters;
-    }
-
-    private void findAllGetters(Class currentGetterSource) {
-        Class clazz = currentGetterSource;
-
-        while (clazz != null && clazz != Object.class) {
-            context.addTypeSubstitutions(clazz);
-            Arrays.stream(clazz.getDeclaredMethods())
-                    .filter(method -> isGetter(method) && !method.isBridge())
-                    .filter(method -> !isOverridden(method, getters))
-                    .map(getter -> createObjDiffGetter(getter, context))
-                    .filter(getter -> excludeDuplicatedProperties(getter, getters))
-                    .forEach(getters::add);
-            clazz = clazz.getSuperclass();
-        }
-
-        clazz = currentGetterSource;
-        while (clazz != null && clazz != Object.class) {
-            Arrays.stream(clazz.getInterfaces()).forEach(this::findAllGetters);
-            clazz = clazz.getSuperclass();
-        }
-    }
-
-    private boolean excludeDuplicatedProperties(ObjDiffGetter getter, List<ObjDiffGetter> getters) {
-        final String propertyName = getter.propertyName();
-        return getters.stream()
-                .map(ObjDiffGetter::propertyName)
-                .noneMatch(propertyName::equals);
     }
 
     private static boolean isGetter(Method rawMethod) {
@@ -122,15 +82,6 @@ class ObjDiffGetterFactory {
         return Arrays.equals(parent.getParameterTypes(), toCheck.getParameterTypes());
     }
 
-    private ObjDiffGetter createObjDiffGetter(Method getterMethod, TypeResolvingContext context) {
-        Type actualReturnType = context.getSubstitution(getterMethod.getGenericReturnType());
-
-        if (hasInheritedId(getterMethod)) {
-            return new ObjDiffGetter(getterMethod, actualReturnType, true);
-        }
-        return new ObjDiffGetter(getterMethod, actualReturnType);
-    }
-
     private static boolean hasInheritedId(Method concrete) {
         List<Method> overridden = new ArrayList<>();
         Class clazz = concrete.getDeclaringClass().getSuperclass();
@@ -144,5 +95,54 @@ class ObjDiffGetterFactory {
         }
 
         return overridden.stream().anyMatch(ReflectionUtil::looksLikeId);
+    }
+
+    /**
+     * List all class getters, including inherited and private.
+     */
+    List<ObjDiffGetter> getAllGetters() {
+        if (getters.size() > 0) {
+            throw new IllegalStateException("getters.size() > 0");
+        }
+        findAllGetters(getterSource);
+
+        return getters;
+    }
+
+    private void findAllGetters(Class currentGetterSource) {
+        Class clazz = currentGetterSource;
+
+        while (clazz != null && clazz != Object.class) {
+            context.addTypeSubstitutions(clazz);
+            Arrays.stream(clazz.getDeclaredMethods())
+                    .filter(method -> isGetter(method) && !method.isBridge())
+                    .filter(method -> !isOverridden(method, getters))
+                    .map(getter -> createObjDiffGetter(getter, context))
+                    .filter(getter -> excludeDuplicatedProperties(getter, getters))
+                    .forEach(getters::add);
+            clazz = clazz.getSuperclass();
+        }
+
+        clazz = currentGetterSource;
+        while (clazz != null && clazz != Object.class) {
+            Arrays.stream(clazz.getInterfaces()).forEach(this::findAllGetters);
+            clazz = clazz.getSuperclass();
+        }
+    }
+
+    private boolean excludeDuplicatedProperties(ObjDiffGetter getter, List<ObjDiffGetter> getters) {
+        final String propertyName = getter.propertyName();
+        return getters.stream()
+                .map(ObjDiffGetter::propertyName)
+                .noneMatch(propertyName::equals);
+    }
+
+    private ObjDiffGetter createObjDiffGetter(Method getterMethod, TypeResolvingContext context) {
+        Type actualReturnType = context.getSubstitution(getterMethod.getGenericReturnType());
+
+        if (hasInheritedId(getterMethod)) {
+            return new ObjDiffGetter(getterMethod, actualReturnType, true);
+        }
+        return new ObjDiffGetter(getterMethod, actualReturnType);
     }
 }

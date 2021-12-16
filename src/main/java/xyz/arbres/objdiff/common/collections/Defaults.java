@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.common.collections;
 
 
-
 import xyz.arbres.objdiff.common.validation.Validate;
 
 import java.lang.reflect.Type;
@@ -14,8 +13,6 @@ import java.util.Map;
  * @author bartosz.walacik
  */
 public final class Defaults {
-    private Defaults() {}
-
     private static final Map<Class<?>, Object> DEFAULTS;
 
     static {
@@ -29,6 +26,9 @@ public final class Defaults {
         put(map, float.class, 0f);
         put(map, double.class, 0d);
         DEFAULTS = java.util.Collections.unmodifiableMap(map);
+    }
+
+    private Defaults() {
     }
 
     private static <T> void put(Map<Class<?>, Object> map, Class<T> type, T value) {

@@ -11,11 +11,12 @@ import java.util.Map;
  * @author carlos
  * @date 2021-12-07
  */
-public class NullCommitMetadata extends CommitMetadata{
+public class NullCommitMetadata extends CommitMetadata {
     public NullCommitMetadata(String author, Map<String, String> properties, LocalDateTime commitDate, Instant commitDateInstant, CommitId id) {
         super(author, properties, commitDate, commitDateInstant, id);
     }
-    static NullCommitMetadata instance(){
-        return new NullCommitMetadata("anonymous", Collections.emptyMap(),LocalDateTime.now(),Instant.now(),new CommitId(0,0));
+
+    static NullCommitMetadata instance() {
+        return new NullCommitMetadata("anonymous", Collections.emptyMap(), LocalDateTime.now(), Instant.now(), new CommitId(0, 0));
     }
 }

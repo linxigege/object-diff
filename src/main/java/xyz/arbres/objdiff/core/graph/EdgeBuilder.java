@@ -27,7 +27,7 @@ class EdgeBuilder {
         Object rawReference = node.getPropertyValue(singleRef);
         OwnerContext ownerContext = createOwnerContext(node, singleRef);
 
-        if (!singleRef.isShallowReference()){
+        if (!singleRef.isShallowReference()) {
             LiveCdo cdo = cdoFactory.create(rawReference, ownerContext);
             LiveNode targetNode = buildNodeStubOrReuse(cdo);
             return new SingleEdge(singleRef, targetNode);
@@ -51,7 +51,7 @@ class EdgeBuilder {
 
             if (context instanceof MapEnumerationOwnerContext) {
                 // corner case, for Maps with primitive-or-value keys
-                MapEnumerationOwnerContext mapContext = (MapEnumerationOwnerContext)context;
+                MapEnumerationOwnerContext mapContext = (MapEnumerationOwnerContext) context;
                 if (!(mapContext.getCurrentType() instanceof ManagedType)) {
                     return input;
                 }
@@ -74,29 +74,28 @@ class EdgeBuilder {
         }
     }
 
-    private boolean hasShallowReferenceItems(EnumerableType enumerableType){
+    private boolean hasShallowReferenceItems(EnumerableType enumerableType) {
         if (enumerableType instanceof ContainerType) {
-            ContainerType containerType = (ContainerType)enumerableType;
+            ContainerType containerType = (ContainerType) enumerableType;
             return containerType.getItemObjDiffType() instanceof ShallowReferenceType;
         }
         if (enumerableType instanceof KeyValueType) {
-            KeyValueType keyValueType = (KeyValueType)enumerableType;
+            KeyValueType keyValueType = (KeyValueType) enumerableType;
             return keyValueType.getKeyObjDiffType() instanceof ShallowReferenceType ||
-                   keyValueType.getValueObjDiffType() instanceof ShallowReferenceType;
+                    keyValueType.getValueObjDiffType() instanceof ShallowReferenceType;
         }
         return false;
     }
 
-    private LiveNode buildNodeStubOrReuse(LiveCdo cdo){
-        if (nodeReuser.isReusable(cdo)){
+    private LiveNode buildNodeStubOrReuse(LiveCdo cdo) {
+        if (nodeReuser.isReusable(cdo)) {
             return nodeReuser.getForReuse(cdo);
-        }
-        else {
+        } else {
             return buildNodeStub(cdo);
         }
     }
 
-    LiveNode buildNodeStub(LiveCdo cdo){
+    LiveNode buildNodeStub(LiveCdo cdo) {
         LiveNode newStub = new LiveNode(cdo);
         nodeReuser.enqueueStub(newStub);
         return newStub;

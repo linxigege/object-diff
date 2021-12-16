@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.object;
 
 
-
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
 import xyz.arbres.objdiff.common.validation.Validate;
@@ -11,15 +10,15 @@ import java.util.function.Supplier;
 public abstract class ValueObjectIdWithHash extends ValueObjectId {
     private static final String HASH_PLACEHOLDER = "{hashPlaceholder}";
 
+    public ValueObjectIdWithHash(String typeName, GlobalId ownerId, String fragment) {
+        super(typeName, ownerId, fragment);
+    }
+
     public static boolean containsHashPlaceholder(String fragment) {
         if (fragment == null) {
             return false;
         }
         return fragment.contains(HASH_PLACEHOLDER);
-    }
-
-    public ValueObjectIdWithHash(String typeName, GlobalId ownerId, String fragment) {
-        super(typeName, ownerId, fragment);
     }
 
     public abstract boolean requiresHash();
@@ -32,15 +31,15 @@ public abstract class ValueObjectIdWithHash extends ValueObjectId {
 
     @Override
     public String toString() {
-        return  getOwnerId().toString() +"#"+ getFragment() + " ("+this.getClass().getSimpleName()+")";
+        return getOwnerId().toString() + "#" + getFragment() + " (" + this.getClass().getSimpleName() + ")";
     }
 
     static class ValueObjectIdWithPlaceholder extends ValueObjectIdWithHash {
         private final Supplier<String> parentFragment;
         private final String localPath;
-        private String hash;
         private final boolean requiresHash;
         private final boolean hasHashOnParent;
+        private String hash;
 
         ValueObjectIdWithPlaceholder(String typeName, GlobalId ownerId, Supplier<String> parentFragment,
                                      String localPath, boolean requiresHash) {
@@ -64,7 +63,7 @@ public abstract class ValueObjectIdWithHash extends ValueObjectId {
                 return new ValueObjectId(getTypeName(), getOwnerId(), this.getFragment());
             }
             return new ValueObjectIdWithPlaceholder(getTypeName(), getOwnerId(), parentFragment,
-                    localPath +"/"+hash, false);
+                    localPath + "/" + hash, false);
         }
 
         @Override

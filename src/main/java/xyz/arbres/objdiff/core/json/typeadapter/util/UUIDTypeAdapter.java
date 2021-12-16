@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.json.typeadapter.util;
 
 
-
 import xyz.arbres.objdiff.core.json.BasicStringTypeAdapter;
 
 import java.util.UUID;

@@ -26,7 +26,7 @@ public class Primitives {
             int.class, Integer.class,
             double.class, Double.class,
             boolean.class, Boolean.class,
-            String.class );
+            String.class);
 
     public static List<Class<?>> getPrimitiveAndBoxTypes() {
         return java.util.Collections.unmodifiableList(
@@ -39,7 +39,7 @@ public class Primitives {
             return false;
         }
 
-        return  isJsonBasicType(object.getClass());
+        return isJsonBasicType(object.getClass());
     }
 
     public static boolean isPrimitiveNumber(Class<?> clazz) {
@@ -51,7 +51,7 @@ public class Primitives {
             return false;
         }
 
-        return  isPrimitiveOrBox(object.getClass());
+        return isPrimitiveOrBox(object.getClass());
     }
 
     public static boolean isJsonBasicType(Class clazz) {

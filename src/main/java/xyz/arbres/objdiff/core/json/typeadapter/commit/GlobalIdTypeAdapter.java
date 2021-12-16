@@ -29,6 +29,19 @@ class GlobalIdTypeAdapter implements JsonTypeAdapter<GlobalId> {
         this.typeMapper = typeMapper;
     }
 
+    public static boolean looksLikeGlobalId(JsonElement propertyElement) {
+        if (propertyElement instanceof JsonObject) {
+            JsonObject json = (JsonObject) propertyElement;
+            return hasStringField(json, ENTITY_FIELD) || hasStringField(json, VALUE_OBJECT_FIELD);
+        }
+        return false;
+    }
+
+    private static boolean hasStringField(JsonObject json, String childName) {
+        return json.has(childName) && json.get(childName) instanceof JsonPrimitive && ((JsonPrimitive) json.get(childName)).isString();
+
+    }
+
     @Override
     public GlobalId fromJson(JsonElement json, JsonDeserializationContext context) {
         if (!(json instanceof JsonObject)) {
@@ -45,7 +58,7 @@ class GlobalIdTypeAdapter implements JsonTypeAdapter<GlobalId> {
         }
     }
 
-    private UnboundedValueObjectId parseUnboundedValueObject(JsonObject jsonObject){
+    private UnboundedValueObjectId parseUnboundedValueObject(JsonObject jsonObject) {
         String typeName = jsonObject.get(VALUE_OBJECT_FIELD).getAsString();
         return new UnboundedValueObjectId(typeName);
     }
@@ -67,7 +80,7 @@ class GlobalIdTypeAdapter implements JsonTypeAdapter<GlobalId> {
 
         return entityMaybe.map(entity -> deserializeInstanceId(cdoIdElement, entity, context)
         ).orElseGet(() ->
-            new InstanceId(typeName, context.deserialize(cdoIdElement, Object.class), cdoIdElement.getAsString())
+                new InstanceId(typeName, context.deserialize(cdoIdElement, Object.class), cdoIdElement.getAsString())
         );
     }
 
@@ -93,7 +106,7 @@ class GlobalIdTypeAdapter implements JsonTypeAdapter<GlobalId> {
         //managedClass
         if (globalId instanceof InstanceId) {
             jsonObject.addProperty(ENTITY_FIELD, globalId.getTypeName());
-            jsonObject.add(CDO_ID_FIELD, context.serialize(((InstanceId)globalId).getCdoId()));
+            jsonObject.add(CDO_ID_FIELD, context.serialize(((InstanceId) globalId).getCdoId()));
         } else {
             jsonObject.addProperty(VALUE_OBJECT_FIELD, globalId.getTypeName());
         }
@@ -115,18 +128,5 @@ class GlobalIdTypeAdapter implements JsonTypeAdapter<GlobalId> {
                 InstanceId.class,
                 UnboundedValueObjectId.class,
                 ValueObjectId.class);
-    }
-
-    public static boolean looksLikeGlobalId(JsonElement propertyElement) {
-        if (propertyElement instanceof  JsonObject) {
-            JsonObject json = (JsonObject) propertyElement;
-            return hasStringField(json, ENTITY_FIELD) || hasStringField(json, VALUE_OBJECT_FIELD);
-        }
-        return false;
-    }
-
-    private static boolean hasStringField(JsonObject json, String childName) {
-        return json.has(childName) && json.get(childName) instanceof JsonPrimitive && ((JsonPrimitive)json.get(childName)).isString();
-
     }
 }

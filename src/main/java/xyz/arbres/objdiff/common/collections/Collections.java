@@ -15,20 +15,19 @@ import static xyz.arbres.objdiff.common.validation.Validate.argumentCheck;
 public class Collections {
     public static <E> Collection<E> difference(Collection<E> first, Collection<E> second) {
         if (first instanceof List) {
-            return Lists.difference((List) first,(List) second);
+            return Lists.difference((List) first, (List) second);
         } else if (first instanceof Set) {
-            return Sets.difference((Set) first,(Set) second);
+            return Sets.difference((Set) first, (Set) second);
         } else {
-            throw new IllegalArgumentException("At this moment ObjDiff don't support "  + first.getClass().getSimpleName());
+            throw new IllegalArgumentException("At this moment ObjDiff don't support " + first.getClass().getSimpleName());
         }
     }
 
     public static Collection wrapNull(Object sourceCollection) {
         if (sourceCollection == null) {
             return java.util.Collections.emptySet();
-        }
-        else{
-            return (Collection)sourceCollection;
+        } else {
+            return (Collection) sourceCollection;
         }
     }
 

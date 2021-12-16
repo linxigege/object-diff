@@ -11,8 +11,8 @@ package xyz.arbres.objdiff.core.metamodel.clazz;
  *     .build();
  * </pre>
  *
- * @since 1.4
  * @author bartosz.walacik
+ * @since 1.4
  */
 public class ValueObjectDefinitionBuilder extends ClientsClassDefinitionBuilder<ValueObjectDefinitionBuilder> {
     private boolean defaultType;

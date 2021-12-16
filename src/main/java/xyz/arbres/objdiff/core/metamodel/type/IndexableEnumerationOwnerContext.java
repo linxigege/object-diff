@@ -16,6 +16,6 @@ class IndexableEnumerationOwnerContext extends EnumerationAwareOwnerContext {
 
     @Override
     public String getEnumeratorContextPath() {
-        return ""+(index++);
+        return "" + (index++);
     }
 }

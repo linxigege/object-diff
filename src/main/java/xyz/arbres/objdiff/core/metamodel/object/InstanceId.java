@@ -1,13 +1,14 @@
 package xyz.arbres.objdiff.core.metamodel.object;
 
 import static xyz.arbres.objdiff.common.validation.Validate.argumentsAreNotNull;
+
 /**
  * InstanceId
  *
  * @author carlos
  * @date 2021-12-08
  */
-public class InstanceId extends GlobalId{
+public class InstanceId extends GlobalId {
     private final Object cdoId;
     private final String cdoIdAsString;
 
@@ -35,11 +36,11 @@ public class InstanceId extends GlobalId{
 
     @Override
     public String value() {
-        return getTypeName()+"/"+cdoIdAsString;
+        return getTypeName() + "/" + cdoIdAsString;
     }
 
     @Override
     public String toString() {
-        return getTypeNameShort()+"/"+cdoIdAsString;
+        return getTypeNameShort() + "/" + cdoIdAsString;
     }
 }

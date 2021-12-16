@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.repository.shadow;
 
 
-
 import xyz.arbres.objdiff.core.metamodel.object.CdoSnapshot;
 import xyz.arbres.objdiff.core.metamodel.type.EnumerableType;
 import xyz.arbres.objdiff.core.metamodel.type.ObjDiffProperty;

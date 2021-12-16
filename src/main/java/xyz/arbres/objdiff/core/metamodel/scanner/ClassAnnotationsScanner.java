@@ -32,7 +32,7 @@ class ClassAnnotationsScanner {
         this.annotationNamesProvider = annotationNamesProvider;
     }
 
-    public ClassAnnotationsScan scan(Class javaClass){
+    public ClassAnnotationsScan scan(Class javaClass) {
         Validate.argumentIsNotNull(javaClass);
 
         Set<Annotation> annotations = Sets.asSet(javaClass.getAnnotations());
@@ -48,8 +48,8 @@ class ClassAnnotationsScanner {
         boolean hasIgnoreDeclaredProperties = annTypes.contains(ObjDiffAnnotationsNameSpace.IGNORE_DECLARED_PROPERTIES_ANN);
 
         return new ClassAnnotationsScan(typeFromAnnotation(annTypes),
-                                        hasIgnoreDeclaredProperties,
-                                        typeName);
+                hasIgnoreDeclaredProperties,
+                typeName);
     }
 
     private TypeFromAnnotation typeFromAnnotation(Set<Class<? extends Annotation>> annTypes) {
@@ -58,8 +58,7 @@ class ClassAnnotationsScanner {
 
         if (ObjDiffTypeAnnotation.isPresent()) {
             return new TypeFromAnnotation(ObjDiffTypeAnnotation.get());
-        }
-        else {
+        } else {
             boolean hasValue = annotationNamesProvider.hasValueAnnAlias(annTypes);
             boolean hasValueObject = annotationNamesProvider.hasValueObjectAnnAlias(annTypes);
             boolean hasEntity = annotationNamesProvider.hasEntityAnnAlias(annTypes);

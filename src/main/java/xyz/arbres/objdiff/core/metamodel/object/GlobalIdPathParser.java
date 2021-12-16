@@ -13,7 +13,7 @@ import java.util.LinkedList;
  */
 class GlobalIdPathParser {
 
-    ValueObjectType parseChildValueObject(ManagedType ownerType, String path){
+    ValueObjectType parseChildValueObject(ManagedType ownerType, String path) {
         return parseChildValueObjectFromPathSegments(ownerType, pathToSegments(path), path);
     }
 
@@ -23,12 +23,12 @@ class GlobalIdPathParser {
         ValueObjectType childVoType = extractChildValueObject(property.getType(), path);
 
         if (segments.size() == 1 ||
-            segments.size() == 2 &&  property.getType() instanceof EnumerableType){
+                segments.size() == 2 && property.getType() instanceof EnumerableType) {
             return childVoType;
         }
 
         segments.removeFirst();
-        if (property.getType() instanceof EnumerableType){
+        if (property.getType() instanceof EnumerableType) {
             segments.removeFirst(); //removing segment with list index or map key
         }
 
@@ -42,16 +42,16 @@ class GlobalIdPathParser {
         }
 
         if (voPropertyType instanceof ContainerType) {
-            ObjDiffType contentType  = ((ContainerType) voPropertyType).getItemObjDiffType();
-            if (contentType instanceof ValueObjectType){
-                return (ValueObjectType)contentType;
+            ObjDiffType contentType = ((ContainerType) voPropertyType).getItemObjDiffType();
+            if (contentType instanceof ValueObjectType) {
+                return (ValueObjectType) contentType;
             }
         }
 
-        if (voPropertyType instanceof MapType){
-            ObjDiffType valueType  = ((MapType) voPropertyType).getValueObjDiffType();
-            if (valueType instanceof ValueObjectType){
-                return (ValueObjectType)valueType;
+        if (voPropertyType instanceof MapType) {
+            ObjDiffType valueType = ((MapType) voPropertyType).getValueObjDiffType();
+            if (valueType instanceof ValueObjectType) {
+                return (ValueObjectType) valueType;
             }
         }
 
@@ -60,7 +60,7 @@ class GlobalIdPathParser {
 
     }
 
-    private LinkedList<String> pathToSegments(String path){
+    private LinkedList<String> pathToSegments(String path) {
         Validate.argumentIsNotNull(path);
         return new LinkedList(Arrays.asList(path.split("/")));
     }

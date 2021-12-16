@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.diff.appenders.levenshtein;
 
 
-
 import xyz.arbres.objdiff.core.diff.EqualsFunction;
 import xyz.arbres.objdiff.core.diff.NodePair;
 import xyz.arbres.objdiff.core.diff.appenders.CorePropertyChangeAppender;
@@ -25,9 +24,9 @@ public class LevenshteinListChangeAppender extends CorePropertyChangeAppender<Li
 
     @Override
     public ListChange calculateChanges(Object leftValue, Object rightValue, NodePair pair, ObjDiffProperty property) {
-        ObjDiffType itemType = ((ListType)property.getType()).getItemObjDiffType();
+        ObjDiffType itemType = ((ListType) property.getType()).getItemObjDiffType();
 
-        final List leftList =  (List) leftValue;
+        final List leftList = (List) leftValue;
         final List rightList = (List) rightValue;
 
         EqualsFunction equalsFunction = itemType::equals;

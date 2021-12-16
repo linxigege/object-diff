@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.scanner;
 
 
-
 import xyz.arbres.objdiff.core.metamodel.annotation.*;
 
 import java.lang.annotation.Annotation;

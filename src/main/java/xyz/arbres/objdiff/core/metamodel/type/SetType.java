@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
-
 import xyz.arbres.objdiff.common.collections.EnumerableFunction;
 import xyz.arbres.objdiff.common.collections.Sets;
 import xyz.arbres.objdiff.core.metamodel.object.OwnerContext;
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Collections.unmodifiableSet;
 
-public class SetType extends CollectionType{
+public class SetType extends CollectionType {
 
     public SetType(Type baseJavaType, TypeMapperLazy typeMapperLazy) {
         super(baseJavaType, typeMapperLazy);
@@ -33,7 +32,7 @@ public class SetType extends CollectionType{
     @Override
     public Object map(Object sourceEnumerable, Function mapFunction, boolean filterNulls) {
         Set sourceCol = Sets.wrapNull(sourceEnumerable);
-        return unmodifiableSet((Set)sourceCol.stream()
+        return unmodifiableSet((Set) sourceCol.stream()
                 .map(sourceVal -> sourceVal == null ? null : mapFunction.apply(sourceVal))
                 .filter(mappedVal -> !filterNulls || mappedVal != null)
                 .collect(Collectors.toSet()));

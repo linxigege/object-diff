@@ -11,7 +11,7 @@ import java.util.Set;
 public final class SetChange extends CollectionChange<Set<?>> {
     public SetChange(PropertyChangeMetadata metadata, List<ContainerElementChange> changes, Set left, Set right) {
         super(metadata, changes, left, right);
-        for (ContainerElementChange change: changes){
+        for (ContainerElementChange change : changes) {
             Validate.conditionFulfilled(change instanceof ValueAddOrRemove, "SetChange constructor failed, expected ValueAddOrRemove");
             Validate.conditionFulfilled(change.getIndex() == null, "SetChange constructor failed, expected empty change.index");
         }

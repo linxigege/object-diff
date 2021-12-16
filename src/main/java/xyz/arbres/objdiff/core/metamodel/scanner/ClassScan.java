@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.scanner;
 
 
-
 import xyz.arbres.objdiff.core.metamodel.property.Property;
 
 import java.util.List;

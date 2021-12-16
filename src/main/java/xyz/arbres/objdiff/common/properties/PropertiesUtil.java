@@ -3,11 +3,11 @@ package xyz.arbres.objdiff.common.properties;
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.validation.Validate;
 
-import static xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode.*;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import static xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode.*;
 
 /**
  * PropertiesUtil
@@ -17,36 +17,36 @@ import java.util.Properties;
  */
 public class PropertiesUtil {
 
-    public static String getStringProperty(Properties properties,String propertyKey){
+    public static String getStringProperty(Properties properties, String propertyKey) {
         Validate.argumentIsNotNull(properties);
         Validate.argumentIsNotNull(propertyKey);
 
-        if(!properties.containsKey(propertyKey)){
-            throw new ObjDiffException(UNDEFINED_PROPERTY,propertyKey);
+        if (!properties.containsKey(propertyKey)) {
+            throw new ObjDiffException(UNDEFINED_PROPERTY, propertyKey);
         }
 
         return properties.getProperty(propertyKey);
     }
 
-    public static boolean getBooleanProperty(Properties properties,String propertyKey){
+    public static boolean getBooleanProperty(Properties properties, String propertyKey) {
         String val = getStringProperty(properties, propertyKey);
         return Boolean.parseBoolean(val);
     }
 
-    public static <T extends Enum<T>> T getEnumProperty(Properties properties,String propertyKey,Class<T> enumType){
-        String enumName = getStringProperty(properties,propertyKey);
+    public static <T extends Enum<T>> T getEnumProperty(Properties properties, String propertyKey, Class<T> enumType) {
+        String enumName = getStringProperty(properties, propertyKey);
         Validate.argumentIsNotNull(enumType);
 
-        try{
-            return Enum.valueOf(enumType,enumName);
-        }catch (IllegalArgumentException e){
-            throw new ObjDiffException(MALFORMED_PROPERTY,enumName,propertyKey);
+        try {
+            return Enum.valueOf(enumType, enumName);
+        } catch (IllegalArgumentException e) {
+            throw new ObjDiffException(MALFORMED_PROPERTY, enumName, propertyKey);
         }
     }
 
     public static Properties getProperties(String classpathName) {
         Properties properties = new Properties();
-        loadProperties(classpathName,properties);
+        loadProperties(classpathName, properties);
         return properties;
     }
 

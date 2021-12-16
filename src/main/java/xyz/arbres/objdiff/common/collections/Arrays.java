@@ -69,7 +69,7 @@ public class Arrays {
      * Unfortunately, Java forces us to write such complex code
      * just to compare two arrays ...
      */
-    public static boolean equals(Object arr1, Object arr2)  {
+    public static boolean equals(Object arr1, Object arr2) {
         Class<?> c = arr1.getClass();
         argumentCheck(c.isArray(), arr1 + " is not an Array");
 

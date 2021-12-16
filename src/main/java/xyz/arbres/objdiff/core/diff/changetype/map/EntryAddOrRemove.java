@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.diff.changetype.map;
 
 
-
 import xyz.arbres.objdiff.common.string.ToStringBuilder;
 import xyz.arbres.objdiff.core.diff.changetype.Atomic;
 
@@ -12,7 +11,7 @@ import java.util.Objects;
  *
  * @author bartosz walacik
  */
-public abstract  class EntryAddOrRemove extends EntryChange {
+public abstract class EntryAddOrRemove extends EntryChange {
     private final Atomic value;
 
     EntryAddOrRemove(Object key, Object value) {
@@ -24,7 +23,7 @@ public abstract  class EntryAddOrRemove extends EntryChange {
         return value.unwrap();
     }
 
-    public Atomic getWrappedValue(){
+    public Atomic getWrappedValue() {
         return value;
     }
 

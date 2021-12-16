@@ -8,20 +8,6 @@ public class TokenType extends ObjDiffType {
         super(baseJavaType);
     }
 
-    @Override
-    public boolean canBePrototype() {
-        return false;
-    }
-
-    @Override
-    public boolean isInstance(Object cdo) {
-        return false;
-    }
-
-    public boolean equals(Object left, Object right) {
-        return mathFriendlyEquals(left, right);
-    }
-
     /**
      * Delegates to Objects.equals(a, b) in most cases.
      * Compares Long and Integer mathematically.
@@ -36,5 +22,19 @@ public class TokenType extends ObjDiffType {
         }
 
         return Objects.equals(a, b);
+    }
+
+    @Override
+    public boolean canBePrototype() {
+        return false;
+    }
+
+    @Override
+    public boolean isInstance(Object cdo) {
+        return false;
+    }
+
+    public boolean equals(Object left, Object right) {
+        return mathFriendlyEquals(left, right);
     }
 }

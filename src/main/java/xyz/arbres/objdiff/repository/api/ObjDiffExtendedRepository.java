@@ -16,7 +16,8 @@ import xyz.arbres.objdiff.core.snapshot.SnapshotDiffer;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static xyz.arbres.objdiff.common.validation.Validate.*;
+import static xyz.arbres.objdiff.common.validation.Validate.argumentIsNotNull;
+import static xyz.arbres.objdiff.common.validation.Validate.argumentsAreNotNull;
 
 public class ObjDiffExtendedRepository implements ObjDiffRepository {
     private final ObjDiffRepository delegate;
@@ -165,7 +166,7 @@ public class ObjDiffExtendedRepository implements ObjDiffRepository {
     }
 
     private List<Change> filterChangesByPropertyNames(List<Change> changes, final QueryParams queryParams) {
-        if (queryParams.changedProperties().size() == 0){
+        if (queryParams.changedProperties().size() == 0) {
             return changes;
         }
 

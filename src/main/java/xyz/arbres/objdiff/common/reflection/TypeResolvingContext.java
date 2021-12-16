@@ -19,42 +19,41 @@ public class TypeResolvingContext {
     private Map<TypeVariable, Type> substitutions = new HashMap<>();
 
     Type getSubstitution(Type type) {
-        if (type instanceof  TypeVariable){
-            Type resolved =  substitutions.get(type);
+        if (type instanceof TypeVariable) {
+            Type resolved = substitutions.get(type);
             if (resolved instanceof TypeVariable) {
                 return getSubstitution(resolved);
-            }
-            else {
+            } else {
                 return resolved;
             }
         }
         return null;
     }
 
-    void addTypeSubstitutions(Class clazz){
+    void addTypeSubstitutions(Class clazz) {
         Validate.argumentIsNotNull(clazz);
 
-        if (clazz == Object.class){
+        if (clazz == Object.class) {
             return;
         }
 
         Type t = clazz.getGenericSuperclass();
-        if ( !(t instanceof ParameterizedType)){
+        if (!(t instanceof ParameterizedType)) {
             return;
         }
 
-        ParameterizedType genericSuperclass = (ParameterizedType)t;
+        ParameterizedType genericSuperclass = (ParameterizedType) t;
         Class superclass = clazz.getSuperclass();
 
         TypeVariable[] typeParameters = superclass.getTypeParameters();
         Type[] actualTypeArguments = genericSuperclass.getActualTypeArguments();
 
-        if (typeParameters.length == 0 || actualTypeArguments.length == 0){
+        if (typeParameters.length == 0 || actualTypeArguments.length == 0) {
             return;
         }
 
         //both arrays should have the same length, hopefully
-        for (int i=0; i<typeParameters.length; i++){
+        for (int i = 0; i < typeParameters.length; i++) {
             TypeVariable typeParam = typeParameters[i];
             Type typeArg = actualTypeArguments[i];
             substitutions.put(typeParam, typeArg);

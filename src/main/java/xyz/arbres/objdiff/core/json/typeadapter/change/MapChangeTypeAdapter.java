@@ -55,16 +55,16 @@ class MapChangeTypeAdapter extends ChangeTypeAdapter<MapChange> {
 
         JsonArray array = jsonObject.getAsJsonArray(ENTRY_CHANGES_FIELD);
 
-        for (JsonElement e : array){
-            JsonObject entryChange = (JsonObject)e;
-            String entryChangeType  = entryChange.get(ENTRY_CHANGE_TYPE_FIELD).getAsString();
+        for (JsonElement e : array) {
+            JsonObject entryChange = (JsonObject) e;
+            String entryChangeType = entryChange.get(ENTRY_CHANGE_TYPE_FIELD).getAsString();
 
-            if (EntryAdded.class.getSimpleName().equals(entryChangeType)){
-                result.add(parseEntryAdded(entryChange,context,mapType));
+            if (EntryAdded.class.getSimpleName().equals(entryChangeType)) {
+                result.add(parseEntryAdded(entryChange, context, mapType));
             } else if (EntryRemoved.class.getSimpleName().equals(entryChangeType)) {
-                result.add(parseEntryRemoved(entryChange, context,mapType));
+                result.add(parseEntryRemoved(entryChange, context, mapType));
             } else if (EntryValueChange.class.getSimpleName().equals(entryChangeType)) {
-                result.add(parseEntryValueChange(entryChange, context,mapType));
+                result.add(parseEntryValueChange(entryChange, context, mapType));
             } else {
                 throw new ObjDiffException(ObjDiffExceptionCode.MALFORMED_ENTRY_CHANGE_TYPE_FIELD, entryChangeType);
             }
@@ -73,33 +73,33 @@ class MapChangeTypeAdapter extends ChangeTypeAdapter<MapChange> {
         return result;
     }
 
-    private EntryAdded parseEntryAdded(JsonObject entryChange, JsonDeserializationContext context, MapType mapType){
-        Object key =   decodeValue(entryChange, context, KEY_FIELD, mapType.getKeyJavaType());
+    private EntryAdded parseEntryAdded(JsonObject entryChange, JsonDeserializationContext context, MapType mapType) {
+        Object key = decodeValue(entryChange, context, KEY_FIELD, mapType.getKeyJavaType());
         Object value = decodeValue(entryChange, context, VALUE_FIELD, mapType.getValueJavaType());
         return new EntryAdded(key, value);
     }
 
-    private EntryRemoved parseEntryRemoved(JsonObject entryChange, JsonDeserializationContext context, MapType mapType){
-        Object key =   decodeValue(entryChange, context, KEY_FIELD,   mapType.getKeyJavaType());
+    private EntryRemoved parseEntryRemoved(JsonObject entryChange, JsonDeserializationContext context, MapType mapType) {
+        Object key = decodeValue(entryChange, context, KEY_FIELD, mapType.getKeyJavaType());
         Object value = decodeValue(entryChange, context, VALUE_FIELD, mapType.getValueJavaType());
         return new EntryRemoved(key, value);
     }
 
-    private EntryValueChange parseEntryValueChange(JsonObject entryChange, JsonDeserializationContext context, MapType mapType){
-        Object key =        decodeValue(entryChange, context, KEY_FIELD , mapType.getKeyJavaType());
-        Object leftValue =  decodeValue(entryChange, context, LEFT_VALUE_FIELD, mapType.getValueJavaType());
+    private EntryValueChange parseEntryValueChange(JsonObject entryChange, JsonDeserializationContext context, MapType mapType) {
+        Object key = decodeValue(entryChange, context, KEY_FIELD, mapType.getKeyJavaType());
+        Object leftValue = decodeValue(entryChange, context, LEFT_VALUE_FIELD, mapType.getValueJavaType());
         Object rightValue = decodeValue(entryChange, context, RIGHT_VALUE_FIELD, mapType.getValueJavaType());
         return new EntryValueChange(key, leftValue, rightValue);
     }
 
-    private Object decodeValue(JsonObject entryChange, JsonDeserializationContext context, String fieldName, Type expectedType){
-           return context.deserialize(entryChange.get(fieldName), typeMapper.getDehydratedType(expectedType));
+    private Object decodeValue(JsonObject entryChange, JsonDeserializationContext context, String fieldName, Type expectedType) {
+        return context.deserialize(entryChange.get(fieldName), typeMapper.getDehydratedType(expectedType));
     }
 
     private void appendBody(MapChange change, JsonObject toJson, JsonSerializationContext context) {
         JsonArray jsonArray = new JsonArray();
 
-        for (EntryChange entryChange : (List<EntryChange>)change.getEntryChanges()) {
+        for (EntryChange entryChange : (List<EntryChange>) change.getEntryChanges()) {
             JsonObject jsonElement = new JsonObject();
             jsonElement.addProperty(ENTRY_CHANGE_TYPE_FIELD, entryChange.getClass().getSimpleName());
 

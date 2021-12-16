@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.diff;
 
 
-
 import xyz.arbres.objdiff.common.string.PrettyValuePrinter;
 
 import java.util.*;

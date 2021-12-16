@@ -3,10 +3,11 @@ package xyz.arbres.objdiff.core.metamodel.property;
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
 import xyz.arbres.objdiff.common.reflection.ObjDiffMember;
-import static xyz.arbres.objdiff.common.validation.Validate.argumentIsNotNull;
 
 import java.lang.reflect.Type;
 import java.util.Optional;
+
+import static xyz.arbres.objdiff.common.validation.Validate.argumentIsNotNull;
 
 /**
  * Property
@@ -25,7 +26,7 @@ public class Property {
     private final String name;
     private final String originalName;
 
-    public Property(ObjDiffMember member, boolean hasTransientAnn, boolean hasShallowReferenceAnn, Optional<String> name, boolean hasIncludedAnn){
+    public Property(ObjDiffMember member, boolean hasTransientAnn, boolean hasShallowReferenceAnn, Optional<String> name, boolean hasIncludedAnn) {
         argumentIsNotNull(member);
         this.member = member;
         this.hasTransientAnn = hasTransientAnn;
@@ -35,7 +36,7 @@ public class Property {
         this.hasIncludedAnn = hasIncludedAnn;
     }
 
-    public Property(ObjDiffMember member, boolean hasTransientAnn, boolean hasShallowReferenceAnn, String name, boolean hasIncludedAnn){
+    public Property(ObjDiffMember member, boolean hasTransientAnn, boolean hasShallowReferenceAnn, String name, boolean hasIncludedAnn) {
         this(member, hasTransientAnn, hasShallowReferenceAnn, Optional.of(name), hasIncludedAnn);
     }
 
@@ -67,13 +68,13 @@ public class Property {
 
     /**
      * Returns property value, even if private.
-     *
+     * <p>
      * If there is no this property in target -- returns {@link MissingProperty#INSTANCE}
      *
      * @param target invocation target
      */
     public Object get(Object target) {
-        return  member.getEvenIfPrivate(target);
+        return member.getEvenIfPrivate(target);
     }
 
     /**
@@ -82,7 +83,7 @@ public class Property {
      * Swallows ObjDiffException.MISSING_PROPERTY
      *
      * @param target invocation target
-     * @param value value to be set
+     * @param value  value to be set
      */
     public void set(Object target, Object value) {
         try {

@@ -70,7 +70,7 @@ public abstract class ManagedType extends ClassType {
         managedClass.forEachProperty(consumer);
     }
 
-    public Set<String> getPropertyNames(){
+    public Set<String> getPropertyNames() {
         return managedClass.getPropertyNames();
     }
 

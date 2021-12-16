@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
-
 import xyz.arbres.objdiff.common.collections.EnumerableFunction;
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.metamodel.object.EnumerationAwareOwnerContext;
@@ -25,9 +24,16 @@ public class CollectionType extends ContainerType {
         super(baseJavaType, typeMapperLazy);
     }
 
+    public static Collection wrapNull(Object col) {
+        if (col == null) {
+            return Collections.emptyList();
+        }
+        return (Collection) col;
+    }
+
     @Override
     public boolean isEmpty(Object collection) {
-        return collection == null || ((Collection)collection).isEmpty();
+        return collection == null || ((Collection) collection).isEmpty();
     }
 
     /**
@@ -71,7 +77,7 @@ public class CollectionType extends ContainerType {
     @Override
     public Object map(Object sourceEnumerable, Function mapFunction, boolean filterNulls) {
         Collection sourceCol = wrapNull(sourceEnumerable);
-        return unmodifiableList((List)sourceCol.stream()
+        return unmodifiableList((List) sourceCol.stream()
                 .map(sourceVal -> sourceVal == null ? null : mapFunction.apply(sourceVal))
                 .filter(mappedVal -> !filterNulls || mappedVal != null)
                 .collect(toList()));
@@ -85,13 +91,6 @@ public class CollectionType extends ContainerType {
     @Override
     protected Stream<Object> items(Object source) {
         return wrapNull(source).stream();
-    }
-
-    public static Collection wrapNull(Object col) {
-        if (col == null) {
-            return Collections.emptyList();
-        }
-        return (Collection) col;
     }
 
     @Override

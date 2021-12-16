@@ -9,7 +9,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Use <code>ShallowReference</code> to mark certain Entities as compared only by Id.
  * <br/><br/>
- *
+ * <p>
  * When <code>ShallowReference</code> is enabled for a given Entity,
  * all its properties (except idProperty) are ignored.
  * <br/><br/>
@@ -23,7 +23,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     ...
  *  }
  * </pre>
- *
+ * <p>
  * and locally, on the property-level, for example:
  *
  * <pre>

@@ -33,7 +33,7 @@ public class CommitMetadata implements Serializable {
         this.author = author;
         this.properties = new HashMap<>(properties);
         this.commitDate = commitDate;
-        this.commitDateInstant = initCommitDateInstant(commitDate,commitDateInstant);
+        this.commitDateInstant = initCommitDateInstant(commitDate, commitDateInstant);
         this.id = id;
     }
 
@@ -49,6 +49,7 @@ public class CommitMetadata implements Serializable {
         //for old records without commitDateInstant
         return commitDate.toInstant(ZonedDateTime.now().getOffset());
     }
+
     public String getAuthor() {
         return author;
     }
@@ -60,11 +61,11 @@ public class CommitMetadata implements Serializable {
     /**
      * Created date as local date.
      * <br/><br/>
-     *
+     * <p>
      * CommitDate is persisted as LocalDateTime
      * (without information about time zone and daylight saving time).
      * <br/><br/>
-     *
+     * <p>
      * It may affects your query results. For example,
      * once a year when DST ends,
      * one hour is repeated (clock goes back from 3 am to 2 am).
@@ -86,7 +87,7 @@ public class CommitMetadata implements Serializable {
         return id;
     }
 
-    public boolean isBeforeOrEqual(CommitMetadata that){
+    public boolean isBeforeOrEqual(CommitMetadata that) {
         return this.id.isBeforeOrEqual(that.id);
     }
 

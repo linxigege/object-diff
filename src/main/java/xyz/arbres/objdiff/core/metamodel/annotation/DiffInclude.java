@@ -12,10 +12,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * operations for a given class.
  * All other properties in this class and all properties in its subclasses will be ignored by ObjDiff.
  * <br/>
- *
+ * <p>
  * If some properties in a subclass should be included, apply the {@code DiffInclude} annotation on them.
  * <br/><br/>
- *
+ * <p>
  * For example, ObjDiff will ignore {@code bar} in the {@code A} class and both {@code bar} and {@code qux}
  * in the {@code B} class.
  * <pre>
@@ -34,8 +34,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *     private String qux;
  * }
  * </pre>
- *
- *
+ * <p>
+ * <p>
  * The above is equivalent to:
  * <pre>
  * class A {
@@ -56,8 +56,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <b>Warning</b>: {@code DiffInclude} can't be mixed with {@code DiffIgnore} in the same class.
  *
- * @see org.ObjDiff.core.metamodel.annotation.DiffIgnore
  * @author Iulian Stefanica
+ * @see org.ObjDiff.core.metamodel.annotation.DiffIgnore
  */
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)

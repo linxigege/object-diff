@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author carlos
  * @date 2021-12-08
  */
-public abstract class  PropertyChange<T> extends Change {
+public abstract class PropertyChange<T> extends Change {
 
     private final PropertyChangeType changeType;
     private final String propertyName;
@@ -22,6 +22,7 @@ public abstract class  PropertyChange<T> extends Change {
         this.propertyName = propertyChangeMetadata.getPropertyName();
         this.changeType = propertyChangeMetadata.getChangeType();
     }
+
     /**
      * Left (or old) value of a changed property
      */
@@ -32,7 +33,7 @@ public abstract class  PropertyChange<T> extends Change {
      */
     public abstract T getRight();
 
-    public String getPropertyName(){
+    public String getPropertyName() {
         return propertyName;
     }
 
@@ -70,8 +71,8 @@ public abstract class  PropertyChange<T> extends Change {
     }
 
     /**
-     * @see PropertyChangeType
      * @return <code>changeType == PropertyChangeType.PROPERTY_ADDED</code>
+     * @see PropertyChangeType
      * @since 5.5.0
      */
     public boolean isPropertyAdded() {
@@ -79,8 +80,8 @@ public abstract class  PropertyChange<T> extends Change {
     }
 
     /**
-     * @see PropertyChangeType
      * @return <code>changeType == PropertyChangeType.PROPERTY_REMOVED</code>
+     * @see PropertyChangeType
      * @since 5.5.0
      */
     public boolean isPropertyRemoved() {
@@ -88,8 +89,8 @@ public abstract class  PropertyChange<T> extends Change {
     }
 
     /**
-     * @see PropertyChangeType
      * @return <code>changeType == PropertyChangeType.PROPERTY_VALUE_CHANGED</code>
+     * @see PropertyChangeType
      * @since 5.5.0
      */
     public boolean isPropertyValueChanged() {
@@ -98,7 +99,7 @@ public abstract class  PropertyChange<T> extends Change {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "{ property: '"+propertyName +"' }";
+        return this.getClass().getSimpleName() + "{ property: '" + propertyName + "' }";
     }
 
 }

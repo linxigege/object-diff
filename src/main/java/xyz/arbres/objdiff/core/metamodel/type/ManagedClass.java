@@ -33,14 +33,14 @@ public class ManagedClass {
         this.managedProperties = Lists.immutableCopyOf(managedProperties);
 
         this.propertiesByName = new HashMap<>();
-        managedProperties.forEach(property -> propertiesByName.put(property.getName(),property));
+        managedProperties.forEach(property -> propertiesByName.put(property.getName(), property));
     }
 
     static ManagedClass unknown() {
         return new ManagedClass(Object.class, Collections.emptyList(), Collections.emptyList(), ManagedPropertiesFilter.empty());
     }
 
-    ManagedClass createShallowReference(){
+    ManagedClass createShallowReference() {
         return new ManagedClass(baseJavaClass, Collections.emptyList(), getLooksLikeId(), ManagedPropertiesFilter.empty());
     }
 
@@ -59,7 +59,7 @@ public class ManagedClass {
         return looksLikeId;
     }
 
-    Set<String> getPropertyNames(){
+    Set<String> getPropertyNames() {
         return Collections.unmodifiableSet(propertiesByName.keySet());
     }
 
@@ -77,7 +77,7 @@ public class ManagedClass {
      */
     ObjDiffProperty getProperty(String withName) {
         Validate.argumentIsNotNull(withName);
-        if (!propertiesByName.containsKey(withName)){
+        if (!propertiesByName.containsKey(withName)) {
             throw new ObjDiffException(ObjDiffExceptionCode.PROPERTY_NOT_FOUND, withName, baseJavaClass.getName());
         }
         return propertiesByName.get(withName);

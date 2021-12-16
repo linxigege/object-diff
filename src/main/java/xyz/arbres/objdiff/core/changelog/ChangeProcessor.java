@@ -2,11 +2,7 @@ package xyz.arbres.objdiff.core.changelog;
 
 import xyz.arbres.objdiff.core.commit.CommitMetadata;
 import xyz.arbres.objdiff.core.diff.Change;
-import xyz.arbres.objdiff.core.diff.changetype.PropertyChange;
-import xyz.arbres.objdiff.core.diff.changetype.ValueChange;
-import xyz.arbres.objdiff.core.diff.changetype.NewObject;
-import xyz.arbres.objdiff.core.diff.changetype.ObjectRemoved;
-import xyz.arbres.objdiff.core.diff.changetype.ReferenceChange;
+import xyz.arbres.objdiff.core.diff.changetype.*;
 import xyz.arbres.objdiff.core.diff.changetype.container.ArrayChange;
 import xyz.arbres.objdiff.core.diff.changetype.container.ContainerChange;
 import xyz.arbres.objdiff.core.diff.changetype.container.ListChange;

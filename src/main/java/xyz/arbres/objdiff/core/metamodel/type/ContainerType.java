@@ -16,7 +16,7 @@ public abstract class ContainerType extends EnumerableType {
         super(baseJavaType, 1, typeMapperLazy);
     }
 
-    public Type getItemJavaType(){
+    public Type getItemJavaType() {
         return getConcreteClassTypeArguments().get(0);
     }
 
@@ -27,7 +27,7 @@ public abstract class ContainerType extends EnumerableType {
     /**
      * never returns null
      */
-    public Class getItemClass(){
+    public Class getItemClass() {
         return ReflectionUtil.extractClass(getItemJavaType());
     }
 }

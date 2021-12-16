@@ -17,14 +17,14 @@ import java.math.RoundingMode;
 public class CommitId implements Comparable<CommitId>, Serializable {
 
     private final long majorId;
-    private final int  minorId;
+    private final int minorId;
 
     public CommitId(long majorId, int minorId) {
         this.majorId = majorId;
         this.minorId = minorId;
     }
 
-    public static CommitId valueOf(BigDecimal majorDotMinor){
+    public static CommitId valueOf(BigDecimal majorDotMinor) {
         Validate.argumentIsNotNull(majorDotMinor);
 
         long major = majorDotMinor.longValue();
@@ -48,25 +48,26 @@ public class CommitId implements Comparable<CommitId>, Serializable {
 
         return new CommitId(major, minor);
     }
+
     @Override
     public String toString() {
         return value();
     }
 
-    public BigDecimal valueAsNumber(){
+    public BigDecimal valueAsNumber() {
         BigDecimal major = BigDecimal.valueOf(majorId);
         BigDecimal minorFractional = BigDecimal.valueOf(minorId).movePointLeft(2);
         return major.add(minorFractional).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public boolean isBeforeOrEqual(CommitId that){
+    public boolean isBeforeOrEqual(CommitId that) {
         return valueAsNumber().compareTo(that.valueAsNumber()) <= 0;
     }
 
     /**
      * e.g. "1.0"
      */
-    public String value(){
+    public String value() {
         return valueAsNumber().toString();
     }
 
@@ -86,7 +87,7 @@ public class CommitId implements Comparable<CommitId>, Serializable {
         }
 
         if (o instanceof CommitId) {
-            return this.valueAsNumber().equals(((CommitId)o).valueAsNumber());
+            return this.valueAsNumber().equals(((CommitId) o).valueAsNumber());
         }
         if (o instanceof String) {
             return this.value().equals(o);

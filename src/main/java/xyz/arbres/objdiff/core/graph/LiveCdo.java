@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.graph;
 
 
-
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
 import xyz.arbres.objdiff.core.metamodel.object.ValueObjectId;
 import xyz.arbres.objdiff.core.metamodel.object.ValueObjectIdWithHash;
@@ -40,7 +39,7 @@ abstract class LiveCdo extends Cdo {
 
     void reloadHashFromParentIfNeeded() {
         if (hasHashOnParent()) {
-            ValueObjectIdWithHash id = (ValueObjectIdWithHash)getGlobalId();
+            ValueObjectIdWithHash id = (ValueObjectIdWithHash) getGlobalId();
             swapId(id.freeze());
         }
     }

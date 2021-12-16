@@ -26,29 +26,28 @@ public class Diff implements Serializable {
 
     /**
      * Flat list of changes
-     *
      */
     public Changes getChanges() {
         return changes;
     }
 
-    public String changesSummary(){
+    public String changesSummary() {
         StringBuilder b = new StringBuilder();
 
         b.append("changes - ");
-        for (Map.Entry<Class<? extends Change>, Integer> e : countByType().entrySet()){
-            b.append(e.getKey().getSimpleName()+ ":"+e.getValue()+" ");
+        for (Map.Entry<Class<? extends Change>, Integer> e : countByType().entrySet()) {
+            b.append(e.getKey().getSimpleName() + ":" + e.getValue() + " ");
         }
         return b.toString().trim();
     }
 
-    public Map<Class<? extends Change>, Integer> countByType(){
+    public Map<Class<? extends Change>, Integer> countByType() {
         Map<Class<? extends Change>, Integer> result = new HashMap<>();
-        for(Change change : changes) {
+        for (Change change : changes) {
             Class<? extends Change> key = change.getClass();
-            if (result.containsKey(change.getClass())){
-                result.put(key, (result.get(key))+1);
-            }else{
+            if (result.containsKey(change.getClass())) {
+                result.put(key, (result.get(key)) + 1);
+            } else {
                 result.put(key, 1);
             }
         }
@@ -58,9 +57,11 @@ public class Diff implements Serializable {
     public final String prettyPrint() {
         return toString();
     }
+
     public List<ChangesByObject> groupByObject() {
         return new Changes(changes, valuePrinter).groupByObject();
     }
+
     @Override
     public String toString() {
         StringBuilder b = new StringBuilder();

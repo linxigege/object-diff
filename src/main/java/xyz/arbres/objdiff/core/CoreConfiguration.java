@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core;
 
 
-
 import xyz.arbres.objdiff.common.string.PrettyValuePrinter;
 import xyz.arbres.objdiff.core.commit.CommitId;
 import xyz.arbres.objdiff.core.diff.ListCompareAlgorithm;
@@ -18,16 +17,11 @@ public class CoreConfiguration {
     private final MappingStyle mappingStyle;
 
     private final ListCompareAlgorithm listCompareAlgorithm;
-
-    private boolean prettyPrint;
-
     private final boolean initialChanges;
-
     private final boolean terminalChanges;
-
     private final CommitIdGenerator commitIdGenerator;
-
     private final Supplier<CommitId> customCommitIdGenerator;
+    private boolean prettyPrint;
 
     CoreConfiguration(PrettyValuePrinter prettyValuePrinter, MappingStyle mappingStyle, ListCompareAlgorithm listCompareAlgorithm, boolean initialChanges, CommitIdGenerator commitIdGenerator, Supplier<CommitId> customCommitIdGenerator, boolean terminalChanges, boolean prettyPrint) {
         this.prettyValuePrinter = prettyValuePrinter;

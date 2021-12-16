@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.graph;
 
 
-
 import xyz.arbres.objdiff.common.collections.Defaults;
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
 import xyz.arbres.objdiff.common.exception.ObjDiffExceptionCode;
@@ -12,7 +11,7 @@ import xyz.arbres.objdiff.core.metamodel.type.ObjDiffProperty;
 import java.util.Collections;
 import java.util.List;
 
-public class FakeNode extends ObjectNode<Cdo>{
+public class FakeNode extends ObjectNode<Cdo> {
 
     public FakeNode(Cdo cdo) {
         super(cdo);

@@ -55,6 +55,6 @@ public final class SnapshotIdentifier {
 
     @Override
     public String toString() {
-        return "SnapshotIdentifier{id:" + globalId.value() +", ver:" + version + "}";
+        return "SnapshotIdentifier{id:" + globalId.value() + ", ver:" + version + "}";
     }
 }

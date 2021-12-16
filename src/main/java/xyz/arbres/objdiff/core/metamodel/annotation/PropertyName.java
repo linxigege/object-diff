@@ -13,13 +13,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <br/>
  * This name will be used <b>everywhere</b> by ObjDiff.
  * <br/><br/>
- *
+ * <p>
  * This annotation (together with {@link TypeName}) solves the problem of refactoring names while using
  *
  * @since 3.1
  */
-@Target ({FIELD, METHOD})
-@Retention (RUNTIME)
+@Target({FIELD, METHOD})
+@Retention(RUNTIME)
 public @interface PropertyName {
-	String value();
+    String value();
 }

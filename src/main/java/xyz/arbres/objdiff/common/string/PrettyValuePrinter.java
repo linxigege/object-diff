@@ -1,13 +1,13 @@
 package xyz.arbres.objdiff.common.string;
 
+import xyz.arbres.objdiff.core.ObjDiffCoreProperties.PrettyPrintDateFormats;
+
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.util.*;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
-
-import xyz.arbres.objdiff.core.ObjDiffCoreProperties.PrettyPrintDateFormats;
 
 /**
  * PrettyValuePrinter
@@ -17,19 +17,18 @@ import xyz.arbres.objdiff.core.ObjDiffCoreProperties.PrettyPrintDateFormats;
  */
 public class PrettyValuePrinter {
 
-    private final Map<Class<? extends Temporal>, DateTimeFormatter> dateFormatters = new HashMap<>();
-
     private static final PrettyValuePrinter defaultInstance = new PrettyValuePrinter(new PrettyPrintDateFormats());
-
-    public static PrettyValuePrinter getDefault() {
-        return defaultInstance;
-    }
+    private final Map<Class<? extends Temporal>, DateTimeFormatter> dateFormatters = new HashMap<>();
 
     public PrettyValuePrinter(PrettyPrintDateFormats prettyPrintDateFormats) {
         for (Class<? extends Temporal> classKey : prettyPrintDateFormats.getFormats().keySet()) {
             dateFormatters.put(classKey, ofPattern(prettyPrintDateFormats.getFormats()
                     .get(classKey)));
         }
+    }
+
+    public static PrettyValuePrinter getDefault() {
+        return defaultInstance;
     }
 
     public String formatWithQuotes(Object value) {

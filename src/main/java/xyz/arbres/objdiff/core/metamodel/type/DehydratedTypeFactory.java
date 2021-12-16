@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
-
 import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
 
@@ -36,9 +35,9 @@ class DehydratedTypeFactory {
             return new ParametrizedDehydratedType(ObjDiffType.getBaseJavaClass(), actualDehydratedTypeArguments);
         }
 
-        if (ObjDiffType instanceof ArrayType){
-            Type dehydratedItemType = build( ObjDiffType.getConcreteClassTypeArguments().get(0) );
-            if (dehydratedItemType == GlobalId.class){
+        if (ObjDiffType instanceof ArrayType) {
+            Type dehydratedItemType = build(ObjDiffType.getConcreteClassTypeArguments().get(0));
+            if (dehydratedItemType == GlobalId.class) {
                 return GLOBAL_ID_ARRAY_TYPE;
             }
             return givenType;
@@ -47,7 +46,7 @@ class DehydratedTypeFactory {
         return ObjDiffType.getRawDehydratedType();
     }
 
-    private List<Type> extractAndDehydrateTypeArguments(ObjDiffType genericType){
+    private List<Type> extractAndDehydrateTypeArguments(ObjDiffType genericType) {
         return Lists.transform(genericType.getConcreteClassTypeArguments(), typeArgument -> build(typeArgument));
     }
 }

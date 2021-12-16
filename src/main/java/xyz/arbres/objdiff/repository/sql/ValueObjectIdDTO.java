@@ -4,8 +4,8 @@ package xyz.arbres.objdiff.repository.sql;
 import xyz.arbres.objdiff.common.validation.Validate;
 
 /**
-* @author bartosz walacik
-*/
+ * @author bartosz walacik
+ */
 public final class ValueObjectIdDTO extends GlobalIdDTO {
     private final GlobalIdDTO ownerIdDTO;
     private final String path;
@@ -22,17 +22,17 @@ public final class ValueObjectIdDTO extends GlobalIdDTO {
         this.path = path;
     }
 
-    public static ValueObjectIdDTO valueObjectId(Object ownerLocalId, Class ownerClass, String fragment){
+    public static ValueObjectIdDTO valueObjectId(Object ownerLocalId, Class ownerClass, String fragment) {
         return new ValueObjectIdDTO(ownerClass, ownerLocalId, fragment);
     }
 
-    public static ValueObjectIdDTO withUnboundedValueObjectOwner(Class ownerClass, String fragment){
+    public static ValueObjectIdDTO withUnboundedValueObjectOwner(Class ownerClass, String fragment) {
         return new ValueObjectIdDTO(ownerClass, fragment);
     }
 
     @Override
     public String value() {
-        return ownerIdDTO.value()+"#"+ path;
+        return ownerIdDTO.value() + "#" + path;
     }
 
     public GlobalIdDTO getOwnerIdDTO() {

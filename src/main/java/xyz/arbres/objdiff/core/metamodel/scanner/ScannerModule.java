@@ -24,12 +24,12 @@ public class ScannerModule extends LateInstantiatingModule {
         MappingStyle mappingStyle = getConfiguration().getMappingStyle();
 
         Class<? extends PropertyScanner> usedPropertyScanner;
-        if (mappingStyle == MappingStyle.BEAN){
+        if (mappingStyle == MappingStyle.BEAN) {
             usedPropertyScanner = BeanBasedPropertyScanner.class;
-        } else if (mappingStyle == MappingStyle.FIELD){
+        } else if (mappingStyle == MappingStyle.FIELD) {
             usedPropertyScanner = FieldBasedPropertyScanner.class;
-        } else{
-            throw new RuntimeException("not implementation for "+mappingStyle);
+        } else {
+            throw new RuntimeException("not implementation for " + mappingStyle);
         }
 
         return (Collection) Lists.asList(

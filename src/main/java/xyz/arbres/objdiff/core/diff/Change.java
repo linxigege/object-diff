@@ -2,6 +2,7 @@ package xyz.arbres.objdiff.core.diff;
 
 import xyz.arbres.objdiff.common.string.PrettyValuePrinter;
 import xyz.arbres.objdiff.common.validation.Validate;
+import xyz.arbres.objdiff.core.ObjDiff;
 import xyz.arbres.objdiff.core.commit.CommitMetadata;
 import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
 import xyz.arbres.objdiff.core.metamodel.object.InstanceId;
@@ -44,7 +45,7 @@ public abstract class Change implements Serializable {
      * Affected domain object local Id (value under @Id property)
      */
     public Object getAffectedLocalId() {
-        if (affectedCdoId instanceof InstanceId){
+        if (affectedCdoId instanceof InstanceId) {
             return ((InstanceId) affectedCdoId).getCdoId();
         }
         return null;
@@ -75,7 +76,7 @@ public abstract class Change implements Serializable {
      */
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "{ " +prettyPrint(PrettyValuePrinter.getDefault()) +" }";
+        return this.getClass().getSimpleName() + "{ " + prettyPrint(PrettyValuePrinter.getDefault()) + " }";
     }
 
     public abstract String prettyPrint(PrettyValuePrinter valuePrinter);

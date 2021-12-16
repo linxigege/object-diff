@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
-
 import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.common.reflection.ReflectionUtil;
 import xyz.arbres.objdiff.core.metamodel.annotation.DiffIgnore;
@@ -36,7 +35,7 @@ class ManagedClassFactory {
         return create(baseJavaClass, allProperties, prototypePropertiesFilter);
     }
 
-    private ManagedClass create(Class<?> baseJavaClass, List<ObjDiffProperty> allProperties, ManagedPropertiesFilter propertiesFilter){
+    private ManagedClass create(Class<?> baseJavaClass, List<ObjDiffProperty> allProperties, ManagedPropertiesFilter propertiesFilter) {
 
         List<ObjDiffProperty> filtered = propertiesFilter.filterProperties(allProperties);
 
@@ -56,15 +55,15 @@ class ManagedClassFactory {
         });
     }
 
-    private List<ObjDiffProperty> filterIgnoredType(List<ObjDiffProperty> properties, final Class<?> currentClass){
+    private List<ObjDiffProperty> filterIgnoredType(List<ObjDiffProperty> properties, final Class<?> currentClass) {
 
         return Lists.negativeFilter(properties, property -> {
-            if (property.getRawType() == currentClass){
+            if (property.getRawType() == currentClass) {
                 return false;
             }
             //prevents stackoverflow
             if (typeMapper.contains(property.getRawType()) ||
-                typeMapper.contains(property.getGenericType())) {
+                    typeMapper.contains(property.getGenericType())) {
                 return typeMapper.getObjDiffType(property.getRawType()) instanceof IgnoredType;
             }
 

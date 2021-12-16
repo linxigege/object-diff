@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.diff.appenders;
 
 
-
 import xyz.arbres.objdiff.core.diff.NodePair;
 import xyz.arbres.objdiff.core.diff.changetype.container.ListChange;
 import xyz.arbres.objdiff.core.metamodel.type.ListType;

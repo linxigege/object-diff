@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @see org.ObjDiff.core.metamodel.annotation.ShallowReference
  * @author bartosz.walacik
+ * @see org.ObjDiff.core.metamodel.annotation.ShallowReference
  */
 public class ShallowReferenceType extends EntityType {
     ShallowReferenceType(ManagedClass entity, List<ObjDiffProperty> idProperties, Optional<String> typeName) {
@@ -20,8 +20,12 @@ public class ShallowReferenceType extends EntityType {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) { return true; }
-        if (!(o instanceof ShallowReferenceType)) {return false;}
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ShallowReferenceType)) {
+            return false;
+        }
 
         ShallowReferenceType that = (ShallowReferenceType) o;
         return super.equals(that);

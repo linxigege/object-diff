@@ -1,8 +1,11 @@
 package xyz.arbres.objdiff.test.algorithm;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import java.util.*;
+
+import java.util.Deque;
+import java.util.LinkedList;
 
 /**
  * EditDistanceTest
@@ -12,20 +15,6 @@ import java.util.*;
  */
 public class EditDistanceTest {
 
-
-    @ParameterizedTest
-    @CsvSource({
-            "dlashfasf,dasdadsad,8",
-            "angle,angel,2",
-            "a,b,1",
-            "aa,b,2",
-            "a,bb,2"
-    })
-    void editDistanceTest(String source,String target,int expectedResult){
-        Assertions.assertEquals(expectedResult,getLevenshteinDistance(source,target),()->
-            source + " -> " + target + " need " + expectedResult + "steps"
-        );
-    }
 
     public static int getLevenshteinDistance(String source, String target) {
         int m = source.length(), n = target.length(), temp;
@@ -106,7 +95,6 @@ public class EditDistanceTest {
         }
     }
 
-
     private static Node getMinNode(Node insertNode, Node removeNode, Node replaceNode, int temp) {
         Node tempNode = new Node();
         if (insertNode.weight > removeNode.weight) {
@@ -125,6 +113,38 @@ public class EditDistanceTest {
             }
         }
         return tempNode;
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "dlashfasf,dasdadsad,8",
+            "angle,angel,2",
+            "a,b,1",
+            "aa,b,2",
+            "a,bb,2"
+    })
+    void editDistanceTest(String source, String target, int expectedResult) {
+        Assertions.assertEquals(expectedResult, getLevenshteinDistance(source, target), () ->
+                source + " -> " + target + " need " + expectedResult + "steps"
+        );
+    }
+
+    enum Status {
+        UNSET("未设置"),
+        RETAINED("保留"),
+        INSERTED("插入"),
+        REMOVED("删除"),
+        REPLACED("替换");
+
+        private final String name;
+
+        Status(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 
     static class PettyPrintNode {
@@ -191,24 +211,6 @@ public class EditDistanceTest {
                     "val=" + weight +
                     ", status=" + status +
                     '}';
-        }
-    }
-
-    enum Status {
-        UNSET("未设置"),
-        RETAINED("保留"),
-        INSERTED("插入"),
-        REMOVED("删除"),
-        REPLACED("替换");
-
-        private final String name;
-
-        Status(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
         }
     }
 }

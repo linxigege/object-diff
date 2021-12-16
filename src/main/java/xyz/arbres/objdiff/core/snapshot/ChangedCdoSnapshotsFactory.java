@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.snapshot;
 
 
-
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.commit.CommitMetadata;
 import xyz.arbres.objdiff.core.graph.Cdo;
@@ -30,9 +29,9 @@ public class ChangedCdoSnapshotsFactory {
     }
 
     /**
-     * @param liveGraph wrapped CDOs for which snapshots should be created if they differ from latest snapshots
+     * @param liveGraph       wrapped CDOs for which snapshots should be created if they differ from latest snapshots
      * @param latestSnapshots CDO snapshots used to check which of liveObjects have been created or changed
-     * @param commitMetadata commit metadata used to create new snapshots
+     * @param commitMetadata  commit metadata used to create new snapshots
      */
     public List<CdoSnapshot> create(LiveGraph liveGraph, Set<CdoSnapshot> latestSnapshots, CommitMetadata commitMetadata) {
         Validate.argumentsAreNotNull(liveGraph, commitMetadata, latestSnapshots);

@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.diff.changetype.map;
 
 
-
 import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.common.string.PrettyValuePrinter;
 import xyz.arbres.objdiff.common.validation.Validate;
@@ -22,7 +21,7 @@ public abstract class KeyValueChange<T> extends PropertyChange<T> {
     public KeyValueChange(PropertyChangeMetadata metadata, List<EntryChange> changes, T left, T right) {
         super(metadata);
         Validate.argumentIsNotNull(changes);
-        Validate.argumentCheck(!changes.isEmpty(),"changes list should not be empty");
+        Validate.argumentCheck(!changes.isEmpty(), "changes list should not be empty");
         this.changes = Collections.unmodifiableList(new ArrayList<>(changes));
         this.left = left;
         this.right = right;
@@ -71,7 +70,7 @@ public abstract class KeyValueChange<T> extends PropertyChange<T> {
 
         builder.append(valuePrinter.formatWithQuotes(getPropertyNameWithPath()) + " map changes :\n");
 
-        changes.forEach(cc -> builder.append("   " + cc.prettyPrint(valuePrinter)+"\n"));
+        changes.forEach(cc -> builder.append("   " + cc.prettyPrint(valuePrinter) + "\n"));
 
         String result = builder.toString();
         return result.substring(0, result.length() - 1);
@@ -97,7 +96,7 @@ public abstract class KeyValueChange<T> extends PropertyChange<T> {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "{ property: '"+getPropertyName() +"'," +
-                " entryChanges:"+changes.size()+" }";
+        return this.getClass().getSimpleName() + "{ property: '" + getPropertyName() + "'," +
+                " entryChanges:" + changes.size() + " }";
     }
 }

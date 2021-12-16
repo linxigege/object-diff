@@ -18,7 +18,7 @@ public class SnapshotGraphFactory {
         this.ObjDiffRepository = ObjDiffRepository;
     }
 
-    public SnapshotGraph createLatest(Set<GlobalId> globalIds){
+    public SnapshotGraph createLatest(Set<GlobalId> globalIds) {
         Validate.argumentIsNotNull(globalIds);
 
         Set<SnapshotNode> snapshotNodes = ObjDiffRepository.getLatest(globalIds)

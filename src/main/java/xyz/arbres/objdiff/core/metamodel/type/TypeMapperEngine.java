@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
-
 import xyz.arbres.objdiff.common.collections.Primitives;
 import xyz.arbres.objdiff.common.collections.WellKnownValueTypes;
 import xyz.arbres.objdiff.common.exception.ObjDiffException;
@@ -16,7 +15,6 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
-
 
 
 /**
@@ -47,7 +45,7 @@ class TypeMapperEngine {
         addFullMapping(javaType, jType);
     }
 
-    void registerCoreTypes(ListCompareAlgorithm listCompareAlgorithm){
+    void registerCoreTypes(ListCompareAlgorithm listCompareAlgorithm) {
         //primitives & boxes
         for (Class primitiveOrBox : Primitives.getPrimitiveAndBoxTypes()) {
             registerCoreType(new PrimitiveType(primitiveOrBox));
@@ -65,7 +63,6 @@ class TypeMapperEngine {
 
         //java util and sql types
         registerCoreTypes((List) UtilTypeCoreAdapters.valueTypes());
-
 
 
         //Collections
@@ -113,13 +110,13 @@ class TypeMapperEngine {
         }
     }
 
-    private void addFullMapping(Type javaType, ObjDiffType newType){
+    private void addFullMapping(Type javaType, ObjDiffType newType) {
         Validate.argumentsAreNotNull(javaType, newType);
 
         mappedTypes.put(javaType.toString(), newType);
 
-        if (newType instanceof ManagedType){
-            ManagedType managedType = (ManagedType)newType;
+        if (newType instanceof ManagedType) {
+            ManagedType managedType = (ManagedType) newType;
             mappedTypeNames.put(new DuckType(managedType.getName()), ReflectionUtil.extractClass(javaType));
             mappedTypeNames.put(new DuckType(managedType), ReflectionUtil.extractClass(javaType));
         }
@@ -146,7 +143,7 @@ class TypeMapperEngine {
     Class getClassByDuckType(DuckType duckType) {
 
         Class javaType = mappedTypeNames.get(duckType);
-        if (javaType != null){
+        if (javaType != null) {
             return javaType;
         }
 
@@ -159,18 +156,17 @@ class TypeMapperEngine {
         }
 
         //try to fallback to bare typeName when properties doesn't match
-        if (!duckType.isBare()){
+        if (!duckType.isBare()) {
             return getClassByDuckType(duckType.bareCopy());
         }
 
         throw new ObjDiffException(ObjDiffExceptionCode.TYPE_NAME_NOT_FOUND, duckType.getTypeName());
     }
 
-    private Optional<? extends Class> parseClass(String qualifiedName){
+    private Optional<? extends Class> parseClass(String qualifiedName) {
         try {
-            return Optional.of( this.getClass().forName(qualifiedName) );
-        }
-        catch (ClassNotFoundException e){
+            return Optional.of(this.getClass().forName(qualifiedName));
+        } catch (ClassNotFoundException e) {
             return Optional.empty();
         }
     }

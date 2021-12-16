@@ -19,7 +19,7 @@ import java.util.*;
  */
 public abstract class ObjDiffType {
 
-    public static final Class DEFAULT_TYPE_PARAMETER=Object.class;
+    public static final Class DEFAULT_TYPE_PARAMETER = Object.class;
 
     private final Type baseJavaType;
 
@@ -39,10 +39,40 @@ public abstract class ObjDiffType {
                 buildListOfConcreteTypeArguments(baseJavaType, expectedArgs));
     }
 
+    private static List<Type> buildListOfConcreteTypeArguments(Type baseJavaType, int expectedSize) {
+
+        List<Type> allTypeArguments = ReflectionUtil.getAllTypeArguments(baseJavaType);
+
+        List<Type> concreteTypeArguments = new ArrayList<>(expectedSize);
+
+        for (int i = 0; i < expectedSize; i++) {
+            Type existingArgument = null;
+            if (!allTypeArguments.isEmpty() && i < allTypeArguments.size()) {
+                existingArgument = allTypeArguments.get(i);
+            }
+            concreteTypeArguments.add(getActualClassTypeArgument(existingArgument));
+        }
+
+        return concreteTypeArguments;
+    }
+
+    private static Type getActualClassTypeArgument(Type existingArgument) {
+        if (existingArgument == null) {
+            return DEFAULT_TYPE_PARAMETER;
+        }
+
+        Optional<Type> concreteType = ReflectionUtil.isConcreteType(existingArgument);
+        if (concreteType.isPresent()) {
+            return concreteType.get();
+        } else {
+            return DEFAULT_TYPE_PARAMETER;
+        }
+    }
+
     ObjDiffType spawn(Type baseJavaType) {
         try {
             Constructor c = this.getClass().getConstructor(spawnConstructorArgTypes());
-            return (ObjDiffType)c.newInstance(spawnConstructorArgs(baseJavaType));
+            return (ObjDiffType) c.newInstance(spawnConstructorArgs(baseJavaType));
         } catch (ReflectiveOperationException exception) {
             throw new RuntimeException("error calling Constructor for " + this.getClass().getName(), exception);
         }
@@ -106,43 +136,13 @@ public abstract class ObjDiffType {
         return concreteTypeArguments;
     }
 
-    public final String prettyPrint(){
+    public final String prettyPrint() {
         return prettyPrintBuilder().build();
     }
 
-    protected PrettyPrintBuilder prettyPrintBuilder(){
+    protected PrettyPrintBuilder prettyPrintBuilder() {
         return new PrettyPrintBuilder(this)
                 .addField("baseType", baseJavaType)
                 .addField("typeName", getName());
-    }
-
-    private static List<Type> buildListOfConcreteTypeArguments(Type baseJavaType, int expectedSize) {
-
-        List<Type> allTypeArguments = ReflectionUtil.getAllTypeArguments(baseJavaType);
-
-        List<Type> concreteTypeArguments = new ArrayList<>(expectedSize);
-
-        for (int i=0; i<expectedSize; i++) {
-            Type existingArgument = null;
-            if (!allTypeArguments.isEmpty() && i<allTypeArguments.size()){
-                existingArgument = allTypeArguments.get(i);
-            }
-            concreteTypeArguments.add(getActualClassTypeArgument(existingArgument));
-        }
-
-        return concreteTypeArguments;
-    }
-
-    private static Type getActualClassTypeArgument(Type existingArgument) {
-        if (existingArgument == null) {
-            return DEFAULT_TYPE_PARAMETER;
-        }
-
-        Optional<Type> concreteType = ReflectionUtil.isConcreteType(existingArgument);
-        if (concreteType.isPresent()) {
-            return concreteType.get();
-        } else {
-            return DEFAULT_TYPE_PARAMETER;
-        }
     }
 }

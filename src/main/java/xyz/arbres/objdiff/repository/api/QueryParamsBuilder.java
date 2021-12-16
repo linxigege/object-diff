@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.repository.api;
 
 
-
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.commit.CommitId;
 import xyz.arbres.objdiff.core.metamodel.object.SnapshotType;
@@ -26,14 +25,19 @@ public class QueryParamsBuilder {
     private String author;
     private boolean aggregate;
     private Map<String, Collection<String>> commitProperties = new HashMap<>();
-    private Map<String,String> commitPropertiesLike = new HashMap<>();
+    private Map<String, String> commitPropertiesLike = new HashMap<>();
     private Set<String> changedProperties = new HashSet<>();
     private SnapshotType snapshotType;
     private boolean loadCommitProps = true;
     private Integer snapshotQueryLimit;
 
+    private QueryParamsBuilder(int limit) {
+        this.limit = limit;
+        this.skip = 0;
+    }
+
     public static QueryParamsBuilder copy(QueryParams that) {
-        QueryParamsBuilder copy =  new QueryParamsBuilder(that.limit()).skip(that.skip());
+        QueryParamsBuilder copy = new QueryParamsBuilder(that.limit()).skip(that.skip());
 
         that.from().ifPresent(it -> copy.from(it));
         that.to().ifPresent(it -> copy.to(it));
@@ -54,22 +58,21 @@ public class QueryParamsBuilder {
         return copy;
     }
 
-    private QueryParamsBuilder(int limit) {
-        this.limit = limit;
-        this.skip = 0;
-    };
+    ;
 
     /**
-     *  Initializes builder with a given limit
+     * Initializes builder with a given limit
      *
-     *  @see QueryBuilder#limit(int)
+     * @see QueryBuilder#limit(int)
      */
     public static QueryParamsBuilder withLimit(int limit) {
         checkLimit(limit);
         return new QueryParamsBuilder(limit);
     }
 
-
+    private static void checkLimit(int limit) {
+        Validate.argumentCheck(limit > 0, "Limit is not a positive number.");
+    }
 
     /**
      * @see QueryBuilder#snapshotQueryLimit(Integer)
@@ -225,10 +228,6 @@ public class QueryParamsBuilder {
     public QueryParamsBuilder author(String author) {
         this.author = author;
         return this;
-    }
-
-    private static void checkLimit(int limit) {
-        Validate.argumentCheck(limit > 0, "Limit is not a positive number.");
     }
 
     public QueryParams build() {

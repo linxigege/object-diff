@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
-
 import xyz.arbres.objdiff.common.collections.EnumerableFunction;
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.metamodel.object.EnumerationAwareOwnerContext;
@@ -17,7 +16,9 @@ import java.util.stream.Stream;
  */
 public class OptionalType extends CollectionType {
 
-    /** for TypeFactory.spawnFromPrototype() */
+    /**
+     * for TypeFactory.spawnFromPrototype()
+     */
     public OptionalType(Type baseJavaType, TypeMapperLazy typeMapperLazy) {
         super(baseJavaType, typeMapperLazy);
     }
@@ -29,14 +30,14 @@ public class OptionalType extends CollectionType {
     @Override
     public Object map(Object sourceOptional_, EnumerableFunction mapFunction, OwnerContext owner) {
         Validate.argumentsAreNotNull(sourceOptional_, mapFunction);
-        Optional sourceOptional = (Optional)sourceOptional_;
+        Optional sourceOptional = (Optional) sourceOptional_;
         return sourceOptional.map(o -> mapFunction.apply(o, new EnumerationAwareOwnerContext(owner)));
     }
 
     @Override
     public Object map(Object sourceOptional_, Function mapFunction) {
         Validate.argumentsAreNotNull(sourceOptional_, mapFunction);
-        Optional sourceOptional = (Optional)sourceOptional_;
+        Optional sourceOptional = (Optional) sourceOptional_;
         return sourceOptional.map(o -> mapFunction.apply(o));
     }
 
@@ -45,13 +46,13 @@ public class OptionalType extends CollectionType {
         if (source == null) {
             return Stream.empty();
         }
-        Optional sourceOptional = (Optional)source;
-        return (Stream)sourceOptional.map(it -> Stream.of(it)).orElse(Stream.empty());
+        Optional sourceOptional = (Optional) source;
+        return (Stream) sourceOptional.map(it -> Stream.of(it)).orElse(Stream.empty());
     }
 
     @Override
-    public boolean isEmpty(Object optional){
-        return optional == null || !((Optional)optional).isPresent();
+    public boolean isEmpty(Object optional) {
+        return optional == null || !((Optional) optional).isPresent();
     }
 
     @Override

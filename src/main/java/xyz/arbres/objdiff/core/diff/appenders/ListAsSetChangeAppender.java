@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.diff.appenders;
 
 
-
 import xyz.arbres.objdiff.core.diff.NodePair;
 import xyz.arbres.objdiff.core.diff.changetype.container.ListChange;
 import xyz.arbres.objdiff.core.diff.changetype.container.SetChange;
@@ -33,8 +32,8 @@ public class ListAsSetChangeAppender implements PropertyChangeAppender<ListChang
 
         if (setChange != null) {
             return new ListChange(pair.createPropertyChangeMetadata(property), setChange.getChanges(),
-                    (List)pair.getLeftPropertyValueAndSanitize(property),
-                    (List)pair.getRightPropertyValueAndSanitize(property));
+                    (List) pair.getLeftPropertyValueAndSanitize(property),
+                    (List) pair.getRightPropertyValueAndSanitize(property));
         }
         return null;
     }

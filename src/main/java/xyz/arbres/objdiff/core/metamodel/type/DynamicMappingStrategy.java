@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
-
 import xyz.arbres.objdiff.core.IgnoredClassesStrategy;
 
 import java.lang.reflect.Type;

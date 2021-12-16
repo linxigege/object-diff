@@ -1,4 +1,5 @@
 package xyz.arbres.objdiff.common.exception;
+
 /**
  * @author carlos
  * @date 2021/12/7
@@ -22,17 +23,17 @@ public enum ObjDiffExceptionCode {
 
     CM("Malformed configuration for dedicated MongoDB in ObjDiff.mongodb properties, either host or url mus be defined"),
 
-    ID_TYPE_NOT_SUPPORTED("%s %s can't be used as Id-property type. Problematic class: '%s'.") ,
+    ID_TYPE_NOT_SUPPORTED("%s %s can't be used as Id-property type. Problematic class: '%s'."),
 
-    CLASS_EXTRACTION_ERROR(ObjDiffException.BOOTSTRAP_ERROR + "Can't extract Class from Type '%s'.") ,
+    CLASS_EXTRACTION_ERROR(ObjDiffException.BOOTSTRAP_ERROR + "Can't extract Class from Type '%s'."),
 
     COMMITTING_TOP_LEVEL_VALUES_NOT_SUPPORTED("Committing top-level %ss like '%s' is not supported. You can commit only Entity or ValueObject instance."),
 
     COMPARING_TOP_LEVEL_VALUES_NOT_SUPPORTED("Comparing top-level %ss like '%s' is not supported. ObjDiff.compare() is designed to deeply compare two arbitrary complex object graphs. For simple values, equals() does the job."),
 
-    ENTITY_WITHOUT_ID ("Class '%s' mapped as Entity has no Id-property. Use @Id annotation to mark unique and not-null Entity identifier"),
+    ENTITY_WITHOUT_ID("Class '%s' mapped as Entity has no Id-property. Use @Id annotation to mark unique and not-null Entity identifier"),
 
-    SHALLOW_REF_ENTITY_WITHOUT_ID ("Class '%s' mapped as ShallowReference Entity has no Id property. Use @Id annotation to mark unique and not-null Entity identifier"),
+    SHALLOW_REF_ENTITY_WITHOUT_ID("Class '%s' mapped as ShallowReference Entity has no Id property. Use @Id annotation to mark unique and not-null Entity identifier"),
 
     ENTITY_INSTANCE_WITH_NULL_ID("Found Entity instance '%s' with null Id-property '%s'"),
 
@@ -54,7 +55,7 @@ public enum ObjDiffExceptionCode {
 
     SETTER_INVOCATION_ERROR("error invoking setter '%s' on target object of type '%s', cause: %s"),
 
-    CONTAINER_NOT_READY(ObjDiffException.BOOTSTRAP_ERROR +"pico container is not ready"),
+    CONTAINER_NOT_READY(ObjDiffException.BOOTSTRAP_ERROR + "pico container is not ready"),
 
     AFFECTED_CDO_IS_NOT_AVAILABLE("affected cdo is not available, you can access it only for freshly generated diffs"),
 
@@ -77,7 +78,9 @@ public enum ObjDiffExceptionCode {
 
     SETTER_NOT_FOUND("setter for getter '%s' not found in class '%s'"),
 
-    /** @since 1.4 */
+    /**
+     * @since 1.4
+     */
     TYPE_NAME_NOT_FOUND(
             "type name '%s' not found. " +
                     "If you are using @TypeName annotation, " +
@@ -94,7 +97,7 @@ public enum ObjDiffExceptionCode {
 
     CLASS_NOT_MANAGED("given javaClass '%s' is mapped to %s, ManagedType expected"),
 
-    COMPONENT_NOT_FOUND(ObjDiffException.BOOTSTRAP_ERROR+"component of type '%s' not found in container") ,
+    COMPONENT_NOT_FOUND(ObjDiffException.BOOTSTRAP_ERROR + "component of type '%s' not found in container"),
 
     NO_PUBLIC_CONSTRUCTOR("no public constructor in class '%s'"),
 
@@ -113,7 +116,7 @@ public enum ObjDiffExceptionCode {
     CANT_PARSE_COMMIT_ID("can't parse given value {'%s'} to CommitId. " +
             "CommitId should consists of two parts : majorId.minorId e.g. 1.0"),
 
-    CANT_DELETE_OBJECT_NOT_FOUND("failed to delete object {'%s'}, "+
+    CANT_DELETE_OBJECT_NOT_FOUND("failed to delete object {'%s'}, " +
             "it doesn't exists in ObjDiffRepository"),
 
     CANT_FIND_COMMIT_HEAD_ID("can't find commit head id in ObjDiffRepository"),
@@ -128,8 +131,7 @@ public enum ObjDiffExceptionCode {
 
     RUNTIME_EXCEPTION("uncategorized runtime exception. %s"),
 
-    TRANSACTION_MANAGER_NOT_SET("Can't create ObjDiff bean due to missing configuration. Since ObjDiff-spring 2.8.0, transactionManager bean should be explicitly provided in TransactionalObjDiffBuilder.withTxManager(). See example at http://ObjDiff.org/documentation/spring-integration/#spring-jpa-example")
-    ;
+    TRANSACTION_MANAGER_NOT_SET("Can't create ObjDiff bean due to missing configuration. Since ObjDiff-spring 2.8.0, transactionManager bean should be explicitly provided in TransactionalObjDiffBuilder.withTxManager(). See example at http://ObjDiff.org/documentation/spring-integration/#spring-jpa-example");
 
     private final String message;
 

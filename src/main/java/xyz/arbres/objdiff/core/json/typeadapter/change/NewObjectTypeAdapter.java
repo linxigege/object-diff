@@ -22,7 +22,7 @@ class NewObjectTypeAdapter extends ChangeTypeAdapter<NewObject> {
         JsonObject jsonObject = (JsonObject) json;
 
         CommitMetadata commitMetadata = deserializeCommitMetadata(jsonObject, context);
-        return new NewObject(deserializeAffectedCdoId(jsonObject,context), Optional.empty(), ofNullable(commitMetadata));
+        return new NewObject(deserializeAffectedCdoId(jsonObject, context), Optional.empty(), ofNullable(commitMetadata));
     }
 
     @Override

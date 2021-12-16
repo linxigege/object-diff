@@ -21,7 +21,7 @@ public class MapChangesToListChangesFunction implements Function<EntryChange, Co
 
     @Override
     public ContainerElementChange apply(EntryChange input) {
-        int index = (int)input.getKey();
+        int index = (int) input.getKey();
         if (input instanceof EntryAdded) {
             return new ValueAdded(index, ((EntryAdded) input).getValue());
         } else if (input instanceof EntryRemoved) {

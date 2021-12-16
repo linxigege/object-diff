@@ -34,7 +34,7 @@ class NodeMatcher {
         Map<GlobalId, ObjectNode> map = new HashMap<>();
 
         for (ObjectNode node : nodes) {
-            map.put(node.getGlobalId(),node);
+            map.put(node.getGlobalId(), node);
         }
 
         return map;

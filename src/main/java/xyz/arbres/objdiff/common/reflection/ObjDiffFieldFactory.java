@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
 import static xyz.arbres.objdiff.common.reflection.ReflectionUtil.isNotStatic;
 
 /**
@@ -20,15 +21,15 @@ public class ObjDiffFieldFactory {
         this.methodSource = methodSource;
     }
 
-    public List<ObjDiffField> getAllFields(){
+    public List<ObjDiffField> getAllFields() {
         List<ObjDiffField> fields = new ArrayList<>();
         TypeResolvingContext context = new TypeResolvingContext();
 
         Class clazz = methodSource;
-        while (clazz != null && clazz != Object.class)  {
+        while (clazz != null && clazz != Object.class) {
             context.addTypeSubstitutions(clazz);
 
-            for (Field f : clazz.getDeclaredFields()){
+            for (Field f : clazz.getDeclaredFields()) {
                 if (isNotStatic(f)) {
                     fields.add(createJField(f, context));
                 }
@@ -40,7 +41,7 @@ public class ObjDiffFieldFactory {
         return fields;
     }
 
-    private ObjDiffField createJField(Field rawField, TypeResolvingContext context){
+    private ObjDiffField createJField(Field rawField, TypeResolvingContext context) {
         Type actualType = context.getSubstitution(rawField.getGenericType());
         return new ObjDiffField(rawField, actualType);
     }

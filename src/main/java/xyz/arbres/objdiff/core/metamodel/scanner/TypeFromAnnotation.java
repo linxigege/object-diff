@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.scanner;
 
 
-
 import xyz.arbres.objdiff.core.metamodel.type.*;
 
 import java.lang.annotation.Annotation;
@@ -16,17 +15,13 @@ class TypeFromAnnotation {
     TypeFromAnnotation(Class<? extends Annotation> ObjDiffTypeAnnotation) {
         if (ObjDiffTypeAnnotation == ObjDiffAnnotationsNameSpace.VALUE_ANN) {
             ObjDiffType = Optional.of(ValueType.class);
-        } else
-        if (ObjDiffTypeAnnotation == ObjDiffAnnotationsNameSpace.VALUE_OBJECT_ANN) {
+        } else if (ObjDiffTypeAnnotation == ObjDiffAnnotationsNameSpace.VALUE_OBJECT_ANN) {
             ObjDiffType = Optional.of(ValueObjectType.class);
-        } else
-        if (ObjDiffTypeAnnotation == ObjDiffAnnotationsNameSpace.ENTITY_ANN) {
+        } else if (ObjDiffTypeAnnotation == ObjDiffAnnotationsNameSpace.ENTITY_ANN) {
             ObjDiffType = Optional.of(EntityType.class);
-        } else
-        if (ObjDiffTypeAnnotation == ObjDiffAnnotationsNameSpace.DIFF_IGNORE_ANN) {
+        } else if (ObjDiffTypeAnnotation == ObjDiffAnnotationsNameSpace.DIFF_IGNORE_ANN) {
             ObjDiffType = Optional.of(IgnoredType.class);
-        } else
-        if (ObjDiffTypeAnnotation == ObjDiffAnnotationsNameSpace.SHALLOW_REFERENCE_ANN) {
+        } else if (ObjDiffTypeAnnotation == ObjDiffAnnotationsNameSpace.SHALLOW_REFERENCE_ANN) {
             ObjDiffType = Optional.of(ShallowReferenceType.class);
         } else {
             ObjDiffType = Optional.empty();
@@ -34,13 +29,11 @@ class TypeFromAnnotation {
     }
 
     TypeFromAnnotation(boolean hasEntity, boolean hasValueObject, boolean hasValue) {
-        if (hasEntity){
+        if (hasEntity) {
             ObjDiffType = Optional.of(EntityType.class);
-        } else
-        if (hasValueObject) {
+        } else if (hasValueObject) {
             ObjDiffType = Optional.of(ValueObjectType.class);
-        } else
-        if (hasValue) {
+        } else if (hasValue) {
             ObjDiffType = Optional.of(ValueType.class);
         } else {
             ObjDiffType = Optional.empty();

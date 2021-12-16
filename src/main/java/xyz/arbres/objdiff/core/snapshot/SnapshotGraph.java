@@ -11,6 +11,6 @@ import java.util.Set;
  */
 class SnapshotGraph extends ObjectGraph<CdoSnapshot> {
     SnapshotGraph(Set<SnapshotNode> snapshots) {
-        super((Set)snapshots);
+        super((Set) snapshots);
     }
 }

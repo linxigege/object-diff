@@ -1,8 +1,8 @@
 package xyz.arbres.objdiff.core.diff.changetype.container;
 
 
-
 import xyz.arbres.objdiff.core.diff.changetype.Atomic;
+import xyz.arbres.objdiff.core.metamodel.object.GlobalId;
 
 import java.util.Objects;
 

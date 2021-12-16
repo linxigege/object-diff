@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.repository.api;
 
 
-
 import xyz.arbres.objdiff.common.collections.Lists;
 import xyz.arbres.objdiff.core.metamodel.object.CdoSnapshot;
 

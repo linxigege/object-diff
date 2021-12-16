@@ -1,7 +1,6 @@
 package xyz.arbres.objdiff.core.metamodel.type;
 
 
-
 import xyz.arbres.objdiff.common.collections.EnumerableFunction;
 import xyz.arbres.objdiff.common.validation.Validate;
 import xyz.arbres.objdiff.core.metamodel.object.OwnerContext;
@@ -17,6 +16,7 @@ import static java.util.Collections.unmodifiableList;
 
 /**
  * Collection or Array or Map
+ *
  * @author bartosz walacik
  */
 public abstract class EnumerableType extends ClassType {
@@ -71,8 +71,8 @@ public abstract class EnumerableType extends ClassType {
         Validate.argumentsAreNotNull(filter);
 
         return (List) unmodifiableList(
-        items(source).filter(item -> item!=null && filter.isAssignableFrom(item.getClass()))
-                     .collect(Collectors.toList()));
+                items(source).filter(item -> item != null && filter.isAssignableFrom(item.getClass()))
+                        .collect(Collectors.toList()));
     }
 
     protected abstract Stream<Object> items(Object source);

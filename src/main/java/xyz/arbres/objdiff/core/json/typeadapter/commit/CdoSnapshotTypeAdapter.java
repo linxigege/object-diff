@@ -41,7 +41,7 @@ class CdoSnapshotTypeAdapter extends JsonTypeAdapterTemplate<CdoSnapshot> {
     @Override
     public CdoSnapshot fromJson(JsonElement json, JsonDeserializationContext context) {
         JsonObject jsonObject = (JsonObject) json;
-        JsonObject stateObject = (JsonObject)jsonObject.get(STATE_NAME);
+        JsonObject stateObject = (JsonObject) jsonObject.get(STATE_NAME);
 
         GlobalId cdoId = context.deserialize(jsonObject.get(GLOBAL_CDO_ID), GlobalId.class);
         Long version = context.deserialize(jsonObject.get(VERSION), Long.class);
@@ -73,23 +73,23 @@ class CdoSnapshotTypeAdapter extends JsonTypeAdapterTemplate<CdoSnapshot> {
         return stateDeserializer.deserialize(stateObject, managedType);
     }
 
-    private Set<String> extractPropertyNames(JsonObject state){
+    private Set<String> extractPropertyNames(JsonObject state) {
         Set<String> propertyNames = new HashSet<>();
-        for(Map.Entry<String, JsonElement> entry : state.entrySet()){
+        for (Map.Entry<String, JsonElement> entry : state.entrySet()) {
             propertyNames.add(entry.getKey());
         }
         return propertyNames;
     }
 
-    private List<String> deserializeChangedProperties(JsonObject jsonObject, JsonDeserializationContext context){
+    private List<String> deserializeChangedProperties(JsonObject jsonObject, JsonDeserializationContext context) {
         JsonElement propsElement = jsonObject.get(CHANGED_NAME);
-        if (propsElement == null){ //for legacy JSON's
+        if (propsElement == null) { //for legacy JSON's
             return Collections.emptyList();
         }
         return context.deserialize(propsElement, List.class);
     }
 
-    private void deserializeType(JsonObject jsonObject, CdoSnapshotBuilder builder){
+    private void deserializeType(JsonObject jsonObject, CdoSnapshotBuilder builder) {
         JsonElement type = jsonObject.get(TYPE_NAME);
         if (type != null) {
             builder.withType(SnapshotType.valueOf(type.getAsString()));
